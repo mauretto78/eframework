@@ -6,8 +6,8 @@
 
   "autoload": {
     "psr-4": {
-      "Framework\\Framework\\": "src/",
-      "Framework\\Kernel\\": "app/Kernel/"
+      "Framework\\Framework\\": "lib/",
+      "Framework\\": "app/"
     }
   },
 

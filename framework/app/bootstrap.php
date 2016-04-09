@@ -1,18 +1,12 @@
 <?php
-/**
- * Eframework Bootstrap file
- *
- * @var ContainerBuilder
- * @return $app
- */
 
-use Framework\Kernel\AppKernel;
+use Framework\App;
 
 require __DIR__.'/../vendor/autoload.php';
 
-$app = new AppKernel(new DI\ContainerBuilder());
-$app->setConfigFile(__DIR__.'/../config/config.php');
-$app->setEnvironment('dev');
-$app->load();
+/*
+ * Runs the App in 'dev' environment.
+ */
+$app = new App('dev');
 
 return $app;
