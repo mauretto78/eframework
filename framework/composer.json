@@ -1,0 +1,19 @@
+{
+  "name": "eframework/framework",
+  "type": "project",
+  "description": "E-Framework is a powerful Framework for Wordpress",
+  "version": "1.0.0",
+
+  "autoload": {
+    "psr-4": {
+      "Framework\\Framework\\": "src/",
+      "Framework\\Kernel\\": "app/Kernel/"
+    }
+  },
+
+  "require": {
+    "php-di/php-di": "^5.2",
+    "leafo/lessphp": "0.4.0",
+    "phpunit/phpunit": "^5.3"
+  }
+}
