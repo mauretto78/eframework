@@ -3,17 +3,17 @@
 namespace Framework\Kernel;
 
 /**
- * The Kernel of the framework
+ * The Kernel of the framework.
  */
-class AppKernel extends Kernel
+class App extends Kernel
 {
     /**
-     * @var string $configFile
+     * @var string
      */
     private $configFile;
 
     /**
-     * @var string $configFile
+     * @var string
      */
     private $environment;
 
@@ -50,7 +50,7 @@ class AppKernel extends Kernel
     }
 
     /**
-     * Kernel load
+     * Kernel load.
      */
     public function load()
     {

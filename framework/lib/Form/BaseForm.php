@@ -1,0 +1,90 @@
+<?php
+
+namespace Framework\Framework\Form;
+
+/**
+ * This is the base form class.
+ *
+ * It renders the form; a token against CSRF attaks is automatically generated.
+ *
+ * It can be decorated by using FormDecorator Interface.
+ *
+ * @author Mauro Cassani <assistenza@easy-grafica.com>
+ */
+class BaseForm
+{
+    /**
+     * @var string
+     */
+    protected $action;
+
+    /**
+     * @var string
+     */
+    protected $method;
+
+    /**
+     * @var bool
+     */
+    protected $files;
+
+    /**
+     * @var string
+     */
+    protected $token;
+
+    /**
+     * @var array
+     */
+    protected $elements = array();
+
+    /**
+     * BaseForm constructor.
+     *
+     * @param string $action
+     * @param string $method
+     * @param bool   $files
+     */
+    public function __construct($action = '', $method = 'post', $files = false)
+    {
+        $this->action = $action;
+        $this->method = $method;
+        $this->files = ($files) ? "enctype='multipart/form-data'" : '';
+        $this->token = $this->_generateToken(32);
+    }
+
+    /**
+     * Adds an element to the form.
+     *
+     * @param FormElementInterface $formElementInterface
+     */
+    public function addElement(FormElementInterface $formElementInterface)
+    {
+        $this->elements[] = $formElementInterface;
+    }
+
+    /**
+     * Renders the form.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $output = sprintf('<form action="%s" method="%s" %s>', $this->action, $this->method, $this->files);
+        $output .= sprintf('<input type="hidden" name="_token" value="%s">', $this->token);
+        foreach ($this->elements as $element) {
+            $output .= $element->render();
+        }
+        $output .= '</form>';
+
+        return $output;
+    }
+
+    /**
+     * Generates the token to protect form from CSRF attaks.
+     */
+    private function _generateToken($bytes)
+    {
+        return base64_encode(openssl_random_pseudo_bytes($bytes));
+    }
+}
