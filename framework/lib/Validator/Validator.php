@@ -76,6 +76,16 @@ class Validator
     }
 
     /**
+     * Returns true if the validation fails.
+     *
+     * @return bool
+     */
+    public function fails()
+    {
+        return (count($this->errorHandler->getAllErrors())) ? true : false;
+    }
+
+    /**
      * Parses the provided rules and calls the corresponding Rule class check method.
      *
      * @param $rules
@@ -84,13 +94,23 @@ class Validator
      */
     private function _validateField($rule, $field, $value)
     {
-        $className = "Framework\\Framework\\Validator\\Rule\\".ucwords($rule);
-        $passed = call_user_func_array( array( new $className(), 'check' ), array($value) );
+        $rules = explode("|",$rule);
 
-        if(!$passed){
-            $this->errorHandler->addError($rule, $field, $value);
+        foreach($rules as $rule){
 
-            return false;
+            if(strpos($rule,":")){
+                $rule = explode(":",$rule);
+                $rule = $rule[0];
+            }
+
+            $className = "Framework\\Framework\\Validator\\Rule\\".ucwords($rule);
+            $passed = call_user_func_array( array( new $className(), 'check' ), array($value) );
+
+            if(!$passed){
+                $this->errorHandler->addError($rule, $field, $value);
+
+                return false;
+            }
         }
 
         return true;
