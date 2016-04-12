@@ -29,6 +29,13 @@ interface FormElementInterface
     public function getAttribute($name);
 
     /**
+     * Removes an attribute of the form element.
+     *
+     * @return mixed
+     */
+    public function removeAttribute($name);
+
+    /**
      * Returns the attribute array of the form element.
      *
      * @return mixed
@@ -62,6 +69,32 @@ interface FormElementInterface
      * @return mixed
      */
     public function getStyle();
+
+    /**
+     * Adds a value to $values array.
+     *
+     * @param $key
+     * @param $value
+     *
+     * @return mixed
+     */
+    public function addValue($key, $value);
+
+    /**
+     * Sets $values with an array.
+     *
+     * @param $values
+     *
+     * @return mixed
+     */
+    public function setValues($values);
+
+    /**
+     * Returns the values array.
+     *
+     * @return mixed
+     */
+    public function getValues();
 
     /**
      * Renders the form element.

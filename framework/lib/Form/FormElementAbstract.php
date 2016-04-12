@@ -24,6 +24,11 @@ abstract class FormElementAbstract implements FormElementInterface
      */
     private $style;
 
+    /**
+     * @var array
+     */
+    private $values = array();
+
     public function addAttribute($name, $value)
     {
         $this->attributes[$name] = $value;
@@ -32,6 +37,11 @@ abstract class FormElementAbstract implements FormElementInterface
     public function getAttribute($name)
     {
         return $this->attributes[$name];
+    }
+
+    public function removeAttribute($name)
+    {
+        unset($this->attributes[$name]);
     }
 
     public function getAllAttributes()
@@ -57,5 +67,25 @@ abstract class FormElementAbstract implements FormElementInterface
     public function getStyle()
     {
         return $this->style;
+    }
+
+    public function addValue($key, $value)
+    {
+        $this->values[$key] = $value;
+    }
+
+    public function setValues($values)
+    {
+        if (!is_array($values)) {
+            throw new \Exception('Array must be provided');
+        }
+        foreach ($values as $key => $value) {
+            $this->addValue($key, $value);
+        }
+    }
+
+    public function getValues()
+    {
+        return $this->values;
     }
 }
