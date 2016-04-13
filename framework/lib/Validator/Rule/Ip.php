@@ -16,7 +16,7 @@ class Ip implements RuleInterface
         return '{field} is not a valid IP address.';
     }
 
-    public function check($value)
+    public function check($value, $requiredValue = null)
     {
         return filter_var($value, FILTER_VALIDATE_IP) !== false;
     }

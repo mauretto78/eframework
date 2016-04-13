@@ -21,5 +21,5 @@ interface RuleInterface
      *
      * @return bool
      */
-    public function check($value);
+    public function check($value, $requiredValue);
 }

@@ -18,7 +18,7 @@ class LessifyTest extends PHPUnit_Framework_TestCase
 
         $this->less->parse($origin, $target);
 
-        $this->assertEquals(file_get_contents($target),"body{background:#666;color:#999;border:1px solid #ddd;}");
+        $this->assertEquals(file_get_contents($target), 'body{background:#666;color:#999;border:1px solid #ddd;}');
     }
 
     public function testParseTwoLessFiles()
@@ -29,8 +29,6 @@ class LessifyTest extends PHPUnit_Framework_TestCase
         file_put_contents($target, '');         // 1. empty the file first
         $this->less->parse($origin, $target);   // 2. parse two files into target
 
-        $this->assertEquals(file_get_contents($target),"body{background:#ddd;}body a{color:#999;}body a:hover{color:#666;}body{background:#ddd;}body a{color:#999;}body a:hover{color:#666;}.container{background:#ddd;}.container p{color:#999;}.container p.first{color:#666;}");
+        $this->assertEquals(file_get_contents($target), 'body{background:#ddd;}body a{color:#999;}body a:hover{color:#666;}body{background:#ddd;}body a{color:#999;}body a:hover{color:#666;}.container{background:#ddd;}.container p{color:#999;}.container p.first{color:#666;}');
     }
 }
-
-

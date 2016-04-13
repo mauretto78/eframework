@@ -16,7 +16,7 @@ class Date implements RuleInterface
         return '{field} must be a valid date.';
     }
 
-    public function check($value)
+    public function check($value, $requiredValue = null)
     {
         if ($value instanceof \DateTime) {
             return true;

@@ -64,6 +64,18 @@ class BaseForm
     }
 
     /**
+     * Sets the token for form.
+     *
+     * WARNING: Use only for test purposes!!!
+     *
+     * @return string
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+    /**
      * Renders the form.
      *
      * @return string
@@ -71,10 +83,10 @@ class BaseForm
     public function render()
     {
         $output = sprintf('<form action="%s" method="%s" %s>', $this->action, $this->method, $this->files);
-        $output .= sprintf('<input type="hidden" name="_token" value="%s">', $this->token);
         foreach ($this->elements as $element) {
             $output .= $element->render();
         }
+        $output .= sprintf('<input type="hidden" name="_token" value="%s">', $this->token);
         $output .= '</form>';
 
         return $output;

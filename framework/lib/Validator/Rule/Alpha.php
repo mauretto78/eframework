@@ -16,7 +16,7 @@ class Alpha implements RuleInterface
         return '{field} must be alphabetic.';
     }
 
-    public function check($value)
+    public function check($value, $requiredValue = null)
     {
         return (bool) preg_match('/^[\pL\pM]+$/u', $value);
     }

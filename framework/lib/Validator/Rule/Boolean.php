@@ -16,7 +16,7 @@ class Boolean implements RuleInterface
         return '{field} must be a boolean.';
     }
 
-    public function check($value)
+    public function check($value, $requiredValue = null)
     {
         return is_bool($value);
     }

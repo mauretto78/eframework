@@ -16,7 +16,7 @@ class Email implements RuleInterface
         return '{field} is not a valid email address.';
     }
 
-    public function check($value)
+    public function check($value, $requiredValue = null)
     {
         return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
     }

@@ -16,7 +16,7 @@ class Number implements RuleInterface
         return '{field} must be a number.';
     }
 
-    public function check($value)
+    public function check($value, $requiredValue = null)
     {
         return is_numeric($value);
     }

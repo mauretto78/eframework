@@ -16,8 +16,8 @@ class Int implements RuleInterface
         return '{field} must be an integer.';
     }
 
-    public function check($value)
+    public function check($value, $requiredValue = null)
     {
-        return is_numeric($value) && (int)$value == $value;
+        return is_numeric($value) && (int) $value == $value;
     }
 }

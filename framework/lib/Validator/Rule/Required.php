@@ -16,7 +16,7 @@ class Required implements RuleInterface
         return '{field} is required.';
     }
 
-    public function check($value)
+    public function check($value, $requiredValue = null)
     {
         $value = preg_replace('/^[\pZ\pC]+|[\pZ\pC]+$/u', '', $value);
 

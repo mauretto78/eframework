@@ -16,14 +16,13 @@ class ErrorHandler
 
     public function addError($rule, $field, $value)
     {
-        $className = "Framework\\Framework\\Validator\\Rule\\".ucwords($rule);
-        $msg = call_user_func_array( array( new $className(), 'error' ), array($value) );
-        $this->errors[$field] = str_replace("{field}", $field, $msg);
+        $className = 'Framework\\Framework\\Validator\\Rule\\'.ucwords($rule);
+        $msg = call_user_func_array(array(new $className(), 'error'), array($value));
+        $this->errors[$field] = str_replace('{field}', $field, $msg);
     }
 
     public function getAllErrors()
     {
         return $this->errors;
     }
-
 }

@@ -1,7 +1,6 @@
 <?php
 
 namespace Framework\Framework\Validator;
-use Framework\Framework\Validator\Rule;
 
 /**
  * This class handles data validation.
@@ -94,20 +93,23 @@ class Validator
      */
     private function _validateField($rule, $field, $value)
     {
-        $rules = explode("|",$rule);
+        $rules = explode('|', $rule);
 
-        foreach($rules as $rule){
+        foreach ($rules as $rule) {
+            $rule = explode(':', $rule);
+            $requiredRule = $rule[0];
+            @$requiredValue = $rule[1];
 
-            if(strpos($rule,":")){
-                $rule = explode(":",$rule);
-                $rule = $rule[0];
+            $className = 'Framework\\Framework\\Validator\\Rule\\'.ucwords($requiredRule);
+
+            if (!class_exists($className)) {
+                throw new \InvalidArgumentException("Class rule doesn't exists");
             }
 
-            $className = "Framework\\Framework\\Validator\\Rule\\".ucwords($rule);
-            $passed = call_user_func_array( array( new $className(), 'check' ), array($value) );
+            $passed = call_user_func_array(array(new $className(), 'check'), array($value, $requiredValue));
 
-            if(!$passed){
-                $this->errorHandler->addError($rule, $field, $value);
+            if (!$passed) {
+                $this->errorHandler->addError($requiredRule, $field, $value);
 
                 return false;
             }
