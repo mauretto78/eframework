@@ -28,13 +28,6 @@ interface KernelInterface
     public function getServicesFile();
 
     /**
-     * Gets the parameters file for of the application.
-     *
-     * @return string The parameters file path
-     */
-    public function getParametersFile();
-
-    /**
      * Gets the application root dir.
      *
      * @return string The application root dir

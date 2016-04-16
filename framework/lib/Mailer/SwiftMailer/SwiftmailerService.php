@@ -59,6 +59,7 @@ class SwiftmailerService
     public function send()
     {
         $mailer = \Swift_Mailer::newInstance($this->transport);
+
         return $mailer->send($this->instance);
     }
 }

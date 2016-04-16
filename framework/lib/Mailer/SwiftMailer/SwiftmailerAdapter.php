@@ -3,7 +3,6 @@
 namespace Framework\Framework\Mailer\SwiftMailer;
 
 use Framework\Framework\Mailer\MailerInterface;
-use Framework\Framework\Mailer\SwiftMailer\SwiftmailerService;
 
 /**
  * This class is a simple wrapper of lessc class.

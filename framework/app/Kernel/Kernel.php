@@ -3,7 +3,6 @@
 namespace Framework\Kernel;
 
 use DI\ContainerBuilder;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * The abstact class Kernel of the framework.
@@ -13,7 +12,6 @@ abstract class Kernel implements KernelInterface
     protected $name = 'EFramework';
     protected $environment;
     protected $servicesFile;
-    protected $parametersFile;
     protected $container;
     protected $rootDir;
     protected $cacheDir;
@@ -35,7 +33,6 @@ abstract class Kernel implements KernelInterface
         $this->name = $this->getName();
         $this->environment = $this->getEnvironment();
         $this->servicesFile = $this->getServicesFile();
-        $this->parametersFile = $this->getParametersFile();
         $this->container = $this->getContainer();
         $this->rootDir = $this->getRootDir();
         $this->cacheDir = $this->getCacheDir();
@@ -47,9 +44,21 @@ abstract class Kernel implements KernelInterface
      */
     public function start($environment)
     {
-        $s = new Session();
-        $s->start();
         $this->container = $this->initializeContainer($environment);
+    }
+
+    /**
+     * Magic method to use $app->container.
+     *
+     * @param $property
+     *
+     * @return mixed
+     */
+    public function __get($property)
+    {
+        if ($this->{$property}) {
+            return $this->{$property};
+        }
     }
 
     /**
@@ -64,12 +73,15 @@ abstract class Kernel implements KernelInterface
 
     /**
      * Initializes the service container.
+     *
+     * @param $environment
+     *
+     * @return mixed
      */
     protected function initializeContainer($environment)
     {
         $class = $this->getContainerClass();
         $this->container = new $class();
-        $this->container->addDefinitions($this->getParametersFile());
         $this->container->addDefinitions($this->getServicesFile());
 
         return $this->container->build();

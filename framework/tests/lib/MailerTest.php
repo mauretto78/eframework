@@ -42,7 +42,7 @@ class MailerTest extends PHPUnit_Framework_TestCase
         $message = $this->m->create();
         $message->setTo(array(
             'assistenza@easy-grafica.com' => 'Mauro Cassani',
-            'mauretto1978@yahoo.it' => 'Mauretto'
+            'mauretto1978@yahoo.it' => 'Mauretto',
         ));
         $message->setCc(array('another@fake.com' => 'Aurelio De Rosa'));
         $message->setBcc(array('boss@bank.com' => 'Bank Boss'));

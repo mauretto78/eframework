@@ -17,23 +17,24 @@ class MailerManager implements MailerInterface
     /**
      * The instance of the called adapter.
      *
-     * @var object $mailer
+     * @var object
      */
     private $adapter;
 
     /**
      * MailerManager constructor.
+     *
      * @param $adapter
      */
     public function __construct($adapter)
     {
-        switch($adapter){
+        switch ($adapter) {
             case 'Swiftmailer':
                 $this->adapter = new SwiftmailerAdapter(new SwiftmailerService());
                 break;
 
             default:
-                throw new \Exception("No adapter class found.");
+                throw new \Exception('No adapter class found.');
                 break;
         }
     }

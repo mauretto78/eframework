@@ -31,7 +31,7 @@ class Button extends FormElementAbstract
      */
     public function render()
     {
-        $output = "<button ";
+        $output = '<button ';
         foreach ($this->getAllAttributes() as $key => $value) {
             $output .= $key."='".$value."' ";
         }

@@ -1,11 +1,21 @@
 <?php
+/*
+    |--------------------------------------------------------------------------
+    | DI Services Definitions.
+    |--------------------------------------------------------------------------
+    |
+    */
 
 return [
     'BaseForm' => DI\object(\Framework\Framework\Form\BaseForm::class),
     'BootstrapForm' => DI\object(\Framework\Framework\Form\BootstrapForm::class),
-    'Form' => DI\object(\Framework\Framework\Form\BaseForm::class),
+    'Enqueuer' => DI\object(\Framework\Framework\WP\Enqueuer::class),
     'Lessify' => DI\object(\Framework\Framework\Lessify::class),
-    'Mailer' => DI\object(\Framework\Framework\Mailer\Mailer::class),
+    'Mailer' => function () {
+                        return new \Framework\Framework\Mailer\MailerManager('Swiftmailer');
+                    },
     'Sluggify' => DI\object(\Framework\Framework\Sluggify::class),
-    'Validator' => DI\object(\Framework\Framework\Validator\Validator::class),
+    'Validator' => function (\Framework\Framework\Validator\ErrorHandler $errorHandler) {
+                        return new \Framework\Framework\Validator\Validator($errorHandler);
+                    },
 ];

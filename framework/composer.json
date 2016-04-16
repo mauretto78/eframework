@@ -17,5 +17,8 @@
     "phpunit/phpunit": "^5.3",
     "swiftmailer/swiftmailer": "^5.4",
     "symfony/http-foundation": "^3.0"
+  },
+  "require-dev": {
+    "fabpot/php-cs-fixer": "^1.11.2"
   }
 }

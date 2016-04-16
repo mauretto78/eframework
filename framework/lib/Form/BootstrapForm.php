@@ -43,13 +43,12 @@ class BootstrapForm extends BaseForm implements FormDecorator
      */
     private function _renderBootstrapHorizontal(FormElementAbstract $element)
     {
-        switch(get_class($element))
-        {
-            case "Framework\\Framework\\Form\\Type\\Button":
+        switch (get_class($element)) {
+            case 'Framework\\Framework\\Form\\Type\\Button':
                 return $this->_renderBootstrapHorizontalButton($element);
                 break;
 
-            case "Framework\\Framework\\Form\\Type\\Submit":
+            case 'Framework\\Framework\\Form\\Type\\Submit':
                 return $this->_renderBootstrapHorizontalButton($element);
                 break;
 
@@ -98,13 +97,12 @@ class BootstrapForm extends BaseForm implements FormDecorator
      */
     private function _renderBootstrapVertical(FormElementAbstract $element)
     {
-        switch(get_class($element))
-        {
-            case "Framework\\Framework\\Form\\Type\\Button":
+        switch (get_class($element)) {
+            case 'Framework\\Framework\\Form\\Type\\Button':
                 return $this->_renderBootstrapVerticalButton($element);
                 break;
 
-            case "Framework\\Framework\\Form\\Type\\Submit":
+            case 'Framework\\Framework\\Form\\Type\\Submit':
                 return $this->_renderBootstrapVerticalButton($element);
                 break;
 

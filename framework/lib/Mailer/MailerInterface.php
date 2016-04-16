@@ -21,6 +21,7 @@ interface MailerInterface
      * @param $username
      * @param $password
      * @param $encryption
+     *
      * @return mixed
      */
     public function configure($smtp, $port, $username, $password, $encryption = null);
