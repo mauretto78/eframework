@@ -43,11 +43,43 @@ class BootstrapForm extends BaseForm implements FormDecorator
      */
     private function _renderBootstrapHorizontal(FormElementAbstract $element)
     {
+        switch(get_class($element))
+        {
+            case "Framework\\Framework\\Form\\Type\\Button":
+                return $this->_renderBootstrapHorizontalButton($element);
+                break;
+
+            case "Framework\\Framework\\Form\\Type\\Submit":
+                return $this->_renderBootstrapHorizontalButton($element);
+                break;
+
+            default:
+                return $this->_renderBootstrapHorizontalDefault($element);
+                break;
+        }
+    }
+
+    private function _renderBootstrapHorizontalDefault(FormElementAbstract $element)
+    {
         $output = '<div class="form-group">';
         $output .= '<div class="row">';
         $output .= '<div class="col-sm-3 text-right">';
         $output .= ($element->getLabel()) ? "<label for='".@$element->getAttribute('id')."'>".$element->getLabel().'</label>' : '';
         $output .= '</div>';
+        $output .= '<div class="col-sm-9">';
+        $output .= $element->render();
+        $output .= '</div>';
+        $output .= '</div>';
+        $output .= '</div>';
+
+        return $output;
+    }
+
+    private function _renderBootstrapHorizontalButton(FormElementAbstract $element)
+    {
+        $output = '<div class="form-group">';
+        $output .= '<div class="row">';
+        $output .= '<div class="col-sm-3"></div>';
         $output .= '<div class="col-sm-9">';
         $output .= $element->render();
         $output .= '</div>';
@@ -66,9 +98,37 @@ class BootstrapForm extends BaseForm implements FormDecorator
      */
     private function _renderBootstrapVertical(FormElementAbstract $element)
     {
+        switch(get_class($element))
+        {
+            case "Framework\\Framework\\Form\\Type\\Button":
+                return $this->_renderBootstrapVerticalButton($element);
+                break;
+
+            case "Framework\\Framework\\Form\\Type\\Submit":
+                return $this->_renderBootstrapVerticalButton($element);
+                break;
+
+            default:
+                return $this->_renderBootstrapVerticalDefault($element);
+                break;
+        }
+    }
+
+    private function _renderBootstrapVerticalDefault(FormElementAbstract $element)
+    {
         $element->addAttribute('class', 'form-control');
         $output = '<div class="form-group">';
         $output .= ($element->getLabel()) ? "<label for='".@$element->getAttribute('id')."'>".$element->getLabel().'</label>' : '';
+        $output .= $element->render();
+        $output .= '</div>';
+
+        return $output;
+    }
+
+    private function _renderBootstrapVerticalButton(FormElementAbstract $element)
+    {
+        $element->addAttribute('class', 'btn btn-default');
+        $output = '<div class="form-group">';
         $output .= $element->render();
         $output .= '</div>';
 

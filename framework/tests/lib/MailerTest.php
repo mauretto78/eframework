@@ -1,6 +1,7 @@
 <?php
 
-use Framework\Framework\Mailer\Mailer;
+use Framework\Framework\Mailer\MailerManager;
+use Symfony\Component\Yaml\Yaml;
 
 class MailerTest extends PHPUnit_Framework_TestCase
 {
@@ -8,17 +9,48 @@ class MailerTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->m = new Mailer(new MailerInterface);
+        $this->m = new MailerManager('Swiftmailer');
     }
 
-    public function testSendOk()
+    public function testSwiftMailerSmtpTransportIsCorrectlyInstantiated()
     {
-        $this->m->setSubject('Your subject');
-        $this->m->setFrom(array('john@doe.com' => 'John Doe'));
-        $this->m->setTo(array('receiver@domain.org', 'other@domain.org' => 'A name'));
-        $this->m->setContent(__DIR__.'/fixtures/mailer/body.php');
-        $this->m->attach(Swift_Attachment::fromPath(__DIR__.'/fixtures/mailer/my-document.pdf'));
+        $config = Yaml::parse(file_get_contents(__DIR__.'/../../config/parameters.yml'));
+        $instance = $this->m->configure($config['mailer.smtp'], $config['mailer.port'], $config['mailer.username'], $config['mailer.password']);
 
-        $this->assertTrue($this->m->send());
+        $this->assertInstanceOf('\\Swift_SmtpTransport', $instance);
+    }
+
+    public function testSwiftMailerIsCorrectlyInstantiated()
+    {
+        $instance = $this->m->create();
+
+        $this->assertInstanceOf('\\Swift_Message', $instance);
+    }
+
+    public function testSubjectIsCorrect()
+    {
+        $instance = $this->m->create('This is an awesome mail message');
+
+        $this->assertEquals('This is an awesome mail message', $instance->getSubject());
+    }
+
+    public function testSendIsCorrect()
+    {
+        $config = Yaml::parse(file_get_contents(__DIR__.'/../../config/parameters.yml'));
+        $transport = $this->m->configure($config['mailer.smtp'], $config['mailer.port'], $config['mailer.username'], $config['mailer.password'], $config['mailer.encryption']);
+
+        $message = $this->m->create();
+        $message->setTo(array(
+            'assistenza@easy-grafica.com' => 'Mauro Cassani',
+            'mauretto1978@yahoo.it' => 'Mauretto'
+        ));
+        $message->setCc(array('another@fake.com' => 'Aurelio De Rosa'));
+        $message->setBcc(array('boss@bank.com' => 'Bank Boss'));
+        $message->setSubject('This email is sent using Swift Mailer');
+        $message->setBody('You\'re our best client ever.');
+        $message->setFrom('account@bank.com', 'Your bank');
+        //$message->attach(\Swift_Attachment::fromPath(__DIR__.'/fixtures/mailer/dummy.txt'));
+
+        //$this->assertEquals(4, $this->m->send());
     }
 }

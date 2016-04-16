@@ -3,6 +3,7 @@
 namespace Framework\Kernel;
 
 use DI\ContainerBuilder;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * The abstact class Kernel of the framework.
@@ -46,6 +47,8 @@ abstract class Kernel implements KernelInterface
      */
     public function start($environment)
     {
+        $s = new Session();
+        $s->start();
         $this->container = $this->initializeContainer($environment);
     }
 

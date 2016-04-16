@@ -13,7 +13,7 @@ use Framework\Framework\Form\FormElementAbstract;
 class Textarea extends FormElementAbstract
 {
     /**
-     * FormTextType constructor.
+     * Textarea constructor.
      *
      * @param $name
      * @param null $value

@@ -13,7 +13,7 @@ use Framework\Framework\Form\FormElementAbstract;
 class Text extends FormElementAbstract
 {
     /**
-     * FormTextType constructor.
+     * Text constructor.
      *
      * @param $name
      * @param null $value

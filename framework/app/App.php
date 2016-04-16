@@ -19,7 +19,7 @@ class App extends Kernel
     public function __construct($environment = 'dev')
     {
         $this->setEnvironment($environment);
-        $this->setParametersFile($this->getRootDir().'/../config/parameters.php');
+        $this->setParametersFile($this->getRootDir().'/../config/parameters.yml');
         $this->setServicesFile($this->getRootDir().'/../config/services.php');
 
         $this->run();

@@ -76,6 +76,16 @@ class BaseForm
     }
 
     /**
+     * Sets the token blank.
+     *
+     * Use for AJAX requests.
+     */
+    public function suppressToken()
+    {
+        $this->token = null;
+    }
+
+    /**
      * Renders the form.
      *
      * @return string
@@ -86,7 +96,7 @@ class BaseForm
         foreach ($this->elements as $element) {
             $output .= $element->render();
         }
-        $output .= sprintf('<input type="hidden" name="_token" value="%s">', $this->token);
+        $output .= ($this->token) ? sprintf('<input type="hidden" name="_token" value="%s">', $this->token) : '';
         $output .= '</form>';
 
         return $output;

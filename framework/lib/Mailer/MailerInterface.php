@@ -1,15 +1,58 @@
 <?php
 
+namespace Framework\Framework\Mailer;
+
+use Framework\Framework\Mailer;
 
 /**
- * This class is a simple wrapper of lessc class.
+ * This interface is used both by MailerManager and by the adapter classes.
  *
- * The class declares a method to merge more less files into a single css output file.
+ * The interface declares all methods of the adapters.
  *
  * @author Mauro Cassani <assistenza@easy-grafica.com>
  */
 interface MailerInterface
 {
+    /**
+     * Configures the SMTP transport of the mailer.
+     *
+     * @param $smtp
+     * @param $port
+     * @param $username
+     * @param $password
+     * @param $encryption
+     * @return mixed
+     */
+    public function configure($smtp, $port, $username, $password, $encryption = null);
+
+    /**
+     * Creates the message object.
+     *
+     * @param $msg
+     */
+    public function create($msg = null);
+
+    /**
+     * Sets the recipent(s) of the email.
+     *
+     * @param $to
+     */
+    public function setTo($to);
+
+    /**
+     * Sets the CC of the email.
+     *
+     * @param $cc
+     */
+    public function setCc($cc);
+
+    /**
+     * Sets the BCC of the email.
+     *
+     * @param $bcc
+     */
+    public function setBcc($bcc);
+
     /**
      * Sets the subject of the email.
      *
@@ -20,23 +63,16 @@ interface MailerInterface
     /**
      * Sets the From field of the email.
      *
-     * @param array
+     * @param $from
      */
-    public function setFrom(array());
-
-    /**
-     * Sets the To field of the email.
-     *
-     * @param array
-     */
-    public function setTo(array());
+    public function setFrom($from);
 
     /**
      * Sets the content of the email.
      *
      * @param $content
      */
-    public function setContent($content);
+    public function setBody($body, $contentType = 'text/html');
 
     /**
      * Sets the attachmeant of the email.
@@ -48,7 +84,7 @@ interface MailerInterface
     /**
      * Sends out the message.
      *
-     * @param $message
      * @return mixed
-     */public function send($message);
+     */
+    public function send();
 }

@@ -8,7 +8,7 @@ class LessifyTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->less = new Lessify(new lessc(), new \Framework\App());
+        $this->less = new Lessify(new lessc());
     }
 
     public function testParseASingleLessFile()

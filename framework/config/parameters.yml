@@ -1,0 +1,23 @@
+# ------------------
+# Lessify
+# ------------------
+lessc.format: 'compressed'
+lessc.comments: true
+
+# ------------------
+# Sluggify
+# ------------------
+sluggify.delimiter: '-'
+sluggify.limit: null
+sluggify.lowercase: true
+sluggify.replacements: []
+sluggify.transliterate: true
+
+# ------------------
+# Mailer
+# ------------------
+mailer.port: 465
+mailer.smtp: 'smtp.gmail.com'
+mailer.encryption : 'ssl'
+mailer.username: 'm.cassani@bestnetwork.it'
+mailer.password: 'pjwmyyrqovkiteyt'

@@ -6,28 +6,22 @@ use Framework\Framework\Sluggify;
 use Framework\Framework\Form\FormElementAbstract;
 
 /**
- * This is the class to render input text form.
+ * This is the class to render input file form.
  *
  * @author Mauro Cassani <assistenza@easy-grafica.com>
  */
-class Password extends FormElementAbstract
+class File extends FormElementAbstract
 {
     /**
-     * Password constructor.
+     * Submit constructor.
      *
      * @param $name
      * @param null $value
-     * @param null $required
-     * @param null $label
-     * @param null $style
      */
-    public function __construct($name, $value = null, $required = null, $label = null, $style = null)
+    public function __construct($name, $style = null)
     {
         $this->addAttribute('name', $name);
         $this->addAttribute('id', Sluggify::generate($name));
-        $this->addAttribute('value', $value);
-        $this->addAttribute('required', ($required) ? 'required' : '');
-        $this->setLabel($label);
         $this->setStyle($style);
     }
 
@@ -36,7 +30,7 @@ class Password extends FormElementAbstract
      */
     public function render()
     {
-        $output = "<input type='password' ";
+        $output = "<input type='file' ";
         foreach ($this->getAllAttributes() as $key => $value) {
             $output .= $key."='".$value."' ";
         }

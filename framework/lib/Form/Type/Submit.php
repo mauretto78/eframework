@@ -10,25 +10,19 @@ use Framework\Framework\Form\FormElementAbstract;
  *
  * @author Mauro Cassani <assistenza@easy-grafica.com>
  */
-class Choice extends FormElementAbstract
+class Submit extends FormElementAbstract
 {
     /**
-     * Choice constructor.
+     * Submit constructor.
      *
      * @param $name
-     * @param array $values
-     * @param null  $required
-     * @param null  $label
-     * @param null  $style
+     * @param null $value
      */
-    public function __construct($name, $values = array(), $required = null, $label = null, $style = null)
+    public function __construct($name, $value = null, $style = null)
     {
         $this->addAttribute('name', $name);
         $this->addAttribute('id', Sluggify::generate($name));
-        $this->addValue('', ''); // blank default value
-        $this->setValues($values);
-        $this->addAttribute('required', ($required) ? 'required' : '');
-        $this->setLabel($label);
+        $this->addAttribute('value', ($value) ? $value : $name);
         $this->setStyle($style);
     }
 
@@ -37,15 +31,11 @@ class Choice extends FormElementAbstract
      */
     public function render()
     {
-        $output = '<select ';
+        $output = "<input type='submit' ";
         foreach ($this->getAllAttributes() as $key => $value) {
             $output .= $key."='".$value."' ";
         }
         $output .= '>';
-        foreach ($this->getValues() as $key => $value) {
-            $output .= '<option value="'.$value.'">'.$key.'</option>';
-        }
-        $output .= '</select>';
 
         return $output;
     }
