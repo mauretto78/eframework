@@ -50,7 +50,7 @@ class BaseForm
         $this->action = $action;
         $this->method = $method;
         $this->files = ($files) ? "enctype='multipart/form-data'" : '';
-        $this->token = $this->_generateToken(32);
+        $this->token = $this->_generateToken();
     }
 
     /**
@@ -105,8 +105,8 @@ class BaseForm
     /**
      * Generates the token to protect form from CSRF attaks.
      */
-    private function _generateToken($bytes)
+    private function _generateToken()
     {
-        return base64_encode(openssl_random_pseudo_bytes($bytes));
+        return Token::generate();
     }
 }

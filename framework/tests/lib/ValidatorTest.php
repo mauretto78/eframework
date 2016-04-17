@@ -1,6 +1,8 @@
 <?php
 
 use Framework\Framework\Validator\Validator;
+use Framework\Framework\Validator\ErrorHandler;
+use Symfony\Component\HttpFoundation\Request;
 
 class ValidatorTest extends PHPUnit_Framework_TestCase
 {
@@ -8,7 +10,7 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->v = new Validator(new \Framework\Framework\Validator\ErrorHandler());
+        $this->v = new Validator(new ErrorHandler(), new Request());
     }
 
     public function testInvalidRuleException()

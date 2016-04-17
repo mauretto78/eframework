@@ -1,6 +1,7 @@
 <?php
 
 namespace Framework\Framework\Validator;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * This class handles data validation.
@@ -13,6 +14,11 @@ class Validator
      * @var ErrorHandler
      */
     private $errorHandler;
+
+    /**
+     * @var Request
+     */
+    private $request;
 
     /**
      * @var array
@@ -29,9 +35,10 @@ class Validator
      *
      * @param ErrorHandler $errorHandler
      */
-    public function __construct(ErrorHandler $errorHandler)
+    public function __construct(ErrorHandler $errorHandler, Request $request)
     {
         $this->errorHandler = $errorHandler;
+        $this->request = $request;
     }
 
     /**
@@ -42,6 +49,10 @@ class Validator
      */
     public function validate($data = array(), $rules = array())
     {
+        //add Token validation automatically
+        $data['token'] = $this->request->query->get('token');
+        $rules['token'] = 'token';
+
         $this->data = $data;
         $this->rules = $rules;
 
