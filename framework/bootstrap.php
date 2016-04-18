@@ -7,6 +7,6 @@ require __DIR__.'/vendor/autoload.php';
 // Runs the App in 'dev' environment.
 $app = new App('dev');
 
-// return Request and Session
-$request = $app->container->get('Request');
-$session = $app->container->get('Session');
+// return Request Session
+$request = $app->container->get('Session')->getRequest();
+$session = $app->container->get('Session')->getSession();

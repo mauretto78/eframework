@@ -33,7 +33,7 @@ class FormTest extends PHPUnit_Framework_TestCase
         $this->baseForm->addElement(new \Framework\Framework\Form\Type\Button('send us request'));
         $render = $this->baseForm->render();
 
-        $this->assertEquals('<form action="" method="post" ><input type=\'file\' name=\'file\' id=\'file\' ><input type=\'text\' name=\'first_name\' id=\'first-name\' value=\'\' required=\'\' ><input type=\'text\' name=\'last_name\' id=\'last-name\' value=\'\' required=\'\' ><select name=\'gender\' id=\'gender\' required=\'\' ><option value=""></option><option value="Male">M</option><option value="Female">F</option></select><textarea name=\'notes\' id=\'notes\' cols=\'30\' rows=\'8\' required=\'\' ></textarea><button name=\'send us request\' id=\'send-us-request\' type=\'\' >send us request</button><input type="hidden" name="_token" value="12345678"></form>', $render);
+        $this->assertEquals('<form action="" method="post" ><input type=\'file\' name=\'file\' id=\'file\' ><input type=\'text\' name=\'first_name\' id=\'first-name\' value=\'\' required=\'\' ><input type=\'text\' name=\'last_name\' id=\'last-name\' value=\'\' required=\'\' ><select name=\'gender\' id=\'gender\' required=\'\' ><option value=""></option><option value="Male">M</option><option value="Female">F</option></select><textarea name=\'notes\' id=\'notes\' cols=\'30\' rows=\'8\' required=\'\' ></textarea><button name=\'send us request\' id=\'send-us-request\' type=\'\' >send us request</button><input type="hidden" name="token" value="12345678"></form>', $render);
     }
 
     public function testRenderBootstrapVerticalForm()

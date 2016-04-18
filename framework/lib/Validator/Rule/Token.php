@@ -3,7 +3,7 @@
 namespace Framework\Framework\Validator\Rule;
 
 use Framework\Framework\Validator\RuleInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Framework\Framework\Form\Token as TokenProvided;
 
 /**
  * This is the token handler class.
@@ -19,7 +19,7 @@ class Token implements RuleInterface
 
     public function check($value, $requiredValue = null)
     {
-        return true;
-        //return ($r->getSession()->get('token') === $token);
+        $token = new TokenProvided();
+        return $token->check($value);
     }
 }

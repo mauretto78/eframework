@@ -18,7 +18,6 @@ class AppTest extends PHPUnit_Framework_TestCase
         $enq = $this->app->container->get('Enqueuer');
         $lessify = $this->app->container->get('Lessify');
         $mailer = $this->app->container->get('Mailer');
-        $request = $this->app->container->get('Request');
         $session = $this->app->container->get('Session');
         $sluggify = $this->app->container->get('Sluggify');
         $validator = $this->app->container->get('Validator');
@@ -28,8 +27,7 @@ class AppTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Framework\Framework\WP\Enqueuer', $enq);
         $this->assertInstanceOf('\Framework\Framework\Lessify', $lessify);
         $this->assertInstanceOf('\Framework\Framework\Mailer\MailerManager', $mailer);
-        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Request', $request);
-        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Session\Session', $session);
+        $this->assertInstanceOf('\Framework\Framework\Session\SessionBridge', $session);
         $this->assertInstanceOf('\Framework\Framework\Sluggify', $sluggify);
         $this->assertInstanceOf('\Framework\Framework\Validator\Validator', $validator);
     }

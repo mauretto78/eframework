@@ -15,7 +15,7 @@ class App extends Kernel
     /**
      * @var string
      */
-    private $environment;
+    protected $environment;
 
     /**
      * @return string
@@ -54,6 +54,6 @@ class App extends Kernel
      */
     public function load()
     {
-        $this->start($this->container, $this->environment);
+        $this->start($this->environment);
     }
 }

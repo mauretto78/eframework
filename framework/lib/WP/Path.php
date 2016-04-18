@@ -16,16 +16,16 @@ class Path
 
     public static function admin($file = null)
     {
-        return get_admin_url() . $file;
+        return get_admin_url().$file;
     }
 
     public static function template($file = null)
     {
-        return get_template_directory_uri() . $file;
+        return get_template_directory_uri().$file;
     }
 
     public static function upload($file = null)
     {
-        return wp_upload_dir() . $file;
+        return wp_upload_dir().$file;
     }
 }

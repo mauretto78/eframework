@@ -2,21 +2,31 @@
 
 namespace Framework\Framework\Form;
 
-use Symfony\Component\HttpFoundation\Session\Session;
+use Framework\Framework\Session\SessionBridge;
 
 /**
- * This class generates form token and set it to Session.
+ * This class generates form token and check it.
  *
  * @author Mauro Cassani <assistenza@easy-grafica.com>
  */
-class Token
+class Token extends SessionBridge
 {
+    /**
+     * Check if token matches.
+     */
+    public function check($token)
+    {
+        return ($token === $this->session->get('token')) ? true : false;
+    }
+
     /**
      * Generates the token to protect form from CSRF attaks and stores into Session.
      */
-    public static function generate()
+    public function generate()
     {
         $token = base64_encode(openssl_random_pseudo_bytes(32));
+        $this->session->set('token', $token);
+
         return $token;
     }
 }

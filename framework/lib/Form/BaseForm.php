@@ -96,7 +96,7 @@ class BaseForm
         foreach ($this->elements as $element) {
             $output .= $element->render();
         }
-        $output .= ($this->token) ? sprintf('<input type="hidden" name="_token" value="%s">', $this->token) : '';
+        $output .= ($this->token) ? sprintf('<input type="hidden" name="token" value="%s">', $this->token) : '';
         $output .= '</form>';
 
         return $output;
@@ -107,6 +107,7 @@ class BaseForm
      */
     private function _generateToken()
     {
-        return Token::generate();
+        $token = new Token();
+        return $token->generate();
     }
 }

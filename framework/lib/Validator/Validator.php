@@ -1,6 +1,7 @@
 <?php
 
 namespace Framework\Framework\Validator;
+
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -47,11 +48,13 @@ class Validator
      * @param array $data
      * @param array $rules
      */
-    public function validate($data = array(), $rules = array())
+    public function validate($data = array(), $rules = array(), $tokenCheckEnabled = true)
     {
-        //add Token validation automatically
-        $data['token'] = $this->request->query->get('token');
-        $rules['token'] = 'token';
+        //add Token validation automatically by default
+        if ($tokenCheckEnabled) {
+            $data['token'] = $this->request->query->get('token');
+            $rules['token'] = 'token';
+        }
 
         $this->data = $data;
         $this->rules = $rules;

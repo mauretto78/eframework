@@ -3,6 +3,7 @@
 use Framework\Framework\Validator\Validator;
 use Framework\Framework\Validator\ErrorHandler;
 use Symfony\Component\HttpFoundation\Request;
+use Framework\Framework\Form\Token;
 
 class ValidatorTest extends PHPUnit_Framework_TestCase
 {
@@ -49,14 +50,19 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($this->v->fails());
         $this->assertFalse($this->v->passes());
-        $this->assertEquals(count($this->v->errors()), 2);
+        $this->assertEquals(count($this->v->errors()), 3);
+        $this->assertEquals($this->v->errors()['token'], 'Token is invalid or expired.');
         $this->assertEquals($this->v->errors()['last_name'], 'last_name is required.');
         $this->assertEquals($this->v->errors()['ip'], 'ip is not a valid IP address.');
     }
 
     public function testValidDataWithAllRules()
     {
+        $token = new Token();
+        $tokenProvided = $token->generate();
+
         $input = [
+            'token' => $tokenProvided,
             'first_name' => 'Mauro',
             'last_name' => 'Cassani',
             'age' => 37,
@@ -67,6 +73,7 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
             'web' => 'http://www.easy-grafica.com',
         ];
         $rules = [
+            'token' => 'token',
             'first_name' => 'required|alpha|min:3|max:40',
             'last_name' => 'required|alpha|min:5',
             'ip' => 'required|ip',
@@ -77,7 +84,7 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
             'web' => 'required|url',
         ];
 
-        $this->v->validate($input, $rules);
+        $this->v->validate($input, $rules, false);
 
         $this->assertFalse($this->v->fails());
         $this->assertTrue($this->v->passes());
