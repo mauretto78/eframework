@@ -3,7 +3,6 @@
 namespace Framework\Framework;
 
 use Framework\App;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * This class is a simple wrapper of lessc class.
@@ -42,9 +41,8 @@ class Lessify
     public function __construct(\lessc $lessc)
     {
         $this->lessc = $lessc;
-        $config = Yaml::parse(file_get_contents(__DIR__.'/../config/parameters.yml'));
-        $this->setComments($config['lessc.comments']);
-        $this->setFormat($config['lessc.format']);
+        $this->setComments(Parameters::get('lessc.comments'));
+        $this->setFormat(Parameters::get('lessc.format'));
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace Framework\Framework;
 
 use Framework\App;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * This class generates slugs from any type of strings.
@@ -129,13 +128,12 @@ class Sluggify
      */
     private static function _loadConfig()
     {
-        $config = Yaml::parse(file_get_contents(__DIR__.'/../config/parameters.yml'));
         $options = array(
-            'delimiter' => $config['sluggify.delimiter'],
-            'limit' => $config['sluggify.limit'],
-            'lowercase' => $config['sluggify.lowercase'],
-            'replacements' => $config['sluggify.replacements'],
-            'transliterate' => $config['sluggify.transliterate'],
+            'delimiter' => Parameters::get('sluggify.delimiter'),
+            'limit' => Parameters::get('sluggify.limit'),
+            'lowercase' => Parameters::get('sluggify.lowercase'),
+            'replacements' => Parameters::get('sluggify.replacements'),
+            'transliterate' => Parameters::get('sluggify.transliterate'),
         );
 
         return $options;

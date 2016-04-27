@@ -20,6 +20,7 @@ class Token implements RuleInterface
     public function check($value, $requiredValue = null)
     {
         $token = new TokenProvided();
+
         return $token->check($value);
     }
 }

@@ -1,0 +1,139 @@
+@import "variables";
+@import "screen";
+
+@white:#fff;
+@green1:#00ac71;
+@green2:#00744c;
+@grey1:#23282d;
+@grey2:#434343;
+@grey3:#999;
+@grey4:#ddd;
+@grey5:#f1f1f1;
+
+html,body {
+  height: 100%;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
+
+.framework {
+  background: @white;
+  margin: 20px 20px 20px 0;
+  display: table;
+  height: 100%;
+  width: 100%;
+  min-height: 100%;
+  max-width: 1300px;
+  position: relative;
+  -webkit-font-smoothing: subpixel-antialiased;
+  .drop-shadow();
+
+  .left {
+    display: table-cell;
+    vertical-align: top;
+    width: 200px;
+    background: @grey1;
+
+    .screen-sm-max({
+      width: auto;
+    });
+
+    .screen-xs({
+      width: 100%;
+    });
+
+    .logo-wrapper {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid fade(@white,10%);
+
+      .logo {
+        max-width: 50%;
+      }
+
+      .screen-sm-max({
+        display: none;
+      });
+    }
+
+    ul.navigation {
+
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin: 0;
+        padding: 0;
+
+        a {
+          display: block;
+          text-decoration: none;
+          color: fade(@white,50%);
+          border-bottom: 1px solid fade(@white,10%);
+          padding: 12px 15px;
+
+          &:hover {
+            background: fade(@white,10%);
+          }
+
+          &.active {
+            background: @green1;
+            color: @white;
+
+            i {
+              background: @green2;
+            }
+          }
+
+          i {
+            font-size: 16px;
+            margin-right: 5px;
+            width: 24px;
+            height: 24px;
+            background: @green1;
+            color: @white;
+            text-align: center;
+            line-height: 24px;
+            .border-radius(500px);
+          }
+
+          span {
+            .screen-sm-max({
+              display: none;
+            });
+          }
+        }
+      }
+    }
+  }
+
+  .right {
+    display: table-cell;
+    vertical-align: top;
+
+    .panel-title {
+      background: @green1;
+      color: @white;
+      padding: 15px;
+      margin: 0;
+      font-weight: normal;
+    }
+
+    .panel-content {
+      padding: 15px;
+    }
+  }
+}

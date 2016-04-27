@@ -108,6 +108,7 @@ class BaseForm
     private function _generateToken()
     {
         $token = new Token();
+
         return $token->generate();
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use Framework\Framework\Mailer\MailerManager;
-use Symfony\Component\Yaml\Yaml;
+use Framework\Framework\Parameters;
 
 class MailerTest extends PHPUnit_Framework_TestCase
 {
@@ -14,8 +14,7 @@ class MailerTest extends PHPUnit_Framework_TestCase
 
     public function testSwiftMailerSmtpTransportIsCorrectlyInstantiated()
     {
-        $config = Yaml::parse(file_get_contents(__DIR__.'/../../config/parameters.yml'));
-        $instance = $this->m->configure($config['mailer.smtp'], $config['mailer.port'], $config['mailer.username'], $config['mailer.password']);
+        $instance = $this->m->configure(Parameters::get('mailer.smtp'), Parameters::get('mailer.port'), Parameters::get('mailer.username'), Parameters::get('mailer.password'));
 
         $this->assertInstanceOf('\\Swift_SmtpTransport', $instance);
     }
@@ -36,8 +35,7 @@ class MailerTest extends PHPUnit_Framework_TestCase
 
     public function testSendIsCorrect()
     {
-        $config = Yaml::parse(file_get_contents(__DIR__.'/../../config/parameters.yml'));
-        $transport = $this->m->configure($config['mailer.smtp'], $config['mailer.port'], $config['mailer.username'], $config['mailer.password'], $config['mailer.encryption']);
+        $transport = $this->m->configure(Parameters::get('mailer.smtp'), Parameters::get('mailer.port'), Parameters::get('mailer.username'), Parameters::get('mailer.password'), Parameters::get('mailer.encryption'));
 
         $message = $this->m->create();
         $message->setTo(array(

@@ -106,14 +106,14 @@ class Enqueuer
     {
         // enqueue admin files
         if (is_admin()) {
-            if (!add_action('admin_enqueue_scripts', array($this, $this->_hookAdminFiles()))) {
+            if (!add_action('admin_enqueue_scripts', array($this, 'hookAdminFiles'))) {
                 return false;
             }
         }
 
         // enqueue front-end files
         if (!is_admin()) {
-            if (!add_action('wp_enqueue_scripts', array($this, $this->_hookFrontEndFiles()))) {
+            if (!add_action('wp_enqueue_scripts', array($this, 'hookFrontEndFiles'))) {
                 return false;
             }
         }
@@ -124,14 +124,14 @@ class Enqueuer
     /**
      * Hook all the admin files.
      */
-    private function _hookAdminFiles()
+    public function hookAdminFiles()
     {
         foreach ($this->getAdminFiles() as $key => $data) {
             if ($data['type'] == 'script') {
                 wp_register_script($data['handle'], $data['src'], $data['deps'], $data['ver'], $data['in_footer']);
                 wp_enqueue_script($data['handle']);
             } elseif ($data['type'] == 'style') {
-                wp_register_style($data['handle'], $data['src'], $data['deps'], $data['ver'], $data['in_footer']);
+                wp_register_style($data['handle'], $data['src'], $data['deps'], $data['ver'], $data['media']);
                 wp_enqueue_style($data['handle']);
             }
         }
@@ -140,14 +140,14 @@ class Enqueuer
     /**
      * Hook all the front-end files.
      */
-    private function _hookFrontEndFiles()
+    public function hookFrontEndFiles()
     {
         foreach ($this->getFrontEndFiles() as $key => $data) {
             if ($data['type'] == 'script') {
                 wp_register_script($data['handle'], $data['src'], $data['deps'], $data['ver'], $data['in_footer']);
                 wp_enqueue_script($data['handle']);
             } elseif ($data['type'] == 'style') {
-                wp_register_style($data['handle'], $data['src'], $data['deps'], $data['ver'], $data['in_footer']);
+                wp_register_style($data['handle'], $data['src'], $data['deps'], $data['ver'], $data['media']);
                 wp_enqueue_style($data['handle']);
             }
         }
