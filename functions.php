@@ -1,12 +1,19 @@
 <?php
 
 // Load Eframework Kernel
-require 'framework/app/bootstrap.php';
+require 'framework/bootstrap.php';
 
-// Enqueue all the scripts and styles
-$enq = $app->container->get('Enqueuer');
-$enq->addAdminScript('admin-script', get_template_directory_uri() . '/js/admin.js', array(), '1.0.0', true);
-$enq->addFrontendScript('front-end-script', get_template_directory_uri() . '/js/bootstrap.js', array(), '1.0.0', true);
-$enq->addAdminStyle('admin-style', get_template_directory_uri(). '/css/admin.css', array(), '1.0.0', true);
-$enq->addFrontendStyle('front-end-style', get_template_directory_uri(). '/css/app.css', array(), '1.0.0', true);
-$enq->enqueue();
+use Framework\Framework\WP\Admin\Admin;
+use Framework\Framework\WP\Admin\AdminPage;
+use Framework\Framework\WP\Enqueuer;
+use Framework\Framework\WP\Path;
+
+// enqueue styles
+$e = new Enqueuer();
+$e->addAdminStyle('font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css', array(), '4.6.1', 'all');
+$e->addAdminStyle('framework-style', Path::template('/framework/admin/css/framework.css'), array(), '1.0.0', 'all');
+$e->enqueue();
+
+// admin pages
+$admin = new Admin();
+$admin->addPage(new AdminPage('eframework','E-Framework','edit_themes','base.php'));
