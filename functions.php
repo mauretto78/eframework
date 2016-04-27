@@ -17,3 +17,4 @@ $e->enqueue();
 // admin pages
 $admin = new Admin();
 $admin->addPage(new AdminPage('eframework','E-Framework','edit_themes','base.php'));
+$admin->addPage(new AdminPage('eframework','E-Framework','edit_themes','base.php'));
