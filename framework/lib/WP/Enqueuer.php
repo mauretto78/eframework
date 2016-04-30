@@ -135,6 +135,7 @@ class Enqueuer
                 wp_enqueue_style($data['handle']);
             }
         }
+        wp_enqueue_media();
     }
 
     /**

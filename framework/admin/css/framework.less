@@ -33,12 +33,29 @@ html,body {
   margin: 20px 20px 20px 0;
   display: table;
   height: 100%;
-  width: 100%;
+  width: auto;
   min-height: 100%;
-  max-width: 1300px;
   position: relative;
   -webkit-font-smoothing: subpixel-antialiased;
   .drop-shadow();
+
+  .screen-lg-min({
+    max-width: 1300px;
+  });
+
+  .screen-xs({
+    display: block;
+    margin: 20px 15px 15px 5px;
+  });
+
+  a {
+    color: @green1;
+    text-decoration: none;
+
+    &:hover, &:focus {
+      color: @green2;
+    }
+  }
 
   .left {
     display: table-cell;
@@ -51,6 +68,7 @@ html,body {
     });
 
     .screen-xs({
+      display: block;
       width: 100%;
     });
 
@@ -61,10 +79,39 @@ html,body {
 
       .logo {
         max-width: 50%;
+
+        .screen-sm-max({
+          width: 32px;
+        });
+
+        .screen-xs({
+          float: left;
+          padding-left: 12px;
+        });
+      }
+
+      .toggle-btn {
+        display: none;
+
+        .screen-xs({
+          cursor: pointer;
+          display: inline-block;
+          color: @grey3;
+          float: right;
+          padding-right: 12px;
+          font-size: 24px;
+          position: relative;
+          top: 4px;
+
+          &:hover {
+            color: @grey4;
+          }
+        });
       }
 
       .screen-sm-max({
-        display: none;
+        width: auto;
+        padding: 12px 0;
       });
     }
 
@@ -73,6 +120,10 @@ html,body {
       list-style: none;
       margin: 0;
       padding: 0;
+
+      .screen-xs({
+        display: none;
+      });
 
       li {
         margin: 0;
@@ -114,6 +165,10 @@ html,body {
             .screen-sm-max({
               display: none;
             });
+
+            .screen-xs({
+              display: inline-block;
+            });
           }
         }
       }
@@ -124,6 +179,10 @@ html,body {
     display: table-cell;
     vertical-align: top;
 
+    .screen-xs({
+      display: block;
+    });
+
     .panel-title {
       background: @green1;
       color: @white;
@@ -133,7 +192,207 @@ html,body {
     }
 
     .panel-content {
-      padding: 15px;
+
+      .ef-group {
+        padding: 15px;
+        border-bottom: 1px solid @grey5;
+
+        .ef-label {
+
+          .screen-lg-min({
+            text-align: right;
+            display: table-cell;
+            width: 200px;
+            padding-right: 15px;
+          });
+
+          .screen-md({
+            text-align: right;
+            display: table-cell;
+            width: 200px;
+            padding-right: 15px;
+          });
+
+          .screen-sm({
+            text-align: right;
+            display: table-cell;
+            width: 150px;
+            padding-right: 15px;
+          });
+
+          .screen-md-max({
+            margin-bottom: 10px;
+          });
+
+          label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: @grey1;
+          }
+
+          span.description {
+            font-style: italic;
+            color: @grey3;
+          }
+        }
+
+        .ef-control {
+
+          .screen-lg-min({
+            width: 800px;
+            display: table-cell;
+            vertical-align: middle;
+          });
+
+          .screen-md({
+            width: 550px;
+            display: table-cell;
+            vertical-align: middle;
+          });
+
+          .screen-sm({
+            width: 500px;
+            display: table-cell;
+            vertical-align: middle;
+          });
+
+          input[type=text],input[type=date],input[type=password],input[type=email],textarea{
+            width: 80%;
+            padding: 10px;
+            border: 1px solid @grey4;
+
+            &:hover, &:focus {
+            border: 1px solid @grey2;
+            }
+
+            .screen-xs({
+              width: 100%;
+            });
+          }
+
+          select {
+            padding: 10px;
+            border: 1px solid @grey4;
+
+            &:hover, &:focus {
+              border: 1px solid @grey2;
+            }
+          }
+
+          p {
+            margin: 0 0 5px 0;
+            padding: 0;
+
+            &:last-child {
+              margin: 0;
+            }
+          }
+
+          .btn-upload {
+            float: left;
+
+            &.margin-top-15 {
+              margin-top:15px;
+            }
+          }
+
+          .upload-file-path {
+            font-style: italic;
+
+            .thumbnail {
+              position: relative;
+              display: inline-block;
+
+              img {
+                border: 1px solid @grey4;
+                padding: 3px;
+                max-height: 65px;
+
+                &:hover, &:focus {
+                  border: 1px solid @grey2;
+                }
+              }
+
+              .thumbnail-delete {
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                background: @grey3;
+                color: @white;
+                height: 20px;
+                width: 20px;
+                text-align: center;
+                padding: 3px;
+                .border-radius(500px);
+
+                &:hover, &:focus {
+                  background: @grey2;
+                }
+              }
+            }
+          }
+
+          .ef-editor {
+            border: 1px solid @grey4;
+            width: 80%;
+            height: 400px;
+
+            .screen-sm({
+              width: 100%;
+            });
+
+            .screen-xs({
+              width: 100%;
+            });
+          }
+        }
+      }
+
+      .ef-buttons {
+        padding: 15px;
+
+        .screen-xs({
+          text-align: center;
+        });
+      }
+
+      .btn {
+        cursor: pointer;
+        padding: 10px 30px;
+        text-align: center;
+        border:none;
+        font-size: 16px;
+
+        &.btn-save {
+          background: @green1;
+          color: @white;
+          margin-right: 10px;
+
+          &:hover, &:focus {
+            background: @green2;
+          }
+        }
+
+        &.btn-reset {
+          background: @grey4;
+          color: @grey3;
+
+          &:hover, &:focus {
+            background: @grey5;
+          }
+        }
+
+        &.btn-upload {
+          background: @grey1;
+          color: @white;
+          margin-right: 10px;
+
+          &:hover, &:focus {
+            background: @grey2;
+          }
+        }
+      }
     }
   }
 }
