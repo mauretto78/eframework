@@ -22,12 +22,22 @@ abstract class FormElementAbstract implements FormElementInterface
     /**
      * @var string
      */
+    private $description;
+
+    /**
+     * @var string
+     */
     private $style;
 
     /**
      * @var array
      */
     private $values = array();
+
+    /**
+     * @var string
+     */
+    private $default;
 
     public function addAttribute($name, $value)
     {
@@ -59,6 +69,16 @@ abstract class FormElementAbstract implements FormElementInterface
         return $this->label;
     }
 
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
     public function setStyle($style)
     {
         $this->style = $style;
@@ -87,5 +107,15 @@ abstract class FormElementAbstract implements FormElementInterface
     public function getValues()
     {
         return $this->values;
+    }
+
+    public function setDefault($default)
+    {
+        $this->default = $default;
+    }
+
+    public function getDefault()
+    {
+        return $this->default;
     }
 }

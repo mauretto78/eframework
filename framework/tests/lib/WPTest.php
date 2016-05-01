@@ -5,6 +5,7 @@ use Framework\Framework\WP\PostType\PostType;
 use Framework\Framework\WP\PostType\MetaBox;
 use Framework\Framework\WP\Path;
 use Framework\Framework\WP\Admin\Admin;
+use Framework\Framework\WP\Admin\AdminPage;
 
 require_once __DIR__.'/../../../../../../wp-load.php'; // Worpdress
 
@@ -54,6 +55,11 @@ class WPTest extends \PHPUnit_Framework_TestCase
         $this->assertGreaterThan(0, $this->admin->getCountOptions());
         $this->assertEquals($this->admin->getOption('sample'), 1234567890);
         $this->assertEquals($this->admin->getOption('another_sample'), 'this is a simple string');
+    }
 
+    public function testCreateSomeAdminPage()
+    {
+        $this->admin->addPage(new AdminPage('eframework', 'E-Framework', 'edit_themes', 'layout.php'));
+        $this->assertEquals($this->admin->getCountPages(), 1);
     }
 }

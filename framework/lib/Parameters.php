@@ -14,6 +14,7 @@ class Parameters
     public static function get($param)
     {
         $config = Yaml::parse(file_get_contents(__DIR__.'/../config/parameters.yml'));
+
         return $config[$param];
     }
 }

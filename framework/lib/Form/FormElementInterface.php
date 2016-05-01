@@ -57,6 +57,20 @@ interface FormElementInterface
     public function getLabel();
 
     /**
+     * Sets the description of the form element.
+     *
+     * @return mixed
+     */
+    public function setDescription($description);
+
+    /**
+     * Returns the description of the form element.
+     *
+     * @return mixed
+     */
+    public function getDescription();
+
+    /**
      * Sets the style of the form element.
      *
      * @return mixed
@@ -95,6 +109,22 @@ interface FormElementInterface
      * @return mixed
      */
     public function getValues();
+
+    /**
+     * Sets the default value of the element.
+     *
+     * @param $default
+     *
+     * @return mixed
+     */
+    public function setDefault($default);
+
+    /**
+     * Returns the default value.
+     *
+     * @return mixed
+     */
+    public function getDefault();
 
     /**
      * Renders the form element.

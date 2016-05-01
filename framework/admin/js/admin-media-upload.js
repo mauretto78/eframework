@@ -30,7 +30,7 @@ jQuery(function($) {
             $this.prev().val(fileName);
 
             if(fileType == 'image'){
-                $this.next().html('<div class="thumbnail"><img src="'+fileUrl+'" class="thumbnail-img" alt="'+fileName+'"><span class="thumbnail-delete"><i class="fa fa-times"></i></span></div>');
+                $this.next().html('<div class="thumbnail" style="background-image: url(\''+fileUrl+'\');"><span title="delete this image" class="thumbnail-delete"><i class="fa fa-times"></i></span></div>');
                 $this.addClass('margin-top-15');
             } else {
                 $this.next().text(fileName);

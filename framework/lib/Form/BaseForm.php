@@ -39,17 +39,23 @@ class BaseForm
     protected $elements = array();
 
     /**
+     * @var string
+     */
+    protected $name;
+
+    /**
      * BaseForm constructor.
      *
      * @param string $action
      * @param string $method
      * @param bool   $files
      */
-    public function __construct($action = '', $method = 'post', $files = false)
+    public function __construct($action = '', $method = 'post', $files = false, $name = null)
     {
         $this->action = $action;
         $this->method = $method;
         $this->files = ($files) ? "enctype='multipart/form-data'" : '';
+        $this->name = $name;
         $this->token = $this->_generateToken();
     }
 
@@ -57,6 +63,8 @@ class BaseForm
      * Adds an element to the form.
      *
      * @param FormElementInterface $formElementInterface
+     *
+     * @return $this
      */
     public function addElement(FormElementInterface $formElementInterface)
     {
@@ -92,8 +100,9 @@ class BaseForm
      */
     public function render()
     {
-        $output = sprintf('<form action="%s" method="%s" %s>', $this->action, $this->method, $this->files);
+        $output = sprintf('<form action="%s" method="%s" name="%s" %s>', $this->action, $this->method, $this->name, $this->files);
         foreach ($this->elements as $element) {
+            $output .= ($element->getLabel()) ? "<label for='".@$element->getAttribute('id')."'>".$element->getLabel().'</label>' : '';
             $output .= $element->render();
         }
         $output .= ($this->token) ? sprintf('<input type="hidden" name="token" value="%s">', $this->token) : '';

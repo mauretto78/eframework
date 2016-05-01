@@ -68,7 +68,7 @@ class PostType
 
         // At WordPress' init, register the taxonomy
         add_action('init',
-            function () use ($taxonomyName, $plural, $post_type_name, $options,$sharedPostTypeArray) {
+            function () use ($taxonomyName, $plural, $post_type_name, $options, $sharedPostTypeArray) {
                 // Override defaults with user provided options
 
                 $options = array_merge(

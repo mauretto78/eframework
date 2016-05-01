@@ -81,20 +81,28 @@ class AdminPage
         $this->iconUrl = ($iconUrl) ? $iconUrl : Path::template('/framework/admin/img/icons/ef-icon.png');
         $this->position = $position;
         $this->parent = $parent;
-        
-        add_action('admin_menu', array($this,'init'));
+
+        add_action('admin_menu', array($this, 'init'));
     }
 
     /**
-     * Call the corresponding add_menu_page wordpress function.
+     * Call the corresponding add_menu_page Wordpress function.
+     *
+     * @return bool
      */
     public function init()
     {
-        if($this->parent){
-            add_submenu_page($this->parent, $this->title, $this->menuTitle, $this->capability, Sluggify::generate($this->title), array($this,'includeFunction'));
+        if ($this->parent) {
+            $addPage = add_submenu_page($this->parent, $this->title, $this->menuTitle, $this->capability, Sluggify::generate($this->title), array($this, 'includeFunction'));
         } else {
-            add_menu_page($this->title, $this->menuTitle, $this->capability, Sluggify::generate($this->title), array($this,'includeFunction'), $this->iconUrl, $this->position);
+            $addPage = add_menu_page($this->title, $this->menuTitle, $this->capability, Sluggify::generate($this->title), array($this, 'includeFunction'), $this->iconUrl, $this->position);
         }
+
+        if (!$addPage) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -102,6 +110,6 @@ class AdminPage
      */
     public function includeFunction()
     {
-        include(__DIR__.'/../../../admin/'.$this->include);
+        include __DIR__.'/../../../admin/'.$this->include;
     }
 }

@@ -29,6 +29,7 @@ class Nav
      *
      * @param $label
      * @param $name
+     *
      * @return bool
      */
     public function register($label, $name)
@@ -40,6 +41,7 @@ class Nav
      * Checks if a navbar exists.
      *
      * @param $label
+     *
      * @return bool
      */
     private function _exists($label)
@@ -47,6 +49,7 @@ class Nav
         if (!has_nav_menu($label)) {
             return false;
         }
+
         return true;
     }
 }

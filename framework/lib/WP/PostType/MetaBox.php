@@ -50,7 +50,7 @@ class MetaBox
         $this->title = $title;
         $this->formFields = (array) $formFields;
 
-        if(!isset($_SESSION)){
+        if (!isset($_SESSION)) {
             session_start();
         }
         if (!isset($_SESSION['taxonomy_data'])) {
@@ -115,7 +115,7 @@ class MetaBox
                 $output = "<p><label>{$label}</label>";
                 $output .= $this->$fn($idName, $value, $fieldType);
                 array_push($_SESSION['taxonomy_data'], $idName);
-                $output .= "</p>";
+                $output .= '</p>';
 
                 $this->_print($output);
             }
@@ -214,9 +214,8 @@ class MetaBox
                 $selected = '';
             }
             $output .= "<option value='{$option}' {$selected}>{$key}</option>";
-
         }
-        $output .= "</select>";
+        $output .= '</select>';
 
         return $output;
     }
@@ -239,9 +238,8 @@ class MetaBox
                 $selected = '';
             }
             $output .= "<option value='{$option}' {$selected}>{$key}</option>";
-
         }
-        $output .= "</select>";
+        $output .= '</select>';
 
         return $output;
     }
@@ -281,8 +279,8 @@ class MetaBox
      */
     public function renderColorpicker($idName, $value, $fieldType = null)
     {
-        $style= 'width: 30px;height: 30px; position: relative;top: 4px;padding: 1px 2px;margin-left: 5px;background: #fff;border: 1px solid #ddd;';
-        $output = "<input type='color' id='{$idName}' name='{$idName}' value='{$value}' class='popup-colorpicker widefat' style='{$style}'>";
+        //$style = 'width: 30px;height: 30px; position: relative;top: 4px;padding: 1px 2px;margin-left: 5px;background: #fff;border: 1px solid #ddd;';
+        $output = "<input type='text' id='{$idName}' name='{$idName}' value='{$value}' class='jscolor widefat'";
 
         return $output;
     }

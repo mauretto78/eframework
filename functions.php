@@ -13,6 +13,7 @@ $e->addAdminStyle('font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/
 $e->addAdminStyle('framework-style', Path::template('/framework/admin/css/framework.css'), array(), '1.0.0', 'all');
 $e->addAdminScript('media-upload-js', Path::template('/framework/admin/js/admin-media-upload.js'), array('jquery'), '1.0.0', true);
 $e->addAdminScript('ace-editor-js', Path::template('/framework/admin/assets/ace/src/ace.js'), array('jquery'), '1.0.0', true);
+$e->addAdminScript('jscolor', Path::template('/framework/admin/assets/jscolor/jscolor.min.js'), array('jquery'), '1.0.0', true);
 $e->addAdminScript('framework-js', Path::template('/framework/admin/js/framework.js'), array('jquery'), '1.0.0', true);
 $e->enqueue();
 

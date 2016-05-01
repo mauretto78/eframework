@@ -26,7 +26,7 @@ class Admin
     {
         $this->options = wp_load_alloptions();
     }
-    
+
     /**
      * Sets an option.
      *
@@ -43,12 +43,13 @@ class Admin
      * Gets the value of an option.
      *
      * @param $option
+     *
      * @return mixed
      */
     public function getOption($option)
     {
         get_option($option);
-        
+
         return $this->options[$option];
     }
 
@@ -56,6 +57,7 @@ class Admin
      * Returns all the options.
      *
      * @param $option
+     *
      * @return mixed
      */
     public function getAllOptions()
@@ -67,6 +69,7 @@ class Admin
      * Returns the count of options.
      *
      * @param $option
+     *
      * @return mixed
      */
     public function getCountOptions()
@@ -78,12 +81,23 @@ class Admin
      * Adds a page in WP panel.
      *
      * @param AdminPage $page
+     *
      * @return AdminPage
      */
     public function addPage(AdminPage $page)
     {
         $this->pages[] = $page;
-        
+
         return $page;
+    }
+
+    /**
+     * Returns the count of pages.
+     *
+     * @return int
+     */
+    public function getCountPages()
+    {
+        return count($this->pages);
     }
 }

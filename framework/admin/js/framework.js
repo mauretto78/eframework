@@ -1,12 +1,31 @@
 jQuery(function($) {
 
     /**
-     *  Slide toggle navigation.
+     * Declaration of all variables.
      */
     var $window = $(window),
         toggleBtn = $('.toggle-btn'),
-        navigation = $('.navigation');
-    
+        navigation = $('.navigation'),
+        panel = $('.panel'),
+        editor = ace.edit("editor");
+
+    /**
+     * Panel tabs.
+     */
+    navigation.find("li > a").on("click",function(e){
+        var $this = $(this),
+            target = $this.data("target");
+
+        navigation.find("li > a").removeClass('active');
+        $(this).addClass('active');
+        panel.addClass('hidden').filter(target).removeClass('hidden');
+
+        e.preventDefault();
+    });
+
+    /**
+     *  Slide toggle navigation (mobile devices).
+     */
     toggleBtn.on('click',function () {
         navigation.slideToggle(300);
     });
@@ -33,6 +52,5 @@ jQuery(function($) {
     /**
      * Ace editor.
      */
-    var editor = ace.edit("editor");
     editor.getSession().setMode("ace/mode/css");
 });

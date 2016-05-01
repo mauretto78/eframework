@@ -1,5 +1,5 @@
-@import "variables";
-@import "screen";
+@import "variables.less";
+@import "screen.less";
 
 @white:#fff;
 @green1:#00ac71;
@@ -136,13 +136,18 @@ html,body {
           border-bottom: 1px solid fade(@white,10%);
           padding: 12px 15px;
 
-          &:hover {
+          &:hover, &:focus {
             background: fade(@white,10%);
+            .box-shadow(none);
           }
 
           &.active {
             background: @green1;
             color: @white;
+
+            &:focus {
+              .box-shadow(none);
+            }
 
             i {
               background: @green2;
@@ -272,7 +277,6 @@ html,body {
           }
 
           select {
-            padding: 10px;
             border: 1px solid @grey4;
 
             &:hover, &:focus {
@@ -303,22 +307,23 @@ html,body {
             .thumbnail {
               position: relative;
               display: inline-block;
+              border: 1px solid @grey4;
+              padding: 3px;
+              background-size: cover;
+              background-position: center center;
+              height: 65px;
+              width: 65px;
 
-              img {
-                border: 1px solid @grey4;
-                padding: 3px;
-                max-height: 65px;
-
-                &:hover, &:focus {
-                  border: 1px solid @grey2;
-                }
+              &:hover, &:focus {
+                border: 1px solid @grey2;
               }
 
               .thumbnail-delete {
+                cursor: pointer;
                 position: absolute;
                 top: -10px;
                 right: -10px;
-                background: @grey3;
+                background: @grey4;
                 color: @white;
                 height: 20px;
                 width: 20px;

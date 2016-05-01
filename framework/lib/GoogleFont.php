@@ -20,7 +20,7 @@ class GoogleFont
      */
     public function __construct()
     {
-        $this->fontFile = __DIR__ . '/../cache/google-web-fonts.txt';
+        $this->fontFile = __DIR__.'/../cache/google-web-fonts.txt';
     }
 
     /**
@@ -37,15 +37,16 @@ class GoogleFont
      * Get the google fonts from the API or in the cache.
      *
      * @param int $amount
+     *
      * @return mixed
      */
-    public function getFonts($amount=30)
+    public function getFonts($amount = 30)
     {
         $apiKey = Parameters::get('google.apikey');
 
         $cachetime = 86400 * 7;
 
-        if(file_exists($this->fontFile) && $cachetime < filemtime($this->fontFile)) {
+        if (file_exists($this->fontFile) && $cachetime < filemtime($this->fontFile)) {
             $content = json_decode(file_get_contents($this->fontFile));
         } else {
             $googleApi = 'https://www.googleapis.com/webfonts/v1/webfonts?sort=alpha&key='.$apiKey;
@@ -56,7 +57,7 @@ class GoogleFont
             $content = json_decode($response);
         }
 
-        if($amount == 'all'){
+        if ($amount == 'all') {
             return $this->fonts = $content->items;
         } else {
             return $this->fonts = array_slice($content->items, 0, $amount);

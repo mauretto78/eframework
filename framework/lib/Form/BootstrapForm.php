@@ -13,8 +13,7 @@ class BootstrapForm extends BaseForm implements FormDecorator
 {
     public function render()
     {
-        $output = sprintf('<form action="%s" method="%s" %s>', $this->action, $this->method, $this->files);
-        $output .= sprintf('<input type="hidden" name="_token" value="%s">', $this->token);
+        $output = sprintf('<form action="%s" method="%s" name="%s" %s>', $this->action, $this->method, $this->name, $this->files);
 
         foreach ($this->elements as $element) {
             $this->decorateElement($element);
@@ -24,6 +23,7 @@ class BootstrapForm extends BaseForm implements FormDecorator
                 $output .= $this->_renderBootstrapVertical($element);
             }
         }
+        $output .= ($this->token) ? sprintf('<input type="hidden" name="token" value="%s">', $this->token) : '';
         $output .= '</form>';
 
         return $output;
