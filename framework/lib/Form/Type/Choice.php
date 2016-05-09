@@ -47,8 +47,8 @@ class Choice extends FormElementAbstract
         $output .= '>';
         foreach ($this->getValues() as $key => $value) {
             $output .= '<option ';
-            if($value and $value == $this->getDefault()){
-               $output .= 'selected="selected" ';
+            if ($value and $value == $this->getDefault()) {
+                $output .= 'selected="selected" ';
             }
             $output .= 'value="'.$value.'">'.$key.'</option>';
         }

@@ -10,6 +10,20 @@ namespace Framework\Framework\Form;
 interface FormDecorator
 {
     /**
+     * Set the output for the form.
+     *
+     * @return string
+     */
+    public function setOutput();
+
+    /**
+     * Get the output for the form.
+     *
+     * @return string
+     */
+    public function getOutput();
+
+    /**
      * Renders the form.
      *
      * @return mixed

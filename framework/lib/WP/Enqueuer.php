@@ -104,16 +104,18 @@ class Enqueuer
      */
     public function enqueue()
     {
+        $action = Action::getInstance();
+
         // enqueue admin files
         if (is_admin()) {
-            if (!add_action('admin_enqueue_scripts', array($this, 'hookAdminFiles'))) {
+            if (!$action->add('admin_enqueue_scripts', array($this, 'hookAdminFiles'))) {
                 return false;
             }
         }
 
         // enqueue front-end files
         if (!is_admin()) {
-            if (!add_action('wp_enqueue_scripts', array($this, 'hookFrontEndFiles'))) {
+            if (!$action->add('wp_enqueue_scripts', array($this, 'hookFrontEndFiles'))) {
                 return false;
             }
         }
@@ -135,6 +137,16 @@ class Enqueuer
                 wp_enqueue_style($data['handle']);
             }
         }
+        // tinyMCE
+        wp_enqueue_script('tiny_mce');
+        if (function_exists('wp_tiny_mce')) {
+            wp_tiny_mce();
+        }
+
+        // jquery UI sortable
+        wp_enqueue_script('jquery-ui-sortable');
+
+        // media
         wp_enqueue_media();
     }
 

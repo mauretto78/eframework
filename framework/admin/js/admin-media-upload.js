@@ -27,13 +27,13 @@ jQuery(function($) {
                 fileName = attachment.filename,
                 fileUrl = attachment.url;
 
-            $this.prev().val(fileName);
+            $this.prev().val(fileUrl);
 
             if(fileType == 'image'){
                 $this.next().html('<div class="thumbnail" style="background-image: url(\''+fileUrl+'\');"><span title="delete this image" class="thumbnail-delete"><i class="fa fa-times"></i></span></div>');
                 $this.addClass('margin-top-15');
             } else {
-                $this.next().text(fileName);
+                $this.next().text(fileUrl);
             }
 
         });

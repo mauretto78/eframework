@@ -11,7 +11,7 @@ namespace Framework\Framework\Form;
  */
 class BootstrapForm extends BaseForm implements FormDecorator
 {
-    public function render()
+    public function setOutput()
     {
         $output = sprintf('<form action="%s" method="%s" name="%s" %s>', $this->action, $this->method, $this->name, $this->files);
 
@@ -26,7 +26,9 @@ class BootstrapForm extends BaseForm implements FormDecorator
         $output .= ($this->token) ? sprintf('<input type="hidden" name="token" value="%s">', $this->token) : '';
         $output .= '</form>';
 
-        return $output;
+        $this->output = $output;
+
+        return $this;
     }
 
     public function decorateElement(FormElementAbstract $element)

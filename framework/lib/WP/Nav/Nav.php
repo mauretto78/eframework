@@ -2,8 +2,6 @@
 
 namespace Framework\Framework\WP\Nav;
 
-use Framework\Framework\Parameters;
-
 /**
  * This class renders WP navbars.
  *
@@ -12,29 +10,61 @@ use Framework\Framework\Parameters;
 class Nav
 {
     /**
-     * Generates the navbar.
+     * @var string
+     */
+    private $label;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $description;
+
+    /**
+     * Creates a navbar.
      *
      * @param $label
-     * @param $args
+     * @param $description
+     * @param array $args
      */
-    public function generate($label, $args)
+    public function create($label, $name, $description)
     {
-        if ($this->_exists($label)) {
-            wp_nav_menu($args);
-        }
+        $this->label = $label;
+        $this->name = $name;
+        $this->description = $description;
+
+        $this->register();
     }
 
     /**
      * Register a navbar.
      *
-     * @param $label
-     * @param $name
-     *
      * @return bool
      */
-    public function register($label, $name)
+    public function register()
     {
-        register_nav_menu($label, __($name, Parameters::get('app.name')));
+        register_nav_menus(array(
+            $this->label => __($this->name, $this->description),
+        ));
+    }
+
+    /**
+     * Renders the navbar.
+     *
+     * @param null  $label
+     * @param array $args
+     */
+    public function render($label = null, $args = array())
+    {
+        $l = ($label) ? $label : $this->label;
+
+        if ($this->exists($l)) {
+            wp_nav_menu($args);
+        }
     }
 
     /**
@@ -44,12 +74,8 @@ class Nav
      *
      * @return bool
      */
-    private function _exists($label)
+    public function exists($label)
     {
-        if (!has_nav_menu($label)) {
-            return false;
-        }
-
-        return true;
+        return has_nav_menu($label);
     }
 }

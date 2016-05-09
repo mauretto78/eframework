@@ -2,6 +2,8 @@
 
 namespace Framework\Framework\Form;
 
+use Framework\Framework\WP\Path;
+
 /**
  * This class is a decorator for the base form.
  *
@@ -9,21 +11,36 @@ namespace Framework\Framework\Form;
  *
  * @author Mauro Cassani <assistenza@easy-grafica.com>
  */
-
 class AdminPanelForm extends BaseForm implements FormDecorator
 {
+    private $ajaxAction;
 
-    public function render()
+    /**
+     * AdminPanelForm constructor.
+     */
+    public function __construct($action)
     {
-        $output = sprintf('<form action="%s" method="%s" name="%s" %s>', $this->action, $this->method, $this->name, $this->files);
+        parent::__construct();
+        $this->action = Path::admin('admin-ajax.php');
+        $this->ajaxAction = $action;
+    }
+
+    public function setOutput()
+    {
+        $output = sprintf('<form action="%s" class="wordpress-ajax-form" method="%s" name="%s" %s>', $this->action, $this->method, $this->name, $this->files);
 
         foreach ($this->elements as $element) {
             $output .= $this->_renderAdminPanelElement($element);
         }
-        $output .= ($this->token) ? sprintf('<input type="hidden" name="token" value="%s">', $this->token) : '';
+
+        $output .= $this->_renderButtons();
+        $output .= '<input type="hidden" class="wordpress-ajax-form-action" name="action" value="'.$this->ajaxAction.'">';
+        $output .= wp_nonce_field($this->ajaxAction.'_nonce_action', $this->ajaxAction.'_nonce_field', true, false);
         $output .= '</form>';
 
-        return $output;
+        $this->output = $output;
+
+        return $this;
     }
 
     public function decorateElement(FormElementAbstract $element)
@@ -45,9 +62,24 @@ class AdminPanelForm extends BaseForm implements FormDecorator
         $output .= ($element->getLabel()) ? "<label for='".@$element->getAttribute('id')."'>".$element->getLabel().'</label>' : '';
         $output .= ($element->getDescription()) ? '<span class="description">'.$element->getDescription().'</span>' : '';
         $output .= '</div>';
-        $output .= '<div class="ef-control">';
+        $output .= '<div class="ef-control clearfix">';
         $output .= $element->render();
         $output .= '</div>';
+        $output .= '</div>';
+
+        return $output;
+    }
+
+    /**
+     * Renders the form buttons.
+     *
+     * @return string
+     */
+    private function _renderButtons()
+    {
+        $output = '<div class="ef-buttons">';
+        $output .= '<button type="submit" class="btn btn-lg btn-save"><i id="loading-spinner" class="fa fa-circle-o-notch fa-spin"></i><i id="save-icon" class="fa fa-save"></i> <span>Save</span></button>';
+        $output .= '<a class="btn btn-lg btn-reset"><i class="fa fa-times"></i> <span>Reset</span></a>';
         $output .= '</div>';
 
         return $output;

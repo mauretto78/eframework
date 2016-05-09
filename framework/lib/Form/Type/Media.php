@@ -25,6 +25,7 @@ class Media extends FormElementAbstract
         $this->setDefault($value);
         $this->addAttribute('name', $name);
         $this->addAttribute('id', Sluggify::generate($name));
+        $this->addAttribute('value', $this->getDefault());
         $this->setLabel($label);
         $this->setDescription($description);
     }
@@ -39,10 +40,14 @@ class Media extends FormElementAbstract
             $output .= $key."='".$value."' ";
         }
         $output .= '>';
-        $output .= "<a class='btn btn-upload'><i class='fa fa-upload'></i> Upload</a>";
+        $class = '';
+        if ($this->_isImage($this->getDefault())) {
+            $class .= ' margin-top-15';
+        }
+        $output .= "<a class='btn btn-upload{$class}'><i class='fa fa-upload'></i> Upload</a>";
         $output .= "<span class='upload-file-path'>";
-        $output .= ($this->getDefault()) ? $this->_renderFile($this->getDefault()): '';
-        $output .= "</span>";
+        $output .= ($this->getDefault()) ? $this->_renderFile($this->getDefault()) : '';
+        $output .= '</span>';
 
         return $output;
     }
@@ -54,12 +59,30 @@ class Media extends FormElementAbstract
      */
     private function _renderFile($path)
     {
-        if(@is_array(getimagesize($path))){
-            $output = "immagine";
+        if ($this->_isImage($path)) {
+            $output = '<div class="thumbnail" style="background-image: url(\''.$path.'\');"><span title="delete this image" class="thumbnail-delete"><i class="fa fa-times"></i></span></div>';
         } else {
             $output = '<a class="uploaded-file" href="'.$path.'" target="_blank">'.$path.'</a>';
         }
 
         return $output;
+    }
+
+    /**
+     * Returns if a file is an image.
+     *
+     * @TODO Move to a separate class.
+     *
+     * @param $img
+     *
+     * @return bool
+     */
+    private function _isImage($file)
+    {
+        if (@is_array(getimagesize($file))) {
+            return true;
+        }
+
+        return false;
     }
 }

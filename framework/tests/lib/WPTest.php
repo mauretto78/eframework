@@ -4,15 +4,21 @@ use Framework\Framework\WP\Enqueuer;
 use Framework\Framework\WP\PostType\PostType;
 use Framework\Framework\WP\PostType\MetaBox;
 use Framework\Framework\WP\Path;
+use Framework\Framework\WP\Action;
 use Framework\Framework\WP\Admin\Admin;
 use Framework\Framework\WP\Admin\AdminPage;
+use Framework\Framework\WP\Ajax;
+use Framework\Framework\WP\Nav\Nav;
 
-require_once __DIR__.'/../../../../../../wp-load.php'; // Worpdress
+require_once __DIR__.'/../../../../../../wp-load.php'; // Load Worpdress
 
 class WPTest extends \PHPUnit_Framework_TestCase
 {
     protected $enq;
     protected $cpt;
+    protected $admin;
+    protected $action;
+    protected $ajax;
     protected $nav;
 
     public function setUp()
@@ -20,6 +26,14 @@ class WPTest extends \PHPUnit_Framework_TestCase
         $this->enq = new Enqueuer();
         $this->cpt = new PostType('Book');
         $this->admin = new Admin();
+        $this->action = Action::getInstance();
+        $this->ajax = new Ajax('general');
+        $this->nav = new Nav();
+    }
+
+    public function tearDown()
+    {
+        Action::tearDown();
     }
 
     public function testEnqueueSomeFiles()
@@ -61,5 +75,60 @@ class WPTest extends \PHPUnit_Framework_TestCase
     {
         $this->admin->addPage(new AdminPage('eframework', 'E-Framework', 'edit_themes', 'layout.php'));
         $this->assertEquals($this->admin->getCountPages(), 1);
+    }
+
+    public function testCreateSomeSidebar()
+    {
+        $this->admin->addSidebar('Sidebar1', 'sidebar-1');
+        $this->admin->addSidebar('Sidebar2', 'sidebar-2');
+
+        $this->assertEquals($this->admin->getSidebar('sidebar-1'), 'sidebar-1');
+        $this->assertEquals($this->admin->getCountSidebars(), 2);
+    }
+
+    public function testCreateSomeActions()
+    {
+        $this->action->add('test', array($this, 'testActionCallback'));
+        $this->action->add('test2', array($this, 'testActionCallback'));
+        $this->action->filter('test', array($this, 'testFilterCallback'));
+        $this->assertEquals(count($this->action->getActions()), 2);
+        $this->assertEquals($this->action->getAction('test'), 'this is a simple action callback function');
+        $this->assertEquals(count($this->action->getFilters()), 1);
+        $this->assertEquals($this->action->getFilter('test'), 'this is a simple filter callback function');
+    }
+
+    public function testActionCallback()
+    {
+        return 'this is a simple action callback function';
+    }
+
+    public function testFilterCallback()
+    {
+        return 'this is a simple filter callback function';
+    }
+
+    public function testFailureAjaxProcessData()
+    {
+        $nonce = wp_create_nonce('non_valid_nonce_action');
+        $_POST['data'] = 'company-name=EFramework&company-email=assistenza@easy-grafica.com&company-telephone=800800800&company-mobile=32900000000&company-fax=400400400&company-address=Dawning Street, 12&action=general&general_nonce_field='.$nonce;
+        $this->assertEquals($this->ajax->handle(), 'Nonce is invalid');
+    }
+
+    public function testSuccessfulAjaxProcessData()
+    {
+        $nonce = wp_create_nonce('general_nonce_action');
+        $_POST['data'] = 'company-name=EFramework&company-email=assistenza@easy-grafica.com&company-telephone=800800800&company-mobile=32900000000&company-fax=400400400&company-address=Dawning Street, 12&action=general&general_nonce_field='.$nonce;
+        $handle = $this->ajax->handle();
+
+        $this->assertEquals(count($this->ajax->getData()), 6);
+        $this->assertEquals($this->ajax->getData()['company-name'], 'EFramework');
+        $this->assertTrue($handle);
+    }
+
+    public function testCreationOfANavbar()
+    {
+        $this->nav->create('primary', 'Primary Navigation', 'website primary navigation menu.');
+
+        $this->assertTrue($this->nav->exists('primary'));
     }
 }

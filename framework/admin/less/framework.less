@@ -29,6 +29,8 @@ html,body {
 /* close commented backslash hack */
 
 .framework {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
   background: @white;
   margin: 20px 20px 20px 0;
   display: table;
@@ -139,6 +141,12 @@ html,body {
           &:hover, &:focus {
             background: fade(@white,10%);
             .box-shadow(none);
+            color: fade(@white,80%);
+
+            i {
+              background: fade(@grey3,40%);
+              color: fade(@white,80%);
+            }
           }
 
           &.active {
@@ -151,22 +159,26 @@ html,body {
 
             i {
               background: @green2;
+              color: @white;
             }
           }
 
           i {
-            font-size: 16px;
+            font-size: 14px;
             margin-right: 5px;
             width: 24px;
             height: 24px;
-            background: @green1;
-            color: @white;
+            background: @grey2;
+            color: fade(@white,50%);
             text-align: center;
             line-height: 24px;
             .border-radius(500px);
           }
 
           span {
+            font-weight: 700;
+            text-transform: uppercase;
+
             .screen-sm-max({
               display: none;
             });
@@ -193,7 +205,7 @@ html,body {
       color: @white;
       padding: 15px;
       margin: 0;
-      font-weight: normal;
+      font-weight: 700;
     }
 
     .panel-content {
@@ -268,7 +280,8 @@ html,body {
             border: 1px solid @grey4;
 
             &:hover, &:focus {
-            border: 1px solid @grey2;
+              .box-shadow(none);
+              border: 1px solid @grey2;
             }
 
             .screen-xs({
@@ -341,7 +354,7 @@ html,body {
           .ef-editor {
             border: 1px solid @grey4;
             width: 80%;
-            height: 400px;
+            height: 350px;
 
             .screen-sm({
               width: 100%;
@@ -350,6 +363,81 @@ html,body {
             .screen-xs({
               width: 100%;
             });
+          }
+
+          .wp-editor-wrapper {
+
+            .tinymce-enabled, .mce-menubar {
+              display:none;
+            }
+
+            div.mce-edit-area {
+              min-height: 300px;
+              font-size: 14px;
+            }
+          }
+
+          .ef-slide {
+            padding: 10px;
+            background: @grey5;
+            margin-bottom: 10px;
+            border: 1px solid @grey4;
+            position: relative;
+            display: table;
+            cursor: move;
+
+            .ef-slide-delete {
+              cursor: pointer;
+              position: absolute;
+              top: -10px;
+              right: -10px;
+              background: @grey4;
+              color: @white;
+              height: 20px;
+              width: 20px;
+              text-align: center;
+              padding: 3px;
+              .border-radius(500px);
+
+              &:hover, &:focus {
+                background: @grey2;
+              }
+            }
+
+            .ef-slide-img {
+              background: @white;
+              border: 1px dashed @grey4;
+              display: table-cell;
+              vertical-align: top;
+              width: 75px;
+              height: 75px;
+              text-align: center;
+              line-height: 75px;
+              color: @grey4;
+              font-weight: 700;
+            }
+
+            .ef-slide-text {
+              display: table-cell;
+              vertical-align: top;
+              padding-left: 10px;
+
+              h4 {
+                margin: 0 0 5px 0;
+                padding: 0;
+                font-weight: 700;
+              }
+
+              .description {
+                color: @grey3;
+                font-style: italic;
+                display: block;
+              }
+            }
+
+            &:last-child {
+              margin-bottom: 0;
+            }
           }
         }
       }
@@ -389,7 +477,7 @@ html,body {
         }
 
         &.btn-upload {
-          background: @grey1;
+          background: @grey3;
           color: @white;
           margin-right: 10px;
 

@@ -3,7 +3,7 @@
 namespace Framework\Framework\WP\Admin;
 
 /**
- * This class handles admin pages and options in WP panel.
+ * This class handles admin pages, options and sidebars in WP panel.
  *
  * @author Mauro Cassani <assistenza@easy-grafica.com>
  */
@@ -20,7 +20,14 @@ class Admin
     private $pages = array();
 
     /**
+     * @var array
+     */
+    private $sidebars = array();
+
+    /**
      * Admin constructor.
+     *
+     * Load all the WP options.
      */
     public function __construct()
     {
@@ -32,11 +39,14 @@ class Admin
      *
      * @param $option
      * @param $value
+     *
+     * @return bool
      */
     public function setOption($option, $value)
     {
-        update_option($option, $value, true);
         $this->options[$option] = $value;
+
+        return update_option($option, $value, true);
     }
 
     /**
@@ -48,9 +58,19 @@ class Admin
      */
     public function getOption($option)
     {
-        get_option($option);
-
         return $this->options[$option];
+    }
+
+    /**
+     * Checks if exists an option.
+     *
+     * @param $option
+     *
+     * @return bool
+     */
+    public function hasOption($option)
+    {
+        return (@$this->options[$option]) ? true : false;
     }
 
     /**
@@ -99,5 +119,65 @@ class Admin
     public function getCountPages()
     {
         return count($this->pages);
+    }
+
+    /**
+     * Register a sidebar.
+     *
+     * @param $name
+     * @param $id
+     * @param null $description
+     * @param null $before_title
+     * @param null $after_title
+     * @param null $before_widget
+     * @param null $after_widget
+     */
+    public function addSidebar($name, $id, $description = null, $before_title = null, $after_title = null, $before_widget = null, $after_widget = null)
+    {
+        $sidebar = register_sidebar(array(
+            'name' => __($name),
+            'id' => $id,
+            'description' => __($description),
+            'before_title' => $before_title,
+            'after_title' => $after_title,
+            'before_widget' => $before_widget,
+            'after_widget' => $after_widget,
+        ));
+
+        $this->sidebars[$id] = $sidebar;
+    }
+
+    /**
+     * Returns a sidebar.
+     *
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function getSidebar($id)
+    {
+        return $this->sidebars[$id];
+    }
+
+    /**
+     * Returns if a sidebar contains a widget.
+     *
+     * @param $id
+     *
+     * @return bool
+     */
+    public function isActiveSidebar($id)
+    {
+        return is_active_sidebar($id);
+    }
+
+    /**
+     * Returns the count of sidebars.
+     *
+     * @return int
+     */
+    public function getCountSidebars()
+    {
+        return count($this->sidebars);
     }
 }

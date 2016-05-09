@@ -44,6 +44,11 @@ class BaseForm
     protected $name;
 
     /**
+     * @var string
+     */
+    protected $output;
+
+    /**
      * BaseForm constructor.
      *
      * @param string $action
@@ -93,12 +98,7 @@ class BaseForm
         $this->token = null;
     }
 
-    /**
-     * Renders the form.
-     *
-     * @return string
-     */
-    public function render()
+    public function setOutput()
     {
         $output = sprintf('<form action="%s" method="%s" name="%s" %s>', $this->action, $this->method, $this->name, $this->files);
         foreach ($this->elements as $element) {
@@ -108,7 +108,19 @@ class BaseForm
         $output .= ($this->token) ? sprintf('<input type="hidden" name="token" value="%s">', $this->token) : '';
         $output .= '</form>';
 
-        return $output;
+        $this->output = $output;
+
+        return $this;
+    }
+
+    public function getOutput()
+    {
+        return $this->output;
+    }
+
+    public function render()
+    {
+        echo $this->output;
     }
 
     /**
