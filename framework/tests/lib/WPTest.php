@@ -58,6 +58,12 @@ class WPTest extends \PHPUnit_Framework_TestCase
                 'isbn' => 'text',
                 'rating' => 'text',
                 'review' => 'textarea', )));
+        $this->cpt->setColumns(array(
+            'ISBN code' => 'isbn',
+            'Rating' => 'rating'
+        ));
+        
+        $this->assertEquals(3, $this->cpt->getColumnsCount());
         $this->assertTrue($this->cpt->register());
     }
 
@@ -89,11 +95,8 @@ class WPTest extends \PHPUnit_Framework_TestCase
     public function testCreateSomeActions()
     {
         $this->action->add('test', array($this, 'testActionCallback'));
-        $this->action->add('test2', array($this, 'testActionCallback'));
         $this->action->filter('test', array($this, 'testFilterCallback'));
-        $this->assertEquals(count($this->action->getActions()), 2);
         $this->assertEquals($this->action->getAction('test'), 'this is a simple action callback function');
-        $this->assertEquals(count($this->action->getFilters()), 1);
         $this->assertEquals($this->action->getFilter('test'), 'this is a simple filter callback function');
     }
 

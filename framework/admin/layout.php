@@ -30,9 +30,15 @@
                 </a>
             </li>
             <li>
-                <a href="#" data-target="#panel-3">
+                <a href="#" data-target="#blog">
                     <i class="fa fa-newspaper-o"></i>
                     <span>Blog layout</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" data-target="#mail">
+                    <i class="fa fa-envelope"></i>
+                    <span>Mail settings</span>
                 </a>
             </li>
             <li>
@@ -54,6 +60,7 @@
         <?php include '_colors.php'; ?>
         <?php include '_slider.php'; ?>
         <?php include '_blog.php'; ?>
+        <?php include '_mail.settings.php'; ?>
         <?php include '_css.php'; ?>
         <?php include '_social.php'; ?>
     </div>

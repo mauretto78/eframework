@@ -2,6 +2,9 @@
 
 namespace Framework\Framework\WP\PostType;
 
+use Framework\Framework\WP\Action;
+use Framework\Framework\WP\Path;
+
 /**
  * This class creates new custom post types.
  *
@@ -24,6 +27,16 @@ class PostType
     public $args = array();
 
     /**
+     * @var \Framework\Framework\Singleton
+     */
+    public $action;
+
+    /**
+     * @var array
+     */
+    public $columns = array();
+
+    /**
      * Sets default values, registers the passed post type, and
      * listens for when the post is saved.
      *
@@ -32,14 +45,26 @@ class PostType
     public function __construct($name)
     {
         $this->name = strtolower($name);
+        $this->action = Action::getInstance();
         $this->register();
     }
 
+    /**
+     * Sets an attribute.
+     *
+     * @param $key
+     * @param $value
+     */
     public function setAttribute($key, $value)
     {
         $this->args[$key] = $value;
     }
 
+    /**
+     * Adds a metabox.
+     *
+     * @param MetaBox $metabox
+     */
     public function addMetaBox(MetaBox $metabox)
     {
         return $metabox->createBoxFor($this->name);
@@ -67,7 +92,7 @@ class PostType
         $taxonomyName = ucwords($taxonomyName);
 
         // At WordPress' init, register the taxonomy
-        add_action('init',
+        $this->action->add('init',
             function () use ($taxonomyName, $plural, $post_type_name, $options, $sharedPostTypeArray) {
                 // Override defaults with user provided options
 
@@ -91,15 +116,23 @@ class PostType
             });
     }
 
+    /**
+     * Calls registerPostType function.
+     *
+     * @return bool
+     */
     public function register()
     {
-        if (!add_action('init', array($this, 'registerPostType'))) {
+        if (!$this->action->add('init', array($this, 'registerPostType'))) {
             return false;
         }
 
         return true;
     }
 
+    /**
+     * Registers the post type.
+     */
     public function registerPostType()
     {
         $n = ucwords($this->name);
@@ -141,5 +174,90 @@ class PostType
         $args = array_merge($args, $this->args);
 
         register_post_type($this->name, $args);
+    }
+
+    /**
+     * Sets a column.
+     * 
+     * @param $key
+     * @param $value
+     */
+    public function setColumn($key, $value)
+    {
+        $this->columns[$key] = $value;
+    }
+
+    /**
+     * Gets a column.
+     * 
+     * @param $key
+     * @return mixed
+     */
+    public function getColumn($key)
+    {
+        return $this->columns[$key];
+    }
+
+    /**
+     * Returns the column count.
+     * 
+     * @return mixed
+     */
+    public function getColumnsCount()
+    {
+        return count($this->columns);
+    }
+
+    /**
+     * Sets the column to display in post list.
+     *
+     * @param array $cols
+     */
+    public function setColumns($cols = array())
+    {
+        $this->action->filter('manage_edit-'.$this->name.'_columns', function($columns) use ($cols) {
+            $columns[$this->name.'_thumbnail'] = 'Thumbnail';
+            foreach($cols as $key => $value){
+                $columns[$this->name.'_'.$key] = $key;
+            }
+
+            return $columns;
+        });
+
+        // set $this->columns
+        $this->setColumn($this->name.'_thumbnail', 'Thumbnail');
+        foreach($cols as $key => $value){
+            $this->setColumn($this->name.'_'.$key, $value);
+        }
+        
+        $this->_setColumnsContent();
+    }
+
+    private function _setColumnsContent()
+    {
+        add_image_size('admin-list-thumb', 100, 100, false);
+
+        $this->action->add('manage_posts_custom_column', function($name) {
+            global $post;
+
+            if($name == $this->name.'_thumbnail') {
+                if (has_post_thumbnail($post->ID)) {
+                    echo the_post_thumbnail('admin-list-thumb');
+                } else {
+                    echo 'no image uploaded.';
+                }
+            }
+
+            foreach($this->columns as $key => $value){
+                if($name == $key){
+                    if(is_array($value)){
+                        call_user_func($value['callback']);
+                    } else {
+                        $views = get_post_meta($post->ID, $value, true);
+                        echo $views;
+                    }
+                }
+            }
+        });
     }
 }
