@@ -1,7 +1,7 @@
 <?php use Framework\Framework\WP\Path;
 
 ?>
-
+<div id="messages"></div>
 <div class="framework clearfix">
     <div class="left">
         <div class="logo-wrapper clearfix">

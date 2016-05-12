@@ -178,7 +178,7 @@ class PostType
 
     /**
      * Sets a column.
-     * 
+     *
      * @param $key
      * @param $value
      */
@@ -189,7 +189,7 @@ class PostType
 
     /**
      * Gets a column.
-     * 
+     *
      * @param $key
      * @return mixed
      */
@@ -233,6 +233,9 @@ class PostType
         $this->_setColumnsContent();
     }
 
+    /**
+     * Sets the column content from $this->columns array.
+     */
     private function _setColumnsContent()
     {
         add_image_size('admin-list-thumb', 100, 100, false);

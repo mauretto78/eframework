@@ -4,6 +4,7 @@ jQuery(function($) {
      * Instantiate mediaUploader.
      */
     var btn = $('.btn-upload'),
+        deleteFile = $('.delete-file'),
         mediaUploader = wp.media.frames.file_frame = wp.media({
             title: 'Choose a file',
             button: {
@@ -24,16 +25,15 @@ jQuery(function($) {
             attachment = mediaUploader.state().get('selection').first().toJSON();
 
             var fileType = attachment.type,
-                fileName = attachment.filename,
                 fileUrl = attachment.url;
 
             $this.prev().val(fileUrl);
 
             if(fileType == 'image'){
-                $this.next().html('<div class="thumbnail" style="background-image: url(\''+fileUrl+'\');"><span title="delete this image" class="thumbnail-delete"><i class="fa fa-times"></i></span></div>');
+                $this.next().html('<div class="thumbnail" style="background-image: url(\''+fileUrl+'\');"><span title="delete this image" class="thumbnail-delete delete-file"><i class="fa fa-times"></i></span></div>');
                 $this.addClass('margin-top-15');
             } else {
-                $this.next().text(fileUrl);
+                $this.next().html(fileUrl+' <br><a href="#" class="delete-file">Delete this file</a>');
             }
 
         });
@@ -43,6 +43,21 @@ jQuery(function($) {
             mediaUploader.open();
             return;
         }
+
+        e.preventDefault();
+    });
+
+    /**
+     * Delete file by clicking delete button.
+     */
+    $('.upload-file-path').delegate(deleteFile, "click", function(e) {
+
+        var $this = $(this),
+            group = $this.parents('.ef-group');
+
+        $this.prev().removeClass('margin-top-15');
+        $this.html('');
+        group.find('.upload-value').val('');
 
         e.preventDefault();
     });

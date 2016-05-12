@@ -60,9 +60,9 @@ class Media extends FormElementAbstract
     private function _renderFile($path)
     {
         if ($this->_isImage($path)) {
-            $output = '<div class="thumbnail" style="background-image: url(\''.$path.'\');"><span title="delete this image" class="thumbnail-delete"><i class="fa fa-times"></i></span></div>';
+            $output = '<div class="thumbnail" style="background-image: url(\''.$path.'\');"><span title="delete this image" class="thumbnail-delete delete-file"><i class="fa fa-times"></i></span></div>';
         } else {
-            $output = '<a class="uploaded-file" href="'.$path.'" target="_blank">'.$path.'</a>';
+            $output = '<span class="uploaded-file" href="'.$path.'" target="_blank">'.$path.'</span> <br><a href="#" class="delete-file">Delete this file</a>';
         }
 
         return $output;

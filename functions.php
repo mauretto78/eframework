@@ -2,21 +2,69 @@
 // Load Eframework Kernel
 require 'framework/bootstrap.php';
 
-use Framework\Framework\WP\Admin\Admin;
 use Framework\Framework\WP\Admin\AdminPage;
-use Framework\Framework\WP\Enqueuer;
 use Framework\Framework\WP\Path;
+use Framework\Framework\WP\Action;
+use Framework\Framework\WP\Ajax;
+use Framework\Framework\WP\PostType\PostType;
 
-// enqueue styles
-$e = new Enqueuer();
+// CPT
+$cpt = new PostType('portfolio');
+$cpt->setColumns(array(
+    'Column 1' => 'val1',
+    'Column 2' => 'val2',
+    'Column 3' => 'val3',
+    'Column 4' => 'val4',
+    'Column 5' => array('callback'=>'testf')
+));
+
+function testf(){
+    echo "cavolo!!!!";
+}
+
+// Nav menu
+$nav = $app->container->get('Nav');
+$nav->create('primary', 'Primary Navigation', 'website primary navigation menu.');
+
+// Enqueue styles
+$google_fonts_args = array(
+    'family' => 'Lato:400,700',
+    'subset' => 'latin,latin-ext',
+);
+$e = $app->container->get('Enqueuer');
 $e->addAdminStyle('font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css', array(), '4.6.1', 'all');
+$e->addAdminStyle('google_fonts', add_query_arg( $google_fonts_args, "//fonts.googleapis.com/css" ), array(), null);
 $e->addAdminStyle('framework-style', Path::template('/framework/admin/css/framework.css'), array(), '1.0.0', 'all');
 $e->addAdminScript('media-upload-js', Path::template('/framework/admin/js/admin-media-upload.js'), array('jquery'), '1.0.0', true);
 $e->addAdminScript('ace-editor-js', Path::template('/framework/admin/assets/ace/src/ace.js'), array('jquery'), '1.0.0', true);
 $e->addAdminScript('jscolor', Path::template('/framework/admin/assets/jscolor/jscolor.min.js'), array('jquery'), '1.0.0', true);
+$e->addAdminScript('ajax-process-js', Path::template('/framework/admin/ajax/ajax-process.js'), array('jquery'), null, true);
+$e->addAdminScript('media-upload-js', Path::template('/framework/admin/js/admin-media-upload.js'), array('jquery'), '1.0.0', true);
 $e->addAdminScript('framework-js', Path::template('/framework/admin/js/framework.js'), array('jquery'), '1.0.0', true);
 $e->enqueue();
 
-// admin pages
-$admin = new Admin();
-$admin->addPage(new AdminPage('eframework','E-Framework','edit_themes','layout.php'));
+// Admin pages
+$admin = $app->container->get('Admin');
+$admin->addPage(new AdminPage('eframework', 'E-Framework', 'edit_themes', 'layout.php'));
+
+// Admin ajax handle request
+function pw_load_scripts() {
+    wp_localize_script('ajax-process-js', 'AjaxProcess', array(
+        'ajaxurl' => Path::admin('admin-ajax.php'),
+        'success' => 'Data successfully saved.',
+        'error' => 'Error saving data.',
+    ));
+}
+
+function process_general()
+{
+    $ajax = new Ajax('general');
+    $ajax->handle();
+}
+
+$action = Action::getInstance();
+$action->add('wp_ajax_general', 'process_general');
+$action->add('admin_enqueue_scripts', 'pw_load_scripts');
+
+
+

@@ -98,7 +98,7 @@ class Enqueuer
     {
         return $this->frontEndFiles;
     }
-
+    
     /**
      * Enqueue the loaders.
      */
