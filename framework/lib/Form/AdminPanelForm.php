@@ -78,8 +78,7 @@ class AdminPanelForm extends BaseForm implements FormDecorator
     private function _renderButtons()
     {
         $output = '<div class="ef-buttons">';
-        $output .= '<button type="submit" class="btn btn-lg btn-save"><i id="loading-spinner" class="fa fa-circle-o-notch fa-spin hidden"></i> <span>Save</span></button>';
-        $output .= '<a class="btn btn-lg btn-reset"><span>Reset</span></a>';
+        $output .= '<button type="submit" class="btn btn-lg btn-save"><i class="fa fa-circle-o-notch fa-spin loading-spinner hidden"></i> <span>Save data</span></button>';
         $output .= '</div>';
 
         return $output;

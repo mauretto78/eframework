@@ -7,7 +7,9 @@ jQuery(document).ready(function($){
         toggleBtn = $('.toggle-btn'),
         navigation = $('.navigation'),
         panel = $('.panel'),
-        aceExists = $('.ace-textarea').length;
+        aceExists = $('.ace-textarea').length,
+        addSlide = $('.add-slide'),
+        sliderSortable = $('#ef-slider-sortable');
 
     /**
      * Panel tabs.
@@ -74,8 +76,35 @@ jQuery(document).ready(function($){
     })
     
     /**
-     * JQuery UI sortable.
+     * Append slides and sort with JQuery UI sortable.
      */
-    $('#ef-slider-sortable').sortable();
+    addSlide.on('click', function(e){
+
+        var template = '<div id="slide-1" class="ef-slide clearfix">';
+        template += '<div class="ef-slide-delete"><i class="fa fa-close"></i></div>';
+        template += '<input type="hidden" class="ef-slide-img-value">';
+        template += '<div class="ef-slide-img"><a class="media-upload">upload</a></div>';
+        template += '<div class="ef-slide-text">';
+        template += '<input type="text" class="ef-slide-input" placeholder="title here">';
+        template += '<textarea rows="4" class="ef-slide-textarea" placeholder="caption here"></textarea>';
+        template += '<input type="text" class="ef-slide-link" placeholder="link here">';
+        template += '</div>';
+
+        sliderSortable.append(template);
+
+        e.preventDefault();
+    });
+
+    sliderSortable.on("click", ".ef-slide-delete", function(e) {
+
+        var $this = $(this),
+            slide = $this.parents('.ef-slide');
+
+        slide.remove();
+
+        e.preventDefault();
+    });
+
+    sliderSortable.sortable();
 
 });

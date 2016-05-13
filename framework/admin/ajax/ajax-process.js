@@ -4,7 +4,7 @@ jQuery(document).ready(function($){
      * Declaration of some variables.
      */
     var messages = $('#messages'),
-        loadingSpinner = $('#loading-spinner');
+        loadingSpinner = $('.loading-spinner');
 
     /**
      * AJAX form submit.

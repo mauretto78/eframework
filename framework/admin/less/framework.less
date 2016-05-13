@@ -261,6 +261,22 @@ html,body {
 
         .ef-control {
 
+          .slide-controls {
+            margin: 10px 0 20px 0;
+
+            a {
+
+              border: 1px solid @green1;
+              padding: 8px 16px;
+              .border-radius(100px);
+
+              &:hover {
+                color: @grey2;
+                border: 1px solid @grey2;
+              }
+            }
+          }
+
           .screen-lg-min({
             width: 800px;
             display: table-cell;
@@ -412,7 +428,6 @@ html,body {
             .ef-slide-img {
               background: @white;
               border: 1px dashed @grey4;
-              display: table-cell;
               vertical-align: top;
               width: 75px;
               height: 75px;
@@ -420,12 +435,50 @@ html,body {
               line-height: 75px;
               color: @grey4;
               font-weight: 700;
+
+              &:hover {
+                cursor: pointer;
+                border: 1px dashed @grey3;
+              }
+
+              .thumbnail {
+                background-size: cover;
+
+                .thumbnail-delete {
+                  display: inline-block;
+                  opacity: 0;
+                  background-color: rgba(255,255,255,.7);
+                  color: @grey2;
+                  width: 30px;
+                  height: 30px;
+                  text-align: center;
+                  line-height: 30px;
+                  .border-radius(100px);
+                }
+
+                &:hover {
+
+                  .thumbnail-delete {
+                    opacity: 1;
+                  }
+                }
+              }
             }
 
             .ef-slide-text {
               display: table-cell;
               vertical-align: top;
               padding-left: 10px;
+
+              .ef-slide-input, .ef-slide-textarea {
+                margin: 0 0 5px 0;
+                width: 100%;
+              }
+
+              .ef-slide-link {
+                margin: 0;
+                width: 100%;
+              }
 
               h4 {
                 margin: 0 0 5px 0;

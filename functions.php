@@ -56,15 +56,18 @@ function pw_load_scripts() {
     ));
 }
 
-function process_general()
+function process($section)
 {
-    $ajax = new Ajax('general');
+    $ajax = new Ajax($section);
     $ajax->handle();
 }
 
 $action = Action::getInstance();
-$action->add('wp_ajax_general', 'process_general');
 $action->add('admin_enqueue_scripts', 'pw_load_scripts');
-
-
-
+$action->add('wp_ajax_general', call_user_func_array('process', array('section'=>'general')));
+$action->add('wp_ajax_colors', call_user_func_array('process', array('section'=>'colors')));
+$action->add('wp_ajax_slider', call_user_func_array('process', array('section'=>'slider')));
+$action->add('wp_ajax_blog', call_user_func_array('process', array('section'=>'blog')));
+$action->add('wp_ajax_mail_settings', call_user_func_array('process', array('section'=>'mail_settings')));
+$action->add('wp_ajax_css', call_user_func_array('process', array('section'=>'css')));
+$action->add('wp_ajax_social', call_user_func_array('process', array('section'=>'social')));

@@ -44,7 +44,7 @@ class Media extends FormElementAbstract
         if ($this->_isImage($this->getDefault())) {
             $class .= ' margin-top-15';
         }
-        $output .= "<a class='btn btn-upload{$class}'><i class='fa fa-upload'></i> Upload</a>";
+        $output .= "<a class='btn btn-upload media-upload{$class}'><i class='fa fa-upload'></i> Upload</a>";
         $output .= "<span class='upload-file-path'>";
         $output .= ($this->getDefault()) ? $this->_renderFile($this->getDefault()) : '';
         $output .= '</span>';

@@ -261,6 +261,23 @@ body {
   font-style: italic;
   color: #999;
 }
+.framework .right .panel-content .ef-group .ef-control .slide-controls {
+  margin: 10px 0 20px 0;
+}
+.framework .right .panel-content .ef-group .ef-control .slide-controls a {
+  border: 1px solid #00ac71;
+  padding: 8px 16px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.framework .right .panel-content .ef-group .ef-control .slide-controls a:hover {
+  color: #434343;
+  border: 1px solid #434343;
+}
 @media (min-width: 1200px) {
   .framework .right .panel-content .ef-group .ef-control {
     width: 800px;
@@ -431,7 +448,6 @@ body {
 .framework .right .panel-content .ef-group .ef-control .ef-slide .ef-slide-img {
   background: #fff;
   border: 1px dashed #ddd;
-  display: table-cell;
   vertical-align: top;
   width: 75px;
   height: 75px;
@@ -440,10 +456,45 @@ body {
   color: #ddd;
   font-weight: 700;
 }
+.framework .right .panel-content .ef-group .ef-control .ef-slide .ef-slide-img:hover {
+  cursor: pointer;
+  border: 1px dashed #999;
+}
+.framework .right .panel-content .ef-group .ef-control .ef-slide .ef-slide-img .thumbnail {
+  background-size: cover;
+}
+.framework .right .panel-content .ef-group .ef-control .ef-slide .ef-slide-img .thumbnail .thumbnail-delete {
+  display: inline-block;
+  opacity: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: #434343;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.framework .right .panel-content .ef-group .ef-control .ef-slide .ef-slide-img .thumbnail:hover .thumbnail-delete {
+  opacity: 1;
+}
 .framework .right .panel-content .ef-group .ef-control .ef-slide .ef-slide-text {
   display: table-cell;
   vertical-align: top;
   padding-left: 10px;
+}
+.framework .right .panel-content .ef-group .ef-control .ef-slide .ef-slide-text .ef-slide-input,
+.framework .right .panel-content .ef-group .ef-control .ef-slide .ef-slide-text .ef-slide-textarea {
+  margin: 0 0 5px 0;
+  width: 100%;
+}
+.framework .right .panel-content .ef-group .ef-control .ef-slide .ef-slide-text .ef-slide-link {
+  margin: 0;
+  width: 100%;
 }
 .framework .right .panel-content .ef-group .ef-control .ef-slide .ef-slide-text h4 {
   margin: 0 0 5px 0;
