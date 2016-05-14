@@ -30,19 +30,20 @@ class Parameters
      * Gets the param.
      *
      * @param $param
+     *
      * @return mixed
      */
     public static function get($param)
     {
-        if(self::_existOption($param)) {
+        if (self::_existOption($param)) {
             $value = self::getAdmin()->getOption($param);
         } else {
-            $config = include(__DIR__.'/../config/parameters.php');
+            $config = include __DIR__.'/../config/parameters.php';
             $value = @$config[$param];
         }
 
-        if($value === null){
-            throw new \Exception('No param was found for the key '. $param);
+        if ($value === null) {
+            throw new \Exception('No param was found for the key '.$param);
         }
 
         return $value;
@@ -52,6 +53,7 @@ class Parameters
      * Checks if a param exists in Admin options.
      *
      * @param $param
+     *
      * @return bool
      */
     private static function _existOption($param)

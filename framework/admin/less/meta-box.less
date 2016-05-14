@@ -1,0 +1,92 @@
+@import "variables.less";
+@import "screen.less";
+@import "colors.less";
+
+.media-meta-box {
+
+  border: 1px dashed @grey4;
+  background: @grey5;
+  padding: 15px;
+  margin-bottom: 2em;
+
+  .btn {
+    cursor: pointer;
+    padding: 10px 30px;
+    text-align: center;
+    border:none;
+    font-size: 16px;
+
+    &.btn-save {
+      background: @green1;
+      color: @white;
+      margin-right: 10px;
+
+      &:hover, &:focus {
+        background: @green2;
+      }
+    }
+
+    &.btn-reset {
+      background: @grey4;
+      color: @grey3;
+
+      &:hover, &:focus {
+        background: @grey5;
+      }
+    }
+
+    &.btn-upload {
+      background: @grey3;
+      color: @white;
+      display: inline-block;
+
+      &:hover, &:focus {
+        background: @grey2;
+      }
+    }
+  }
+
+  .upload-file-path {
+    font-style: italic;
+    display: block;
+
+    .uploaded-file {
+      display: inline-block;
+      margin-top: 15px;
+    }
+
+    .thumbnail {
+      position: relative;
+      display: inline-block;
+      margin-top: 15px;
+      border: 1px solid @grey4;
+      padding: 3px;
+      background-size: cover;
+      background-position: center center;
+      height: 65px;
+      width: 65px;
+
+      &:hover, &:focus {
+        border: 1px solid @grey2;
+      }
+
+      .thumbnail-delete {
+        cursor: pointer;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background: @grey4;
+        color: @white;
+        height: 20px;
+        width: 20px;
+        text-align: center;
+        padding: 3px;
+        .border-radius(500px);
+
+        &:hover, &:focus {
+          background: @grey2;
+        }
+      }
+    }
+  }
+}

@@ -27,11 +27,11 @@ jQuery(document).ready(function($){
             url: AjaxProcess.ajaxurl,
             success: function() {
                 loadingSpinner.hide();
-                showMessage('<div class="updated notice"><p>'+AjaxProcess.success+'</p></div>');
+                showMessage('<div class="updated update-nag"><p>'+AjaxProcess.success+'</p></div>');
             },
             error: function() {
                 loadingSpinner.hide();
-                showMessage('<div class="error notice"><p>'+AjaxProcess.error+'</p></div>');
+                showMessage('<div class="error update-nag"><p>'+AjaxProcess.error+'</p></div>');
             }
         });
     });

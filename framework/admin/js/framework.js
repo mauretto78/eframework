@@ -76,18 +76,18 @@ jQuery(document).ready(function($){
     })
     
     /**
-     * Append slides and sort with JQuery UI sortable.
+     * Append/remove slides and sort with JQuery UI sortable.
      */
     addSlide.on('click', function(e){
 
-        var template = '<div id="slide-1" class="ef-slide clearfix">';
+        var template = '<div class="ef-slide clearfix">';
         template += '<div class="ef-slide-delete"><i class="fa fa-close"></i></div>';
-        template += '<input type="hidden" class="ef-slide-img-value">';
+        template += '<input type="hidden" name="ef-slide-img[]" class="ef-slide-img-value">';
         template += '<div class="ef-slide-img"><a class="media-upload">upload</a></div>';
         template += '<div class="ef-slide-text">';
-        template += '<input type="text" class="ef-slide-input" placeholder="title here">';
-        template += '<textarea rows="4" class="ef-slide-textarea" placeholder="caption here"></textarea>';
-        template += '<input type="text" class="ef-slide-link" placeholder="link here">';
+        template += '<input type="text" name="ef-slide-title[]" class="ef-slide-input" placeholder="title here">';
+        template += '<textarea rows="4" name="ef-slide-caption[]" class="ef-slide-textarea" placeholder="caption here"></textarea>';
+        template += '<input type="text" name="ef-slide-link[]" class="ef-slide-link" placeholder="link here">';
         template += '</div>';
 
         sliderSortable.append(template);

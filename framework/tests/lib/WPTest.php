@@ -60,9 +60,9 @@ class WPTest extends \PHPUnit_Framework_TestCase
                 'review' => 'textarea', )));
         $this->cpt->setColumns(array(
             'ISBN code' => 'isbn',
-            'Rating' => 'rating'
+            'Rating' => 'rating',
         ));
-        
+
         $this->assertEquals(3, $this->cpt->getColumnsCount());
         $this->assertTrue($this->cpt->register());
     }

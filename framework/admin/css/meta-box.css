@@ -1,0 +1,90 @@
+/* =============================================================================
+   Screen size variables
+   ========================================================================== */
+/* =============================================================================
+   Media queries for different screen sizes
+   ========================================================================== */
+.media-meta-box {
+  border: 1px dashed #ddd;
+  background: #f1f1f1;
+  padding: 15px;
+  margin-bottom: 2em;
+}
+.media-meta-box .btn {
+  cursor: pointer;
+  padding: 10px 30px;
+  text-align: center;
+  border: none;
+  font-size: 16px;
+}
+.media-meta-box .btn.btn-save {
+  background: #00ac71;
+  color: #fff;
+  margin-right: 10px;
+}
+.media-meta-box .btn.btn-save:hover,
+.media-meta-box .btn.btn-save:focus {
+  background: #00744c;
+}
+.media-meta-box .btn.btn-reset {
+  background: #ddd;
+  color: #999;
+}
+.media-meta-box .btn.btn-reset:hover,
+.media-meta-box .btn.btn-reset:focus {
+  background: #f1f1f1;
+}
+.media-meta-box .btn.btn-upload {
+  background: #999;
+  color: #fff;
+  display: inline-block;
+}
+.media-meta-box .btn.btn-upload:hover,
+.media-meta-box .btn.btn-upload:focus {
+  background: #434343;
+}
+.media-meta-box .upload-file-path {
+  font-style: italic;
+  display: block;
+}
+.media-meta-box .upload-file-path .uploaded-file {
+  display: inline-block;
+  margin-top: 15px;
+}
+.media-meta-box .upload-file-path .thumbnail {
+  position: relative;
+  display: inline-block;
+  margin-top: 15px;
+  border: 1px solid #ddd;
+  padding: 3px;
+  background-size: cover;
+  background-position: center center;
+  height: 65px;
+  width: 65px;
+}
+.media-meta-box .upload-file-path .thumbnail:hover,
+.media-meta-box .upload-file-path .thumbnail:focus {
+  border: 1px solid #434343;
+}
+.media-meta-box .upload-file-path .thumbnail .thumbnail-delete {
+  cursor: pointer;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #ddd;
+  color: #fff;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  padding: 3px;
+  -webkit-border-radius: 500px;
+  -moz-border-radius: 500px;
+  border-radius: 500px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.media-meta-box .upload-file-path .thumbnail .thumbnail-delete:hover,
+.media-meta-box .upload-file-path .thumbnail .thumbnail-delete:focus {
+  background: #434343;
+}

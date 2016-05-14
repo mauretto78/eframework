@@ -4,7 +4,7 @@
         <?php
         $admin = new \Framework\Framework\WP\Admin\Admin();
         $adminPanel = new \Framework\Framework\Form\AdminPanelForm('slider');
-        $adminPanel->addElement(new \Framework\Framework\Form\Type\Slider('homepage_slider', $admin->getOption('homepage_slider'), false, 'Homepage Slider', 'Drag and drop homepage slider'));
+        $adminPanel->addElement(new \Framework\Framework\Form\Type\Slider('homepage_slider', 'Homepage Slider', 'Setup your homepage slider. You can sort it by drag and drop. Please notice only slides with image will be displayed.'));
         $adminPanel->setOutput();
         $adminPanel->render();
         ?>

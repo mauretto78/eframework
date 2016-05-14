@@ -31,8 +31,8 @@
             </li>
             <li>
                 <a href="#" data-target="#blog">
-                    <i class="fa fa-newspaper-o"></i>
-                    <span>Blog layout</span>
+                    <i class="fa fa-pencil"></i>
+                    <span>Blog support</span>
                 </a>
             </li>
             <li>

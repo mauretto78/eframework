@@ -1,14 +1,6 @@
 @import "variables.less";
 @import "screen.less";
-
-@white:#fff;
-@green1:#00ac71;
-@green2:#00744c;
-@grey1:#23282d;
-@grey2:#434343;
-@grey3:#999;
-@grey4:#ddd;
-@grey5:#f1f1f1;
+@import "colors.less";
 
 html,body {
   height: 100%;
@@ -470,7 +462,14 @@ html,body {
               vertical-align: top;
               padding-left: 10px;
 
-              .ef-slide-input, .ef-slide-textarea {
+              .ef-slide-input {
+                margin: 0 0 5px 0;
+                width: 100%;
+                background: url('../img/icons/pencil.png') no-repeat 97% center @white;
+                background-size: 18px;
+              }
+
+              .ef-slide-textarea {
                 margin: 0 0 5px 0;
                 width: 100%;
               }
@@ -478,6 +477,8 @@ html,body {
               .ef-slide-link {
                 margin: 0;
                 width: 100%;
+                background: url('../img/icons/link-symbol.png') no-repeat 97% center @white;
+                background-size: 18px;
               }
 
               h4 {

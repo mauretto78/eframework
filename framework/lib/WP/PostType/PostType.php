@@ -191,6 +191,7 @@ class PostType
      * Gets a column.
      *
      * @param $key
+     *
      * @return mixed
      */
     public function getColumn($key)
@@ -215,9 +216,9 @@ class PostType
      */
     public function setColumns($cols = array())
     {
-        $this->action->filter('manage_edit-'.$this->name.'_columns', function($columns) use ($cols) {
+        $this->action->filter('manage_edit-'.$this->name.'_columns', function ($columns) use ($cols) {
             $columns[$this->name.'_thumbnail'] = 'Thumbnail';
-            foreach($cols as $key => $value){
+            foreach ($cols as $key => $value) {
                 $columns[$this->name.'_'.$key] = $key;
             }
 
@@ -226,10 +227,10 @@ class PostType
 
         // set $this->columns
         $this->setColumn($this->name.'_thumbnail', 'Thumbnail');
-        foreach($cols as $key => $value){
+        foreach ($cols as $key => $value) {
             $this->setColumn($this->name.'_'.$key, $value);
         }
-        
+
         $this->_setColumnsContent();
     }
 
@@ -240,10 +241,10 @@ class PostType
     {
         add_image_size('admin-list-thumb', 100, 100, false);
 
-        $this->action->add('manage_posts_custom_column', function($name) {
+        $this->action->add('manage_posts_custom_column', function ($name) {
             global $post;
 
-            if($name == $this->name.'_thumbnail') {
+            if ($name == $this->name.'_thumbnail') {
                 if (has_post_thumbnail($post->ID)) {
                     echo the_post_thumbnail('admin-list-thumb');
                 } else {
@@ -251,9 +252,9 @@ class PostType
                 }
             }
 
-            foreach($this->columns as $key => $value){
-                if($name == $key){
-                    if(is_array($value)){
+            foreach ($this->columns as $key => $value) {
+                if ($name == $key) {
+                    if (is_array($value)) {
                         call_user_func($value['callback']);
                     } else {
                         $views = get_post_meta($post->ID, $value, true);

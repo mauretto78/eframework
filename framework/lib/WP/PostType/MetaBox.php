@@ -2,6 +2,9 @@
 
 namespace Framework\Framework\WP\PostType;
 
+use Framework\Framework\WP\Action;
+use Framework\Framework\WP\Image;
+
 /**
  * This class add meta boxes to posts.
  *
@@ -37,7 +40,7 @@ class MetaBox
      *
      * @var array
      */
-    private $formFieldsTypes = ['text', 'date', 'number', 'textarea', 'checkbox', 'selectmultiple', 'select', 'file', 'colorpicker', 'editor'];
+    private $formFieldsTypes = ['text', 'date', 'number', 'textarea', 'checkbox', 'selectmultiple', 'select', 'file', 'media', 'colorpicker', 'editor'];
 
     /**
      * MetaBox constructor.
@@ -66,9 +69,10 @@ class MetaBox
      */
     public function createBoxFor($postTypeName)
     {
+        $admin = Action::getInstance();
         $this->postTypeName = $postTypeName;
-        add_action('admin_init', array($this, 'add'));
-        add_action('save_post', array($this, 'save'));
+        $admin->add('admin_init', array($this, 'add'));
+        $admin->add('save_post', array($this, 'save'));
     }
 
     /**
@@ -267,6 +271,25 @@ class MetaBox
             }
             $output .= "<p><a rel='$file' class='delete-meta-box $post->ID' id='$idName' href='#'>Delete this file</a></p>";
         }
+
+        return $output;
+    }
+
+    /**
+     * Renders the media field input.
+     *
+     * @param $idName
+     * @param $value
+     */
+    public function renderMedia($idName, $value, $fieldType = null)
+    {
+        $output = "<div class='media-meta-box ef-group'>";
+        $output .= "<input type='hidden' class='upload-value' id='{$idName}' name='{$idName}' value='{$value}'>";
+        $output .= "<a class='btn btn-upload media-upload'><i class='fa fa-upload'></i> Upload</a>";
+        $output .= "<span class='upload-file-path'>";
+        $output .= ($value) ? Image::renderForAdminPanel($value) : '';
+        $output .= '</span>';
+        $output .= '</div>';
 
         return $output;
     }

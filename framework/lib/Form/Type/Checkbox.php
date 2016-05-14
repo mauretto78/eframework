@@ -40,7 +40,7 @@ class Checkbox extends FormElementAbstract
         $output = '';
 
         foreach ($this->getValues() as $key => $value) {
-            if (in_array($value, $this->getDefault())) {
+            if (@in_array($value, $this->getDefault())) {
                 $checked = 'checked="checked" ';
             } else {
                 $checked = '';
