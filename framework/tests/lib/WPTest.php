@@ -9,6 +9,7 @@ use Framework\Framework\WP\Admin\Admin;
 use Framework\Framework\WP\Admin\AdminPage;
 use Framework\Framework\WP\Ajax;
 use Framework\Framework\WP\Nav\Nav;
+use Framework\Framework\WP\Post;
 
 require_once __DIR__.'/../../../../../../wp-load.php'; // Load Worpdress
 
@@ -20,6 +21,7 @@ class WPTest extends \PHPUnit_Framework_TestCase
     protected $action;
     protected $ajax;
     protected $nav;
+    protected $post;
 
     public function setUp()
     {
@@ -29,6 +31,7 @@ class WPTest extends \PHPUnit_Framework_TestCase
         $this->action = Action::getInstance();
         $this->ajax = new Ajax('general');
         $this->nav = new Nav();
+        $this->post = new Post(1);
     }
 
     public function tearDown()
@@ -133,5 +136,44 @@ class WPTest extends \PHPUnit_Framework_TestCase
         $this->nav->create('primary', 'Primary Navigation', 'website primary navigation menu.');
 
         $this->assertTrue($this->nav->exists('primary'));
+    }
+
+    public function testGetDataFromAPost()
+    {
+        $post = $this->post->get();
+        $date = $this->post->getDate();
+
+        $this->assertInstanceOf('WP_Post', $post);
+        $this->assertInstanceOf('\DateTime', $date);
+        $this->assertEquals($this->post->getTitle(), 'Ciao mondo!');
+        $this->assertEquals($this->post->getCategoryCount(), 1);
+        $this->assertEquals($this->post->getTagsCount(), 1);
+    }
+
+    public function testInsertNewPostWithSomeData()
+    {
+        $p = new Post();
+        $data = array(
+            'post_title' => 'New Post',
+            'post_content' => 'Lorem ipsum dolor facium.',
+        );
+        $idNew = $p->persist($data);
+        $new = new Post($idNew);
+
+        $this->assertEquals($new->getTitle(), 'New Post');
+        $this->assertContains('<p>Lorem ipsum dolor facium.</p>', $new->getContent());
+    }
+
+    public function testUpdatePostWithSomeData()
+    {
+        $p = new Post(10);
+        $data = array(
+            'post_title' => 'Updated Post',
+            'post_content' => 'Lorem ipsum dolor facium.',
+        );
+        $p->persist($data);
+
+        $this->assertEquals($p->getTitle(), 'Updated Post');
+        $this->assertContains('<p>Lorem ipsum dolor facium.</p>', $p->getContent());
     }
 }

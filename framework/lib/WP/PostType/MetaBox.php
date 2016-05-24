@@ -69,10 +69,10 @@ class MetaBox
      */
     public function createBoxFor($postTypeName)
     {
-        $admin = Action::getInstance();
+        $action = Action::getInstance();
         $this->postTypeName = $postTypeName;
-        $admin->add('admin_init', array($this, 'add'));
-        $admin->add('save_post', array($this, 'save'));
+        $action->add('admin_init', array($this, 'add'));
+        $action->add('save_post', array($this, 'save'));
     }
 
     /**
@@ -321,8 +321,6 @@ class MetaBox
 
     /**
      * Save the meta when the post is saved.
-     *
-     * @param int $post_id The ID of the post being saved.
      */
     public function save()
     {

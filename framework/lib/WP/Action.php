@@ -51,6 +51,15 @@ class Action extends Singleton
         return add_action($tag, $callback, $priority, $accepted_args);
     }
 
+    public function remove($tag, $callback = null, $priority = 10)
+    {
+        unset($this->actions[$tag]);
+        
+        print_r ($callback);
+
+        return remove_action($tag, $callback, $priority);
+    }
+
     /**
      * Adds a WP filter.
      *
