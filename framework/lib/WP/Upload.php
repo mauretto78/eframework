@@ -2,10 +2,8 @@
 
 namespace Framework\Framework\WP;
 
-use Framework\Framework\WP\Path;
-
 /**
- * This class creates WP shortcodes.
+ * This class handles uploads using wp_handle_upload function.
  *
  * @author Mauro Cassani <assistenza@easy-grafica.com>
  */
@@ -17,7 +15,7 @@ class Upload
      * @param array $uploadedfile
      * @return mixed
      */
-    public static function handle($uploadedfile = array())
+    public static function handle($uploadedFile = array())
     {
         if (!function_exists('wp_handle_upload')) {
             require_once Path::admin('/includes/file.php');
@@ -25,11 +23,11 @@ class Upload
             require_once Path::admin('/includes/media.php');
         }
 
-        $upload_overrides = array('test_form' => false);
-        $movefile = wp_handle_upload($uploadedfile, $upload_overrides);
+        $uploadOverrides = array('test_form' => false);
+        $movefile = wp_handle_upload($uploadedFile, $uploadOverrides);
 
         if ($movefile && !isset( $movefile['error'])) {
-            return $file_url = $movefile['url'];
+            return $fileUrl = $movefile['url'];
         }
 
         return false;
