@@ -11,8 +11,6 @@ use Framework\Framework\WP\Ajax;
 use Framework\Framework\WP\Nav\Nav;
 use Framework\Framework\WP\Post;
 
-require_once __DIR__.'/../../../../../../wp-load.php'; // Load Worpdress
-
 class WPTest extends \PHPUnit_Framework_TestCase
 {
     protected $enq;
@@ -127,6 +125,7 @@ class WPTest extends \PHPUnit_Framework_TestCase
         $handle = $this->ajax->handle();
 
         $this->assertEquals(count($this->ajax->getData()), 6);
+
         $this->assertEquals($this->ajax->getData()['company-name'], 'EFramework');
         $this->assertTrue($handle);
     }

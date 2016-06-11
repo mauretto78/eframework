@@ -1,6 +1,7 @@
 <?php
 
 namespace Framework\Framework\WP;
+use Framework\Framework\Exceptions\WPException;
 
 /**
  * This class is a wrapper of WP_Post class.
@@ -88,14 +89,24 @@ class Post
     public function __construct($id = null)
     {
         if($id){
+
             $this->id = $id;
+
+            try {
+                //check if
+                if($this->get()) {
+                    //throw exception if email is not valid
+                    throw new WPException();
+                }
+            } catch (WPException $e) {
+                //display custom message
+                echo $e->noFoundPostMessage($id);
+            }
 
             foreach (get_post_meta($this->id) as $key => $value) {
                 $this->meta[$key] = $value;
             }
 
-            $this->getCat();
-            $this->getTags();
         }
     }
 
