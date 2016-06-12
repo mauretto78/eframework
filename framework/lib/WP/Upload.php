@@ -13,6 +13,7 @@ class Upload
      * Uploads a file.
      *
      * @param array $uploadedfile
+     *
      * @return mixed
      */
     public static function handle($uploadedFile = array())
@@ -26,7 +27,7 @@ class Upload
         $uploadOverrides = array('test_form' => false);
         $movefile = wp_handle_upload($uploadedFile, $uploadOverrides);
 
-        if ($movefile && !isset( $movefile['error'])) {
+        if ($movefile && !isset($movefile['error'])) {
             return $fileUrl = $movefile['url'];
         }
 

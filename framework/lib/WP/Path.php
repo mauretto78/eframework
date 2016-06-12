@@ -19,6 +19,16 @@ class Path
         return get_admin_url().$file;
     }
 
+    public static function logIn($redirect = '', $force_reauth = false)
+    {
+        return wp_login_url($redirect, $force_reauth);
+    }
+
+    public static function logOut($redirect)
+    {
+        return wp_logout_url($redirect);
+    }
+
     public static function template($file = null)
     {
         return get_template_directory_uri().$file;

@@ -1,6 +1,7 @@
 <?php
 
 namespace Framework\Framework\WP;
+
 use Framework\Framework\Exceptions\WPException;
 
 /**
@@ -31,7 +32,7 @@ class Post
      * @var string
      */
     private $content;
-    
+
     /**
      * @var string
      */
@@ -65,6 +66,11 @@ class Post
     /**
      * @var array
      */
+    private $attachments = array();
+
+    /**
+     * @var array
+     */
     private $meta = array();
 
     /**
@@ -84,41 +90,53 @@ class Post
 
     /**
      * Post constructor.
+     *
      * @param $id
      */
     public function __construct($id = null)
     {
-        if($id){
-
+        if ($id) {
             $this->id = $id;
 
             try {
-                //check if
-                if($this->get()) {
-                    //throw exception if email is not valid
+                if (!$this->exists()) {
+                    //throw exception if post does not exists
                     throw new WPException();
                 }
             } catch (WPException $e) {
-                //display custom message
                 echo $e->noFoundPostMessage($id);
             }
 
             foreach (get_post_meta($this->id) as $key => $value) {
                 $this->meta[$key] = $value;
             }
-
         }
+    }
+
+    /**
+     * Check if a post exists.
+     *
+     * @return bool
+     */
+    public function exists()
+    {
+        if (get_post($this->id)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * Automatic update/insert post.
      *
      * @param array $data
+     *
      * @return mixed
      */
     public function persist($data = array())
     {
-        if($this->id){
+        if ($this->id) {
             $data['ID'] = $this->id;
             $flush = wp_update_post($data);
         } else {
@@ -137,6 +155,16 @@ class Post
     public function get()
     {
         return $this->object = get_post($this->id);
+    }
+
+    /**
+     * Gets the ID of post.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -230,7 +258,7 @@ class Post
      */
     public function uploadThumbnail($uploadedfile = array())
     {
-        if($imageUrl = Upload::handle($uploadedfile)){
+        if ($imageUrl = Upload::handle($uploadedfile)) {
             $this->_generateThumbnail($imageUrl, $this->id);
         }
     }
@@ -239,32 +267,33 @@ class Post
      * @param $imageUrl
      * @param $postId
      */
-    private function _generateThumbnail($imageUrl, $postId){
+    private function _generateThumbnail($imageUrl, $postId)
+    {
         $upload_dir = wp_upload_dir();
         $imageData = file_get_contents($imageUrl);
         $filename = basename($imageUrl);
 
-        if(wp_mkdir_p($upload_dir['path'])){
-            $file = $upload_dir['path'] . '/' . $filename;
+        if (wp_mkdir_p($upload_dir['path'])) {
+            $file = $upload_dir['path'].'/'.$filename;
         } else {
-            $file = $upload_dir['basedir'] . '/' . $filename;
+            $file = $upload_dir['basedir'].'/'.$filename;
         }
         file_put_contents($file, $imageData);
 
-        $wp_filetype = wp_check_filetype($filename, null );
+        $wp_filetype = wp_check_filetype($filename, null);
         $attachment = array(
             'post_mime_type' => $wp_filetype['type'],
             'post_title' => sanitize_file_name($filename),
             'post_content' => '',
-            'post_status' => 'inherit'
+            'post_status' => 'inherit',
         );
-        $attachId = wp_insert_attachment( $attachment, $file, $postId );
+        $attachId = wp_insert_attachment($attachment, $file, $postId);
 
         require_once Path::admin('/includes/image.php');
-        
-        $attach_data = wp_generate_attachment_metadata( $attachId, $file );
-        wp_update_attachment_metadata( $attachId, $attach_data );
-        set_post_thumbnail( $postId, $attachId );
+
+        $attach_data = wp_generate_attachment_metadata($attachId, $file);
+        wp_update_attachment_metadata($attachId, $attach_data);
+        set_post_thumbnail($postId, $attachId);
 
         return $this->thumbnail = wp_get_attachment_url($attachId);
     }
@@ -274,7 +303,7 @@ class Post
      *
      * @return mixed
      */
-    public function getThumbnail()
+    public function getThumbnailUrl()
     {
         if (has_post_thumbnail($this->id)) {
             return $this->thumbnail = wp_get_attachment_url(get_post_thumbnail_id($this->id));
@@ -290,10 +319,10 @@ class Post
      *
      * @return mixed
      */
-    public function getThumbnailUrl()
+    public function getThumbnail()
     {
-        if ($this->getThumbnail() !== false) {
-            $url = $this->getThumbnail();
+        if ($this->getThumbnailUrl() !== false) {
+            $url = $this->getThumbnailUrl();
         } else {
             $url = Path::template('/img/default.jpg');
         }
@@ -302,10 +331,37 @@ class Post
     }
 
     /**
+     * Returns an array with the IDs of the post attachment.
+     *
+     * @return array
+     */
+    public function getAttachments()
+    {
+        $args = array(
+            'post_type' => 'attachment',
+            'post_status' => 'any',
+            'posts_per_page' => -1,
+            'post_parent' => $this->id,
+        );
+        $attachments = new Query($args);
+        $attachment_ids = array();
+
+        if ($attachments->getCount()) {
+            foreach ($attachments->run() as $a) {
+                $attachment_ids[] = $a->ID;
+            }
+            $attachments->clear();
+        }
+
+        return $this->attachments = $attachment_ids;
+    }
+
+    /**
      * Sets a value for a post meta.
      *
      * @param $key
      * @param $value
+     *
      * @return mixed
      */
     public function setMeta($key, $value)
@@ -319,6 +375,7 @@ class Post
      * Gets a post meta value.
      *
      * @param $key
+     *
      * @return mixed
      */
     public function getMeta($key)
@@ -385,7 +442,30 @@ class Post
     {
         return count($this->tags);
     }
+
+    /**
+     * Destroy a post.
+     *
+     * If $hard is true, delete all the post attachments and postmeta.
+     *
+     * @param bool $hard
+     *
+     * @return array|false|\WP_Post
+     */
+    public function destroy($hard = false)
+    {
+        if ($hard) {
+            // delete all postmeta
+            foreach ($this->getAllMeta() as $key => $value) {
+                delete_post_meta($this->id, $key, $value);
+            }
+
+            // delete all post attachments
+            foreach ($this->getAttachments() as $a) {
+                wp_delete_attachment($a->ID, true);
+            }
+        }
+
+        return wp_delete_post($this->id, true);
+    }
 }
-
-
-

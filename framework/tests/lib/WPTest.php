@@ -10,6 +10,11 @@ use Framework\Framework\WP\Admin\AdminPage;
 use Framework\Framework\WP\Ajax;
 use Framework\Framework\WP\Nav\Nav;
 use Framework\Framework\WP\Post;
+use Framework\Framework\WP\Query;
+use Framework\Framework\WP\Support;
+use Framework\Framework\WP\Breadcrumbs;
+use Framework\Framework\WP\Comments\Comments;
+use Framework\Framework\WP\Comments\BootstrapComments;
 
 class WPTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,6 +25,7 @@ class WPTest extends \PHPUnit_Framework_TestCase
     protected $ajax;
     protected $nav;
     protected $post;
+    protected $support;
 
     public function setUp()
     {
@@ -29,7 +35,7 @@ class WPTest extends \PHPUnit_Framework_TestCase
         $this->action = Action::getInstance();
         $this->ajax = new Ajax('general');
         $this->nav = new Nav();
-        $this->post = new Post(1);
+        $this->support = new Support();
     }
 
     public function tearDown()
@@ -139,18 +145,18 @@ class WPTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDataFromAPost()
     {
-        $post = $this->post->get();
-        $date = $this->post->getDate();
+        $p = new Post(1);
+        $post = $p->get();
+        $date = $p->getDate();
 
         $this->assertInstanceOf('WP_Post', $post);
         $this->assertInstanceOf('\DateTime', $date);
-        $this->assertEquals($this->post->getTitle(), 'Ciao mondo!');
-        $this->assertEquals($this->post->getCategoryCount(), 1);
-        $this->assertEquals($this->post->getTagsCount(), 1);
+        $this->assertEquals($p->getTitle(), 'Ciao mondo!');
     }
 
-    public function testInsertNewPostWithSomeData()
+    public function testInsertNewPostWithSomeDataAndThenUpdateAndFinallyHardDelete()
     {
+        // create post
         $p = new Post();
         $data = array(
             'post_title' => 'New Post',
@@ -161,18 +167,67 @@ class WPTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($new->getTitle(), 'New Post');
         $this->assertContains('<p>Lorem ipsum dolor facium.</p>', $new->getContent());
-    }
 
-    public function testUpdatePostWithSomeData()
-    {
-        $p = new Post(10);
-        $data = array(
+        // update post
+        $updatedata = array(
             'post_title' => 'Updated Post',
             'post_content' => 'Lorem ipsum dolor facium.',
         );
-        $p->persist($data);
+        $new->persist($updatedata);
 
-        $this->assertEquals($p->getTitle(), 'Updated Post');
-        $this->assertContains('<p>Lorem ipsum dolor facium.</p>', $p->getContent());
+        $this->assertEquals($new->getTitle(), 'Updated Post');
+        $this->assertContains('<p>Lorem ipsum dolor facium.</p>', $new->getContent());
+
+        // delete post
+        $new->destroy(true);
+        $this->assertFalse($new->exists());
+    }
+
+    public function testSimpleQuery()
+    {
+        $args = array(
+            'post_type' => 'page',
+            'posts_per_page' => 3,
+            'paged' => 1,
+        );
+        $q = new Query($args);
+
+        $this->assertEquals($q->getCount(), 3);
+        $this->assertContains('1', $q->paginate());
+        $this->assertContains('2', $q->paginate());
+        $this->assertContains('3', $q->paginate());
+    }
+
+    public function testThemeSupport()
+    {
+        $this->support->add('post-formats', array('aside', 'gallery'));
+        $this->support->add('post-thumbnails');
+
+        $this->assertTrue($this->support->check('post-formats'));
+        $this->assertTrue($this->support->check('post-thumbnails'));
+    }
+
+    public function testBreadcrumbsRender()
+    {
+        $b = new Breadcrumbs();
+
+        $this->assertEquals('<div class="breadcrumbs">Home</div>', $b->render());
+
+        $b->setWrapperClass('my-custom-breadcrumbs');
+        $b->setRootText('My Home');
+
+        $this->assertEquals('<div class="my-custom-breadcrumbs">My Home</div>', $b->render());
+    }
+
+    public function testCommentsList()
+    {
+        $p = new Post(1);
+        $c = new Comments($p);
+
+        $this->assertContains('<div class="comment" id="comment-', $c->renderList());
+
+        $bc = new BootstrapComments($p);
+
+        $this->assertContains('<div class="row comment" id="comment-', $bc->renderList());
     }
 }

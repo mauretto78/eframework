@@ -54,8 +54,8 @@ class Action extends Singleton
     public function remove($tag, $callback = null, $priority = 10)
     {
         unset($this->actions[$tag]);
-        
-        print_r ($callback);
+
+        print_r($callback);
 
         return remove_action($tag, $callback, $priority);
     }
