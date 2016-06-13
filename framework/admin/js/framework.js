@@ -88,6 +88,7 @@ jQuery(document).ready(function($){
         template += '<input type="text" name="ef-slide-title[]" class="ef-slide-input" placeholder="title here">';
         template += '<textarea rows="4" name="ef-slide-caption[]" class="ef-slide-textarea" placeholder="caption here"></textarea>';
         template += '<input type="text" name="ef-slide-link[]" class="ef-slide-link" placeholder="link here">';
+        template += '<select name="ef-slide-position[]" class="ef-slide-text"><option value="">Text position</option><option value="Left">Left</option><option value="Right">Right</option></select>';
         template += '</div>';
 
         sliderSortable.append(template);

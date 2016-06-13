@@ -14,14 +14,11 @@ use Framework\Framework\Form\FormElementAbstract;
 class Slider extends FormElementAbstract
 {
     /**
-     * Text constructor.
+     * Slider constructor.
      *
      * @param $name
-     * @param null $value
-     * @param null $required
      * @param null $label
      * @param null $description
-     * @param null $style
      */
     public function __construct($name, $label = null, $description = null)
     {
@@ -58,6 +55,7 @@ class Slider extends FormElementAbstract
             $admin->getOption('ef-slide-title'),
             $admin->getOption('ef-slide-caption'),
             $admin->getOption('ef-slide-link'),
+            $admin->getOption('ef-slide-position'),
         );
 
         $count = count(Serializer::unserialize($admin->getOption('ef-slide-img')));
@@ -73,6 +71,7 @@ class Slider extends FormElementAbstract
             $output .= '<input type="text" name="ef-slide-title[]" value="'.$items[1].'" class="ef-slide-input" placeholder="title here">';
             $output .= '<textarea rows="4" name="ef-slide-caption[]" class="ef-slide-textarea" placeholder="caption here">'.$items[2].'</textarea>';
             $output .= '<input type="text" name="ef-slide-link[]" value="'.$items[3].'" class="ef-slide-link" placeholder="link here">';
+            $output .= '<select name="ef-slide-position[]" class="ef-slide-select-text"><option value="">Text position</option><option value="Left" '.selected($items[4], 'Left').'>Left</option><option value="Right" '.selected($items[4], 'Right').'>Right</option></select>';
             $output .= '</div>';
             $output .= '</div>';
         }
