@@ -25,6 +25,19 @@ class ShortcodeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(do_shortcode('[test title="titolo" description="lorem ipsum" link="#"]'), '<div><span class="t">titolo</span><span class="d">lorem ipsum</span><a href="#" class="link">Read more</a></div>');
     }
 
+    public function testRenderTheShortcodeWithBlankValues()
+    {
+        $s = new Shortcode('img');
+        $s->setArgument('src');
+        $s->setArgument('w');
+        $s->setArgument('h');
+        $s->setArgument('title');
+        $s->setOutput('<img src="{src}" width="{w}" height="{h}" alt="{title}" title="{title}">');
+        $s->create();
+
+        $this->assertEquals(do_shortcode('[img src="http://www.wpclipart.com/American_History/African_A_Rights/Andrew_Young.png"]'), '<img src="http://www.wpclipart.com/American_History/African_A_Rights/Andrew_Young.png" width="" height="" alt="" title="">');
+    }
+
     public function testRenderTheShortcodeWithACallbackOutput()
     {
         $this->callback = new Shortcode('callback');

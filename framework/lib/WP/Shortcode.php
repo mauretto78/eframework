@@ -124,6 +124,7 @@ class Shortcode
             if ($content) {
                 $render = str_replace('{{content}}', do_shortcode($content), $render);
             }
+            $render = preg_replace("/{\w+}/", '', $render);
         }
 
         return $render;
