@@ -97,7 +97,9 @@ jQuery(document).ready(function($){
         e.preventDefault();
     });
 
-
+    /**
+     * delete a slide
+     */
     sliderSortable.on("click", ('.delete-file'), function(e) {
 
         var $this = $(this),
@@ -109,4 +111,5 @@ jQuery(document).ready(function($){
 
         e.preventDefault();
     });
+    
 });

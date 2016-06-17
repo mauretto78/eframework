@@ -96,6 +96,9 @@ jQuery(document).ready(function($){
         e.preventDefault();
     });
 
+    /**
+     * Removes a slide.
+     */
     sliderSortable.on("click", ".ef-slide-delete", function(e) {
 
         var $this = $(this),
@@ -106,6 +109,9 @@ jQuery(document).ready(function($){
         e.preventDefault();
     });
 
+    /**
+     * Call sortable() on slider form.
+     */
     sliderSortable.sortable();
 
 });

@@ -118,4 +118,18 @@ abstract class FormElementAbstract implements FormElementInterface
     {
         return $this->default;
     }
+
+    /**
+     * @param $present
+     * @param $value
+     * @return string
+     */
+    protected function _isSelected($present, $value)
+    {
+        if($present == $value){
+            return ' selected="selected" ';
+        }
+
+        return '';
+    }
 }

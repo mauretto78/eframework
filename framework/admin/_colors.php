@@ -5,6 +5,7 @@
         $admin = new \Framework\Framework\WP\Admin\Admin();
         $adminPanel = new \Framework\Framework\Form\AdminPanelForm('colors');
         $adminPanel->addElement(new \Framework\Framework\Form\Type\Color('general_color', $admin->getOption('general_color'), false, 'General Color', 'Choose the base color for the website.'));
+        $adminPanel->addElement(new \Framework\Framework\Form\Type\Color('background_color', $admin->getOption('background_color'), false, 'Background Color', 'Choose the background color for the website.'));
         $adminPanel->setOutput();
         $adminPanel->render();
 

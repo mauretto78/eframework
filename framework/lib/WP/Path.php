@@ -34,6 +34,10 @@ class Path
         return get_template_directory_uri().$file;
     }
 
+    public static function child($file = null){
+        return get_stylesheet_directory_uri().$file;
+    }
+
     public static function upload($file = null)
     {
         return wp_upload_dir().$file;

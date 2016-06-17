@@ -1,5 +1,6 @@
 <?php
 
+use Framework\Framework\Share;
 use Framework\Framework\WP\Enqueuer;
 use Framework\Framework\WP\PostType\PostType;
 use Framework\Framework\WP\PostType\MetaBox;
@@ -167,6 +168,10 @@ class WPTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($new->getTitle(), 'New Post');
         $this->assertContains('<p>Lorem ipsum dolor facium.</p>', $new->getContent());
+
+        $share = new Share($new->getPermalink(), $new->getTitle(), $new->getExcerpt(), $new->getThumbnailUrl());
+
+        $this->assertEquals($share->render(array('facebook')), '<a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u='.$new->getPermalink().'">Share with Facebook</a>');
 
         // update post
         $updatedata = array(

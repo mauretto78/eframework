@@ -122,9 +122,7 @@ class Ajax
     {
         foreach ($this->getData() as $key => $value) {
             if ($admin->getOption($key) !== $value) {
-                if (!$admin->setOption($key, $value)) {
-                    return false;
-                }
+                $admin->setOption($key, $value);
             }
         }
 

@@ -71,7 +71,7 @@ class Slider extends FormElementAbstract
             $output .= '<input type="text" name="ef-slide-title[]" value="'.$items[1].'" class="ef-slide-input" placeholder="title here">';
             $output .= '<textarea rows="4" name="ef-slide-caption[]" class="ef-slide-textarea" placeholder="caption here">'.$items[2].'</textarea>';
             $output .= '<input type="text" name="ef-slide-link[]" value="'.$items[3].'" class="ef-slide-link" placeholder="link here">';
-            $output .= '<select name="ef-slide-position[]" class="ef-slide-select-text"><option value="">Text position</option><option value="Left" '.selected($items[4], 'Left').'>Left</option><option value="Right" '.selected($items[4], 'Right').'>Right</option></select>';
+            $output .= '<select name="ef-slide-position[]" class="ef-slide-select-text"><option value="">Text position</option><option value="Left" '.$this->_isSelected($items[4], 'Left').'>Left</option><option value="Right" '.$this->_isSelected($items[4], 'Right').'>Right</option></select>';
             $output .= '</div>';
             $output .= '</div>';
         }
