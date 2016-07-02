@@ -50,7 +50,7 @@ class Choice extends FormElementAbstract
             if ($value and $value == $this->getDefault()) {
                 $output .= 'selected="selected" ';
             }
-            $output .= 'value="'.$value.'">'.$key.'</option>';
+            $output .= 'value="'.$key.'">'.$value.'</option>';
         }
         $output .= '</select>';
 

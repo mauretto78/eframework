@@ -20,7 +20,7 @@
             <li>
                 <a href="#" data-target="#colors">
                     <i class="fa fa-paint-brush"></i>
-                    <span>Colors</span>
+                    <span>Colors & Fonts</span>
                 </a>
             </li>
             <li>

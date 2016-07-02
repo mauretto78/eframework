@@ -63,4 +63,21 @@ class GoogleFont
             return $this->fonts = array_slice($content->items, 0, $amount);
         }
     }
+
+    /**
+     * @return array
+     */
+    public function getFontList(){
+
+        $list = array();
+
+        foreach ($this->getFonts('all') as $font){
+            foreach ($font->variants as $variant){
+                $list[$font->family. ' ' . $variant] = $font->family. ' ' . $variant;
+            }
+
+        }
+
+        return $list;
+    }
 }

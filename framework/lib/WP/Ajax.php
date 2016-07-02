@@ -120,6 +120,8 @@ class Ajax
      */
     private function _save(Admin $admin)
     {
+        var_dump($this->getData());
+        
         foreach ($this->getData() as $key => $value) {
             if ($admin->getOption($key) !== $value) {
                 $admin->setOption($key, $value);

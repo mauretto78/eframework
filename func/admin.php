@@ -4,8 +4,9 @@ use Framework\Framework\WP\Admin\AdminPage;
 use Framework\Framework\WP\Path;
 use Framework\Framework\WP\Action;
 use Framework\Framework\WP\Ajax;
+use Framework\Framework\Serializer;
 
-// Enqueue styles
+// Enqueue styles and scripts for admin panel
 $google_fonts_args = array(
     'family' => 'Lato:400,700',
     'subset' => 'latin,latin-ext',
@@ -52,7 +53,7 @@ $action->add('wp_ajax_mail_settings', call_user_func_array('process', array('sec
 $action->add('wp_ajax_css', call_user_func_array('process', array('section' => 'css')));
 $action->add('wp_ajax_social', call_user_func_array('process', array('section' => 'social')));
 
-// support
+// theme support
 $support = $app->container->get('Support');
 $support->add('post-thumbnails');
-$support->add('post-formats', array('aside', 'gallery'));
+$support->add('post-formats', Serializer::unserialize($admin->getOption('blog_support_formats')));
