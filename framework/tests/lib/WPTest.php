@@ -16,6 +16,7 @@ use Framework\Framework\WP\Support;
 use Framework\Framework\WP\Breadcrumbs;
 use Framework\Framework\WP\Comments\Comments;
 use Framework\Framework\WP\Comments\BootstrapComments;
+use Framework\Framework\WP\Theme;
 
 class WPTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,6 +28,7 @@ class WPTest extends \PHPUnit_Framework_TestCase
     protected $nav;
     protected $post;
     protected $support;
+    protected $theme;
 
     public function setUp()
     {
@@ -37,6 +39,7 @@ class WPTest extends \PHPUnit_Framework_TestCase
         $this->ajax = new Ajax('general');
         $this->nav = new Nav();
         $this->support = new Support();
+        $this->theme = new Theme();
     }
 
     public function tearDown()
@@ -54,6 +57,15 @@ class WPTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($this->enq->getAdminFiles()));
         $this->assertEquals(2, count($this->enq->getFrontendFiles()));
         $this->assertTrue($this->enq->enqueue());
+    }
+
+    public function testRetrieveSomeInformationAboutCurrentTheme()
+    {
+        $this->assertEquals(10, count($this->theme->getHeaders()));
+        $this->assertTrue(is_string($this->theme->get('name')));
+        $this->assertTrue(is_string($this->theme->get('uri')));
+        $this->assertTrue(is_string($this->theme->get('description')));
+        $this->assertFalse($this->theme->get('a-value-that-not-exists'));
     }
 
     public function testCreateSomeNewCustomPostType()
@@ -216,12 +228,12 @@ class WPTest extends \PHPUnit_Framework_TestCase
     {
         $b = new Breadcrumbs();
 
-        $this->assertEquals('<div class="breadcrumbs">Home</div>', $b->render());
+        $this->assertEquals('<div class="breadcrumbs"><a href="'.Path::home().'">Home</a></div>', $b->render());
 
         $b->setWrapperClass('my-custom-breadcrumbs');
         $b->setRootText('My Home');
 
-        $this->assertEquals('<div class="my-custom-breadcrumbs">My Home</div>', $b->render());
+        $this->assertEquals('<div class="my-custom-breadcrumbs"><a href="'.Path::home().'">My Home</a></div>', $b->render());
     }
 
     public function testCommentsList()

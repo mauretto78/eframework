@@ -41,6 +41,7 @@ class Share
 
     /**
      * Share constructor.
+     *
      * @param $url
      * @param null $text
      * @param null $source
@@ -134,7 +135,7 @@ class Share
     {
         $this->image = $image;
     }
-    
+
     /**
      * Facebook share link.
      *
@@ -153,7 +154,7 @@ class Share
     public function getTwitterLink()
     {
         $lenght = strlen($this->getUrl()) + strlen($this->getText()) + 2;
-        if($lenght>140) {
+        if ($lenght > 140) {
             return false;
         }
 
@@ -194,17 +195,18 @@ class Share
      * Render the links.
      *
      * @param array $providers
+     *
      * @return string
      */
     public function render($providers = array())
     {
         $output = '';
 
-        if(!count($providers)){
+        if (!count($providers)) {
             $providers = $this->providers;
         }
 
-        foreach ($providers as $provider){
+        foreach ($providers as $provider) {
             $method = 'get'.ucfirst($provider).'Link';
             $output .= '<a class="'.$provider.'" href="'.$this->$method().'">Share with '.ucfirst($provider).'</a>';
         }

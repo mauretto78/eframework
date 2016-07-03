@@ -2,6 +2,7 @@
 
 namespace Framework\Framework\WP;
 
+use Framework\Framework\WP\Path;
 use Framework\Framework\Exceptions\WPException;
 
 /**
@@ -85,7 +86,7 @@ class Breadcrumbs
         $this->errorText = 'Not Found';
         $this->authorText = 'Author';
         $this->showOnHomepage = false;
-        $this->setSeparator('&raquo;');
+        $this->setSeparator('<span class="separator">&raquo;</span>');
         $this->action = Action::getInstance();
     }
 
@@ -254,7 +255,7 @@ class Breadcrumbs
     private function _addCrumb($crumb)
     {
         if (strlen($crumb) > 0) {
-            return $this->separator.$crumb;
+            return $this->separator.'<span class="crumb">'.$crumb.'</span>';
         } else {
             return '';
         }
@@ -268,7 +269,7 @@ class Breadcrumbs
     public function render()
     {
         global $post;
-        $output = '<div class="'.$this->wrapperClass.'">'.$this->rootText;
+        $output = '<div class="'.$this->wrapperClass.'"><a href="'.Path::home().'">'.$this->rootText.'</a>';
         if (is_single()) {
             $output .= $this->_addCrumb(' ');
             foreach (get_the_category() as $category) {
@@ -301,6 +302,7 @@ class Breadcrumbs
             $output .= $this->_addCrumb($this->errorText);
         }
         $output .= '</div>';
+
         if ((is_home()  || is_front_page()) && !$this->showOnHomepage) {
             /* Wipe output clean */
             $output = '';

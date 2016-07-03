@@ -122,11 +122,12 @@ abstract class FormElementAbstract implements FormElementInterface
     /**
      * @param $present
      * @param $value
+     *
      * @return string
      */
     protected function _isSelected($present, $value)
     {
-        if($present == $value){
+        if ($present == $value) {
             return ' selected="selected" ';
         }
 

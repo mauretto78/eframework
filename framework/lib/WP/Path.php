@@ -34,8 +34,19 @@ class Path
         return get_template_directory_uri().$file;
     }
 
-    public static function child($file = null){
+    public static function templateDir($file = null)
+    {
+        return get_template_directory().$file;
+    }
+
+    public static function child($file = null)
+    {
         return get_stylesheet_directory_uri().$file;
+    }
+
+    public static function childDir($file = null)
+    {
+        return get_stylesheet_directory().$file;
     }
 
     public static function upload($file = null)
