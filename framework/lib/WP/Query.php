@@ -5,6 +5,7 @@
  *
  * @author Mauro Cassani <assistenza@easy-grafica.com>
  */
+
 namespace Framework\Framework\WP;
 
 class Query
@@ -15,6 +16,11 @@ class Query
     private $args = array();
 
     /**
+     * @var \WP_Query
+     */
+    private $query;
+
+    /**
      * Query constructor.
      *
      * @param array $args
@@ -22,17 +28,13 @@ class Query
      */
     public function __construct($args = array())
     {
-        $this->args = $args;
-    }
-
-    /**
-     * Runs the query.
-     *
-     * @return array|null|\WP_Post
-     */
-    public function run()
-    {
-        return get_posts($this->args);
+        if ($args) {
+            $this->args = $args;
+            $this->query = new \WP_Query($args);
+        } else {
+            global $wp_query;
+            $this->query = $wp_query;
+        }
     }
 
     /**
@@ -53,7 +55,41 @@ class Query
      */
     public function getCount()
     {
-        return count($this->run());
+        return $this->query->post_count;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxNumPages()
+    {
+        return $this->query->max_num_pages;
+    }
+
+    /**
+     * @return bool
+     */
+    public function havePosts()
+    {
+        return $this->query->have_posts();
+    }
+
+    /**
+     * Calls the_post() method.
+     */
+    public function thePost()
+    {
+        return $this->query->the_post();
+    }
+
+    /**
+     * Gets post form the query.
+     *
+     * @return mixed
+     */
+    public function getPosts()
+    {
+        return get_posts($this->args);
     }
 
     /**
@@ -65,12 +101,16 @@ class Query
     {
         $big = 999999999; // need an unlikely integer
 
-        return paginate_links(array(
+        $output = '<div class="pagination">';
+        $output .= paginate_links(array(
             'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
             'format' => '?paged=%#%',
             'current' => max(1, get_query_var('paged')),
-            'total' => $this->getCount(),
+            'total' => $this->getMaxNumPages(),
         ));
+        $output .= '</div>';
+
+        return $output;
     }
 
     /**

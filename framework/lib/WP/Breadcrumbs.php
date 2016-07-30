@@ -2,7 +2,6 @@
 
 namespace Framework\Framework\WP;
 
-use Framework\Framework\WP\Path;
 use Framework\Framework\Exceptions\WPException;
 
 /**
@@ -273,7 +272,7 @@ class Breadcrumbs
         if (is_single()) {
             $output .= $this->_addCrumb(' ');
             foreach (get_the_category() as $category) {
-                $output .= '<a class="'.$category->cat_ID.'">'.$category->cat_name.'</a>, ';
+                $output .= '<a href="'.get_category_link($category->cat_ID).'">'.$category->cat_name.'</a>, ';
             }
             $output = substr($output, 0, strlen($output) - 2); /* Strips comma and space from last category */
             $output .= $this->_addCrumb(get_the_title());
@@ -289,15 +288,15 @@ class Breadcrumbs
         } elseif (is_tag()) {
             $output .= $this->_addCrumb($this->tagText).$this->_addCrumb(single_tag_title('', false));
         } elseif (is_category()) {
-            $output .= $this->_addCrumb($this->categoryText).$this->_addCrumb(single_cat_title('', false));
+            $output .= $this->_addCrumb(single_cat_title('', false));
         } elseif (is_month()) {
-            $output .= $this->_addCrumb($this->archiveText).$this->_addCrumb(get_the_time('F Y'));
+            $output .= $this->_addCrumb(get_the_time('F Y'));
         } elseif (is_year()) {
-            $output .= $this->_addCrumb($this->archiveText).$this->_addCrumb(get_the_time('Y'));
+            $output .= $this->_addCrumb(get_the_time('Y'));
         } elseif (is_author()) {
-            $output .= $this->_addCrumb($this->authorText).$this->_addCrumb(get_the_author_meta('display_name', get_query_var('author')));
+            $output .= $this->_addCrumb(get_the_author_meta('display_name', get_query_var('author')));
         } elseif (is_search()) {
-            $output .= $this->_addCrumb($this->searchText).$this->_addCrumb(get_search_query());
+            $output .= $this->_addCrumb(get_search_query());
         } elseif (is_404()) {
             $output .= $this->_addCrumb($this->errorText);
         }
@@ -325,7 +324,7 @@ class Breadcrumbs
         global $wpdb;
         // Make sure there is a child ID to process
         if ($child > 0) {
-            $result = $wpdb->getvar("SELECT postparent FROM $wpdb->posts WHERE ID = $child");
+            $result = $wpdb->get_var("SELECT postparent FROM $wpdb->posts WHERE ID = $child");
         } else {
             // ... or set a zero result.
           $result = 0;

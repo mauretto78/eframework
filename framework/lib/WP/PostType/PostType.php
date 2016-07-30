@@ -20,6 +20,11 @@ class PostType
     public $name;
 
     /**
+     * @var null
+     */
+    public $icon;
+
+    /**
      * A list of user-specific options for the post type.
      *
      * @var array
@@ -37,16 +42,33 @@ class PostType
     public $columns = array();
 
     /**
+     * /**
      * Sets default values, registers the passed post type, and
      * listens for when the post is saved.
      *
      * @param string $name The name of the desired post type.
+     * @param null   $icon
      */
     public function __construct($name)
     {
         $this->name = strtolower($name);
         $this->action = Action::getInstance();
         $this->register();
+    }
+
+    /**
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param null $icon
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
     }
 
     /**
@@ -161,7 +183,7 @@ class PostType
             'public' => true,
             'publicly_queryable' => true,
             'query_var' => true,
-            'menu_icon' => Path::template('/img/widget.png'),
+            'menu_icon' => ($this->icon) ? $this->icon : Path::template('/img/widget.png'),
             'rewrite' => true,
             'capability_type' => 'post',
             'hierarchical' => false,

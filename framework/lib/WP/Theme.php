@@ -47,7 +47,7 @@ class Theme
      */
     public function __construct($stylesheet = null, $theme_root = null)
     {
-        $this->current = wp_get_theme( $stylesheet, $theme_root);
+        $this->current = wp_get_theme($stylesheet, $theme_root);
         $this->setHeaders();
     }
 
@@ -82,11 +82,12 @@ class Theme
      * Get a headers value.
      *
      * @param $key
+     *
      * @return bool
      */
     public function get($key)
     {
-        if(isset($this->headers[$key])){
+        if (isset($this->headers[$key])) {
             return $this->headers[$key];
         }
 
@@ -106,7 +107,7 @@ class Theme
      */
     public function hasParent()
     {
-        if($this->getParent() === false){
+        if ($this->getParent() === false) {
             return false;
         }
 

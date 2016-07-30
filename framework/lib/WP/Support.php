@@ -72,7 +72,7 @@ class Support
     }
 
     /**
-     * Checks if a feature exsist.
+     * Checks if a feature exists.
      *
      * @param $feature
      *

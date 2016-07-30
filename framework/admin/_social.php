@@ -3,10 +3,10 @@
     <div class="panel-content">
         <?php
         use Framework\Framework\WP\Admin\Admin;
-        use Framework\Framework\Form\AdminPanelForm;
-        use Framework\Framework\Form\Type\Text;
+use Framework\Framework\Form\AdminPanelForm;
+use Framework\Framework\Form\Type\Text;
 
-        $admin = new Admin();
+$admin = new Admin();
         $adminPanel = new AdminPanelForm('social');
         $adminPanel->addElement(new Text('facebook-link', $admin->getOption('facebook-link'), false, 'Facebook Link', 'Provide the URL of your Facebook account.'));
         $adminPanel->addElement(new Text('youtube-link', $admin->getOption('youtube-link'), false, 'Youtube Link', 'Provide the URL of your Youtube account.'));

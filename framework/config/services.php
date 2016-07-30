@@ -16,9 +16,9 @@ return [
         return new \Framework\Framework\Mailer\MailerManager('Swiftmailer');
     },
     'Nav' => DI\object(\Framework\Framework\WP\Nav\Nav::class),
-    'Pag' => DI\object(\Framework\Framework\WP\Pag::class),
     'Path' => DI\object(\Framework\Framework\WP\Path::class),
     'Query' => DI\object(\Framework\Framework\WP\Query::class),
+    'Seo' => DI\object(\Framework\Framework\WP\Seo::class),
     'Session' => DI\object(\Framework\Framework\Session\SessionBridge::class),
     'Sluggify' => DI\object(\Framework\Framework\Sluggify::class),
     'Support' => DI\object(\Framework\Framework\WP\Support::class),

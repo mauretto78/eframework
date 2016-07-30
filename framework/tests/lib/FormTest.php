@@ -70,6 +70,5 @@ class FormTest extends PHPUnit_Framework_TestCase
         $this->adminForm->suppressToken();
         $this->adminForm->addElement(new \Framework\Framework\Form\Type\Text('text_field', 'default value', true, 'label input text field', 'some description...'));
         $this->adminForm->addElement(new \Framework\Framework\Form\Type\Media('media_field', 'default value', 'label input text field', 'some description...'));
-        //echo $render = $this->adminForm->setOutput()->getOutput();
     }
 }

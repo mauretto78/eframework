@@ -1,12 +1,16 @@
 <?php
 
 use Framework\App;
+use Framework\Framework\WP\Action;
 
 require __DIR__.'/vendor/autoload.php';
 require_once __DIR__.'/../../../../wp-load.php'; // Load Worpdress
 
 // Runs the App in 'dev' environment.
 $app = new App('dev');
+
+// Return Action instance
+$action = Action::getInstance();
 
 // Return Admin instance
 $admin = $app->container->get('Admin');

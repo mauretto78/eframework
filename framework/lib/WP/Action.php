@@ -7,7 +7,7 @@ use Framework\Framework\Singleton;
 /**
  * This class manages actions and filters in WP.
  *
- * The class extends the *Singleton* pattern class in order to have only one instance of itself.
+ * The class can extend the *Singleton* pattern class in order to have only one instance of itself.
  *
  * @author Mauro Cassani <assistenza@easy-grafica.com>
  */

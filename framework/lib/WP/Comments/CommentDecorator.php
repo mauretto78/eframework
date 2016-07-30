@@ -10,11 +10,12 @@ namespace Framework\Framework\WP\Comments;
 interface CommentDecorator
 {
     /**
-     * Renders the comment list.
+     * Renders the single comment element.
      *
-     * @param array $args
+     * @param Comments $comment
+     * @param int      $level
      *
      * @return mixed
      */
-    public function renderList($args = array());
+    public function renderElement($comment, $level);
 }

@@ -3,12 +3,12 @@
     <div class="panel-content">
         <?php
         use Framework\Framework\WP\Admin\Admin;
-        use Framework\Framework\Form\AdminPanelForm;
-        use Framework\Framework\Form\Type\Color;
-        use Framework\Framework\Form\Type\Choice;
-        use Framework\Framework\GoogleFont;
+use Framework\Framework\Form\AdminPanelForm;
+use Framework\Framework\Form\Type\Color;
+use Framework\Framework\Form\Type\Choice;
+use Framework\Framework\GoogleFont;
 
-        $googleFonts = new GoogleFont();
+$googleFonts = new GoogleFont();
         $admin = new Admin();
         $adminPanel = new AdminPanelForm('colors');
         $adminPanel->addElement(new Color('general_color', $admin->getOption('general_color'), false, 'General Color', 'Choose the base color for the website.'));

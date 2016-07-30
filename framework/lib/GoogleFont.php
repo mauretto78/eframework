@@ -67,15 +67,14 @@ class GoogleFont
     /**
      * @return array
      */
-    public function getFontList(){
-
+    public function getFontList()
+    {
         $list = array();
 
-        foreach ($this->getFonts('all') as $font){
-            foreach ($font->variants as $variant){
-                $list[$font->family. ' ' . $variant] = $font->family. ' ' . $variant;
+        foreach ($this->getFonts('all') as $font) {
+            foreach ($font->variants as $variant) {
+                $list[$font->family.' '.$variant] = $font->family.' '.$variant;
             }
-
         }
 
         return $list;

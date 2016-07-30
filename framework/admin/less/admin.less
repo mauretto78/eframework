@@ -1,0 +1,66 @@
+@import (reference) "colors.less";
+@import (reference) "variables.less";
+
+.media-meta-box.ef-group {
+  padding: 15px;
+  background: @wp-grey3;
+  border: 3px dashed @wp-grey1;
+
+  .media-upload {
+    cursor: pointer;
+    padding: 8px 16px;
+    background: @wp-link;
+    color: @white;
+    display: inline-block;
+
+    &:hover,
+    &:focus {
+      background: @wp-link-hover;
+    }
+  }
+
+  .upload-file-path {
+    display: block;
+
+    .thumbnail {
+      position: relative;
+      display: inline-block;
+      border: 1px solid @grey4;
+      padding: 3px;
+      background-size: cover;
+      background-position: center center;
+      height: 150px;
+      width: 200px;
+      margin-top: 15px;
+
+      &:hover, &:focus {
+        border: 1px solid @grey2;
+      }
+
+      .thumbnail-delete {
+        cursor: pointer;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background: @grey4;
+        color: @white;
+        height: 20px;
+        width: 20px;
+        text-align: center;
+        padding: 3px;
+        .border-radius(500px);
+
+        &:hover, &:focus {
+          background: @grey2;
+        }
+      }
+    }
+
+    .uploaded-file {
+      font-style: italic;
+      color: @grey3;
+      margin: 5px 0;
+      display: inline-block;
+    }
+  }
+}

@@ -4,6 +4,7 @@ namespace Framework\Framework\WP\PostType;
 
 use Framework\Framework\WP\Action;
 use Framework\Framework\WP\Image;
+use Framework\Framework\Stringify;
 
 /**
  * This class add meta boxes to posts.
@@ -40,7 +41,7 @@ class MetaBox
      *
      * @var array
      */
-    private $formFieldsTypes = ['text', 'date', 'number', 'textarea', 'checkbox', 'selectmultiple', 'select', 'file', 'media', 'colorpicker', 'editor'];
+    private $formFieldsTypes = ['text', 'date', 'number', 'url', 'textarea', 'checkbox', 'selectmultiple', 'select', 'file', 'media', 'colorpicker', 'editor'];
 
     /**
      * MetaBox constructor.
@@ -111,12 +112,12 @@ class MetaBox
             }
             // checks if the $fiels is an allowed and calls the corresponding function to render the form field.
             if (in_array($fieldTypeName, $this->formFieldsTypes)) {
-                $idName = $this->_normalize($this->title).'_'.$this->_normalize($label);
+                $idName = Stringify::toSnake($this->title).'_'.Stringify::toSnake($label);
                 $value = get_post_meta($post->ID, $idName, true);
 
                 $fn = 'render'.ucfirst($fieldTypeName);
 
-                $output = "<p><label>{$label}</label>";
+                $output = '<p><label>'.Stringify::fromSnake($label).'</label>';
                 $output .= $this->$fn($idName, $value, $fieldType);
                 array_push($_SESSION['taxonomy_data'], $idName);
                 $output .= '</p>';
@@ -131,6 +132,9 @@ class MetaBox
      *
      * @param $idName
      * @param $value
+     * @param null $fieldType
+     *
+     * @return string
      */
     public function renderText($idName, $value, $fieldType = null)
     {
@@ -140,10 +144,29 @@ class MetaBox
     }
 
     /**
+     * Renders the URL field input.
+     *
+     * @param $idName
+     * @param $value
+     * @param null $fieldType
+     *
+     * @return string
+     */
+    public function renderUrl($idName, $value, $fieldType = null)
+    {
+        $output = "<input type='url' id='{$idName}' name='{$idName}' value='{$value}' class='widefat'>";
+
+        return $output;
+    }
+
+    /**
      * Renders the date field input.
      *
      * @param $idName
      * @param $value
+     * @param null $fieldType
+     *
+     * @return string
      */
     public function renderDate($idName, $value, $fieldType = null)
     {
@@ -157,6 +180,9 @@ class MetaBox
      *
      * @param $idName
      * @param $value
+     * @param null $fieldType
+     *
+     * @return string
      */
     public function renderNumber($idName, $value, $fieldType = null)
     {
@@ -170,6 +196,9 @@ class MetaBox
      *
      * @param $idName
      * @param $value
+     * @param null $fieldType
+     *
+     * @return string
      */
     public function renderTextarea($idName, $value, $fieldType = null)
     {
@@ -183,6 +212,9 @@ class MetaBox
      *
      * @param $idName
      * @param $value
+     * @param null $fieldType
+     *
+     * @return string
      */
     public function renderCheckbox($idName, $value, $fieldType = null)
     {
@@ -205,6 +237,9 @@ class MetaBox
      *
      * @param $idName
      * @param $value
+     * @param null $fieldType
+     *
+     * @return string
      */
     public function renderSelectMultiple($idName, $value, $fieldType = null)
     {
@@ -229,6 +264,9 @@ class MetaBox
      *
      * @param $idName
      * @param $value
+     * @param null $fieldType
+     *
+     * @return string
      */
     public function renderSelect($idName, $value, $fieldType = null)
     {
@@ -253,6 +291,9 @@ class MetaBox
      *
      * @param $idName
      * @param $value
+     * @param null $fieldType
+     *
+     * @return string
      */
     public function renderFile($idName, $value, $fieldType = null)
     {
@@ -280,6 +321,9 @@ class MetaBox
      *
      * @param $idName
      * @param $value
+     * @param null $fieldType
+     *
+     * @return string
      */
     public function renderMedia($idName, $value, $fieldType = null)
     {
@@ -299,6 +343,9 @@ class MetaBox
      *
      * @param $idName
      * @param $value
+     * @param null $fieldType
+     *
+     * @return string
      */
     public function renderColorpicker($idName, $value, $fieldType = null)
     {
@@ -365,20 +412,6 @@ class MetaBox
 
             $_SESSION['taxonomy_data'] = array();
         }
-    }
-
-    /**
-     * Normalizes a given string.
-     *
-     * @param $string
-     *
-     * @return mixed
-     *
-     * @TODO Include in a separate class helper.
-     */
-    private function _normalize($string)
-    {
-        return strtolower(str_replace(' ', '_', $string));
     }
 
     /**

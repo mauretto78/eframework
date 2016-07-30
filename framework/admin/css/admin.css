@@ -1,0 +1,62 @@
+.media-meta-box.ef-group {
+  padding: 15px;
+  background: #f1f1f1;
+  border: 3px dashed #ddd;
+}
+.media-meta-box.ef-group .media-upload {
+  cursor: pointer;
+  padding: 8px 16px;
+  background: #0073aa;
+  color: #fff;
+  display: inline-block;
+}
+.media-meta-box.ef-group .media-upload:hover,
+.media-meta-box.ef-group .media-upload:focus {
+  background: #00a0d2;
+}
+.media-meta-box.ef-group .upload-file-path {
+  display: block;
+}
+.media-meta-box.ef-group .upload-file-path .thumbnail {
+  position: relative;
+  display: inline-block;
+  border: 1px solid #ddd;
+  padding: 3px;
+  background-size: cover;
+  background-position: center center;
+  height: 150px;
+  width: 200px;
+  margin-top: 15px;
+}
+.media-meta-box.ef-group .upload-file-path .thumbnail:hover,
+.media-meta-box.ef-group .upload-file-path .thumbnail:focus {
+  border: 1px solid #434343;
+}
+.media-meta-box.ef-group .upload-file-path .thumbnail .thumbnail-delete {
+  cursor: pointer;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #ddd;
+  color: #fff;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  padding: 3px;
+  -webkit-border-radius: 500px;
+  -moz-border-radius: 500px;
+  border-radius: 500px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.media-meta-box.ef-group .upload-file-path .thumbnail .thumbnail-delete:hover,
+.media-meta-box.ef-group .upload-file-path .thumbnail .thumbnail-delete:focus {
+  background: #434343;
+}
+.media-meta-box.ef-group .upload-file-path .uploaded-file {
+  font-style: italic;
+  color: #999;
+  margin: 5px 0;
+  display: inline-block;
+}

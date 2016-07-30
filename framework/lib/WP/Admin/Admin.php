@@ -180,4 +180,28 @@ class Admin
     {
         return count($this->sidebars);
     }
+
+    /**
+     * Register a navbar area.
+     *
+     * @return bool
+     */
+    public function registerNavbarArea($label, $name, $description)
+    {
+        register_nav_menus(array(
+            $label => __($name, $description),
+        ));
+    }
+
+    /**
+     * Checks if a navbar exists.
+     *
+     * @param $label
+     *
+     * @return bool
+     */
+    public function hasNavbar($label)
+    {
+        return has_nav_menu($label);
+    }
 }

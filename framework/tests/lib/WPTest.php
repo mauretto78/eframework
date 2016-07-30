@@ -149,11 +149,18 @@ class WPTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($handle);
     }
 
-    public function testCreationOfANavbar()
+    public function testCreationAndRegistrationOfANavbar()
     {
-        $this->nav->create('primary', 'Primary Navigation', 'website primary navigation menu.');
-
-        $this->assertTrue($this->nav->exists('primary'));
+        $this->admin->registerNavbarArea('test-nav-area', 'Test Navigation', 'website test navigation menu.');
+        $this->nav->create('test-menu');
+        $this->nav->addItem(array(
+            'menu-item-title' =>  __('Topics'),
+            'menu-item-url' => '#',
+            'menu-item-type' => 'custom',
+            'menu-item-status' => 'publish'));
+        $this->nav->assignTo('test-nav-area');
+        
+        $this->assertTrue($this->admin->hasNavbar('test-menu'));
     }
 
     public function testGetDataFromAPost()
@@ -202,17 +209,47 @@ class WPTest extends \PHPUnit_Framework_TestCase
 
     public function testSimpleQuery()
     {
+        // create a fake page
+        $p = new Post();
+        $data = array(
+            'post_author' => 1,
+            'post_type' => 'page',
+            'post_title' => 'New Post',
+            'post_content' => 'Lorem ipsum dolor facium.',
+            'post_status' => 'publish',
+            'ping_status' => 'open'
+        );
+        $idNew = $p->persist($data);
+        $new = new Post($idNew);
+
+        $p2 = new Post();
+        $data2 = array(
+            'post_author' => 1,
+            'post_type' => 'page',
+            'post_title' => 'New Post 2',
+            'post_content' => 'Lorem ipsum dolor facium.',
+            'post_status' => 'publish',
+            'ping_status' => 'open'
+        );
+        $idNew2 = $p2->persist($data2);
+        $new2 = new Post($idNew2);
+
         $args = array(
             'post_type' => 'page',
-            'posts_per_page' => 3,
+            'posts_per_page' => 2,
             'paged' => 1,
         );
         $q = new Query($args);
 
-        $this->assertEquals($q->getCount(), 3);
+        $this->assertEquals(2, $q->getCount());
         $this->assertContains('1', $q->paginate());
         $this->assertContains('2', $q->paginate());
-        $this->assertContains('3', $q->paginate());
+
+        // delete fake posts
+        $new->destroy(true);
+        $new2->destroy(true);
+        $this->assertFalse($new->exists());
+        $this->assertFalse($new2->exists());
     }
 
     public function testThemeSupport()
@@ -241,10 +278,10 @@ class WPTest extends \PHPUnit_Framework_TestCase
         $p = new Post(1);
         $c = new Comments($p);
 
-        $this->assertContains('<div class="comment" id="comment-', $c->renderList());
+        $this->assertContains('<div class="comment level-0" id="comment-', $c->renderList());
 
         $bc = new BootstrapComments($p);
 
-        $this->assertContains('<div class="row comment" id="comment-', $bc->renderList());
+        $this->assertContains('<div class="comment level-0" id="comment-', $bc->renderList());
     }
 }

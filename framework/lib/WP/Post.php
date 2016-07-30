@@ -19,7 +19,7 @@ class Post
     private $id;
 
     /**
-     * @var int
+     * @var object
      */
     private $author;
 
@@ -84,6 +84,11 @@ class Post
     private $tags;
 
     /**
+     * @var object WP_Term
+     */
+    private $terms;
+
+    /**
      * @var object WP_Post
      */
     private $object;
@@ -111,6 +116,11 @@ class Post
                 $this->meta[$key] = $value;
             }
         }
+    }
+
+    public function __toString()
+    {
+        echo $this->getTitle();
     }
 
     /**
@@ -174,7 +184,12 @@ class Post
      */
     public function getAuthor()
     {
-        return $this->author = $this->get()->post_author;
+        return $this->author = get_userdata($this->get()->post_author);
+    }
+
+    public function getAuthorLink()
+    {
+        return get_author_posts_url($this->get()->post_author);
     }
 
     /**
@@ -185,6 +200,27 @@ class Post
     public function getDate()
     {
         return $this->date = new \DateTime($this->get()->post_date);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateForHumans()
+    {
+        return get_the_date('d F Y', $this->getId());
+    }
+
+    /**
+     * @return array
+     */
+    public function getDateForHumansArray()
+    {
+        $date = array();
+        $date['d'] = get_the_date('d', $this->getId());
+        $date['m'] = get_the_date('F', $this->getId());
+        $date['y'] = get_the_date('Y', $this->getId());
+
+        return $date;
     }
 
     /**
@@ -218,7 +254,7 @@ class Post
      */
     public function getExcerpt()
     {
-        return $this->excerpt = $this->get()->post_excerpt;
+        return $this->excerpt = get_the_excerpt($this->id);
     }
 
     /**
@@ -253,7 +289,7 @@ class Post
 
     /**
      * Uploads and sets the thumbnail of post.
-     * 
+     *
      * @param array $uploadedfile
      */
     public function uploadThumbnail($uploadedfile = array())
@@ -299,6 +335,20 @@ class Post
     }
 
     /**
+     * Return if the post has a thumbnail.
+     *
+     * @return bool
+     */
+    public function hasThumbnail()
+    {
+        if (has_post_thumbnail($this->id)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Gets the thumbnail Url of post.
      *
      * @return mixed
@@ -324,7 +374,7 @@ class Post
         if ($this->getThumbnailUrl() !== false) {
             $url = $this->getThumbnailUrl();
         } else {
-            $url = Path::template('/img/default.jpg');
+            $url = Path::child('/img/no-thumb.jpg');
         }
 
         return $url;
@@ -413,6 +463,11 @@ class Post
         return $this->cat = get_the_category($this->id);
     }
 
+    public function getCatList($separator = '', $parents = '')
+    {
+        return get_the_category_list($separator, $parents, $this->id);
+    }
+
     /**
      * Gets the category post count.
      *
@@ -440,7 +495,248 @@ class Post
      */
     public function getTagsCount()
     {
-        return count($this->tags);
+        return count(get_the_tags($this->id));
+    }
+
+    /**
+     * Gets the post terms.
+     *
+     * @param $term
+     * @return mixed
+     */
+    public function getTerms($term)
+    {
+        return $this->terms = wp_get_post_terms($this->id, $term);
+    }
+
+    /**
+     * Render the post terms.
+     *
+     * @param $term
+     * @param string $style
+     * @param string $separator
+     * @return string
+     */
+    public function getTermsList($term, $style = 'span', $separator = '')
+    {
+        $i = 0;
+        $output = '';
+        $terms = $this->getTerms($term);
+        foreach ($terms as $term) {
+            $i++;
+            switch ($style){
+                case 'span':
+                    $output .= '<span class="term" id="term-'.$term->term_id.'">'.$term->name.'</span>';
+                    break;
+
+                case 'list':
+                    $output .= '<li class="term" id="term-'.$term->term_id.'">'.$term->name.'</li>';
+                    break;
+
+                default:
+                    $output .= $term->name;
+                    break;
+            }
+
+            if($i < count($terms)){
+                $output .= $separator;
+            }
+        }
+
+        return $output;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPrevLink()
+    {
+        $prev = get_previous_post();
+
+        $prevLink = array();
+        $prevLink['link'] = get_permalink($prev->ID);
+        $prevLink['name'] = $prev->post_title;
+
+        return $prevLink;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPrevLink()
+    {
+        return (get_previous_post()) ? true : false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNextLink()
+    {
+        $next = get_next_post();
+
+        $nextLink = array();
+        $nextLink['link'] = get_permalink($next->ID);
+        $nextLink['name'] = $next->post_title;
+
+        return $nextLink;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasNextLink()
+    {
+        return (get_next_post()) ? true : false;
+    }
+
+    /**
+     * Gets the related posts (by tags).
+     *
+     * @param int $number
+     *
+     * @return bool|Query
+     */
+    public function getRelated($number = 4)
+    {
+        if ($this->getTagsCount() > 0) {
+            $tag_ids = array();
+
+            foreach ($this->getTags() as $tag) {
+                $tag_ids[] = $tag->term_id;
+            }
+
+            $args = array(
+                'tag__in' => $tag_ids,
+                'post__not_in' => array($this->id),
+                'showposts' => $number,
+                'ignore_sticky_posts' => 1,
+            );
+
+            $query = new Query($args);
+
+            if ($query->getCount() > 0) {
+                return $query;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets the first link in the content, for link post format.
+     *
+     * @return bool
+     */
+    public function getTheFirstLink()
+    {
+        if ($this->getFormat() !== 'link') {
+            return;
+        }
+
+        if (!preg_match('/<a\s[^>]*?href=[\'"](.+?)[\'"]/i', $this->getContent(), $links)) {
+            return false;
+        }
+
+        return esc_url_raw($links[1]);
+    }
+
+    /**
+     * Gets the slides array, for gallery post format.
+     *
+     * @param array $attachments
+     *
+     * @return array
+     */
+    public function getSlides($attachments = array())
+    {
+        $output = array();
+        $count = count($attachments) - 1;
+
+        for ($i = 0; $i <= $count; ++$i):
+
+            $active = ($i == 0 ? ' active' : '');
+
+        $n = ($i == $count ? 0 : $i + 1);
+        $nextImg = wp_get_attachment_thumb_url($attachments[$n]->ID);
+        $p = ($i == 0 ? $count : $i - 1);
+        $prevImg = wp_get_attachment_thumb_url($attachments[$p]->ID);
+
+        $output[$i] = array(
+                'class' => $active,
+                'url' => wp_get_attachment_url($attachments[$i]->ID),
+                'next_img' => $nextImg,
+                'prev_img' => $prevImg,
+                'caption' => $attachments[$i]->post_excerpt,
+            );
+
+        endfor;
+
+        return $output;
+    }
+
+    /**
+     * Gets the media embedded in the content, for audio and video post format.
+     *
+     * @param array $type
+     *
+     * @return mixed
+     */
+    public function getEmbeddedMedia($types = array())
+    {
+        $content = apply_filters('the_content', $this->getContent());
+        $embed = get_media_embedded_in_content($content, $types);
+
+        if (in_array('audio', $types)):
+            $output = str_replace('?visual=true', '?visual=false', $embed[0]); else:
+            $output = $embed[0];
+        endif;
+
+        return $output;
+    }
+
+    /**
+     * Gets the chat transcript, for chat post format.
+     *
+     * @return string
+     */
+    public function getChatTranscript()
+    {
+        $chat_output = '';
+        $chat_rows = preg_split("/(\r?\n)+|(<br\s*\/?>\s*)+/", $this->getContent());
+        $separator = ':';
+
+        foreach ($chat_rows as $chat_row) {
+            if (strpos($chat_row, $separator)) {
+                $chat_row_split = explode($separator, trim($chat_row), 2);
+                $chat_author = strip_tags(trim($chat_row_split[0]));
+                $chat_text = trim($chat_row_split[1]);
+                $chat_output .= '<div class="chat-row">';
+                $chat_output .= '<div class="chat-author '.sanitize_html_class(strtolower("chat-author-{$chat_author}")).' vcard"><cite class="fn">'.$chat_author.'</cite>'.$separator.'</div>';
+                $chat_output .= '<div class="chat-text">'.str_replace(array("\r", "\n", "\t"), '', $chat_text).'</div>';
+                $chat_output .= '</div><!-- .chat-row -->';
+            } else {
+                if (!empty($chat_row)) {
+                    $chat_output .= '<div class="chat-row">';
+                    $chat_output .= '<div class="chat-text">'.str_replace(array("\r", "\n", "\t"), '', $chat_row).'</div>';
+                    $chat_output .= '</div><!-- .chat-row -->';
+                }
+            }
+        }
+
+        return $chat_output;
+    }
+
+    /**
+     * Gets the post format.
+     *
+     * @return string
+     */
+    public function getFormat()
+    {
+        return get_post_format($this->id) ? get_post_format($this->id) : 'standard';
     }
 
     /**
