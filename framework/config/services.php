@@ -6,7 +6,6 @@
 */
 
 return [
-    'Admin' => DI\object(\Framework\Framework\WP\Admin\Admin::class),
     'BaseForm' => DI\object(\Framework\Framework\Form\BaseForm::class),
     'BootstrapForm' => DI\object(\Framework\Framework\Form\BootstrapForm::class),
     'Breadcrumbs' => DI\object(\Framework\Framework\WP\Breadcrumbs::class),

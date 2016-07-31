@@ -2,7 +2,7 @@
 
 namespace Framework\Framework;
 
-use Framework\Framework\WP\Admin\Admin;
+use Framework\Framework\WP\Theme;
 
 /**
  * This class gets parameters from Admin options of parameters.php file.
@@ -12,31 +12,31 @@ use Framework\Framework\WP\Admin\Admin;
 class Parameters
 {
     /**
-     * @var Admin
+     * @var Theme
      */
-    private static $admin;
+    private static $theme;
 
     /**
-     * Gets an instance of Admin class.
+     * Gets an instance of Theme class.
      *
-     * @return Admin
+     * @return Theme
      */
-    public static function getAdmin()
+    public static function getTheme()
     {
-        return self::$admin = new Admin();
+        return self::$theme = new Theme();
     }
 
     /**
      * Gets the param.
      *
      * @param $param
-     *
      * @return mixed
+     * @throws \Exception
      */
     public static function get($param)
     {
         if (self::_existOption($param)) {
-            $value = self::getAdmin()->getOption($param);
+            $value = self::getTheme()->getOption($param);
         } else {
             $config = include __DIR__.'/../config/parameters.php';
             $value = @$config[$param];
@@ -58,6 +58,6 @@ class Parameters
      */
     private static function _existOption($param)
     {
-        return self::getAdmin()->hasOption($param);
+        return self::getTheme()->hasOption($param);
     }
 }

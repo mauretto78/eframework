@@ -4,7 +4,7 @@ namespace Framework\Framework\WP\Comments;
 
 use Framework\Framework\WP\Post;
 use Framework\Framework\WP\Path;
-use Framework\Framework\WP\Admin\Admin;
+use Framework\Framework\WP\Theme;
 
 /**
  * This class handles the comments.
@@ -44,8 +44,8 @@ class Comments implements CommentDecorator
         $args = array('post_id' => $this->post->getId());
         $this->list = get_comments($args);
 
-        $admin = new Admin();
-        $this->max_depth = $admin->getOption('thread_comments_depth');
+        $theme = new Theme();
+        $this->max_depth = $theme->getOption('thread_comments_depth');
     }
 
     /**

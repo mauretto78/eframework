@@ -502,6 +502,7 @@ class Post
      * Gets the post terms.
      *
      * @param $term
+     *
      * @return mixed
      */
     public function getTerms($term)
@@ -515,6 +516,7 @@ class Post
      * @param $term
      * @param string $style
      * @param string $separator
+     *
      * @return string
      */
     public function getTermsList($term, $style = 'span', $separator = '')
@@ -523,8 +525,8 @@ class Post
         $output = '';
         $terms = $this->getTerms($term);
         foreach ($terms as $term) {
-            $i++;
-            switch ($style){
+            ++$i;
+            switch ($style) {
                 case 'span':
                     $output .= '<span class="term" id="term-'.$term->term_id.'">'.$term->name.'</span>';
                     break;
@@ -538,7 +540,7 @@ class Post
                     break;
             }
 
-            if($i < count($terms)){
+            if ($i < count($terms)) {
                 $output .= $separator;
             }
         }

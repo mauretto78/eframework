@@ -3,7 +3,7 @@
 namespace Framework\Framework\WP;
 
 use Framework\Framework\Session\SessionBridge;
-use Framework\Framework\WP\Admin\Admin;
+use Framework\Framework\WP\Theme;
 
 /**
  * This class handles data from ajax WP requests.
@@ -48,7 +48,7 @@ class Ajax
                 $this->removeData('action');
                 $this->removeData($this->name.'_nonce_field');
 
-                return $this->_save(new Admin());
+                return $this->_save(new Theme());
                 break;
             case 2:
                 return 'Nonce is between 12 and 24 hours old';
@@ -114,15 +114,15 @@ class Ajax
     /**
      * Saves data.
      *
-     * @param Admin $admin
+     * @param Theme $theme
      *
      * @return bool
      */
-    private function _save(Admin $admin)
+    private function _save(Theme $theme)
     {
         foreach ($this->getData() as $key => $value) {
-            if ($admin->getOption($key) !== $value) {
-                $admin->setOption($key, $value);
+            if ($theme->getOption($key) !== $value) {
+                $theme->setOption($key, $value);
             }
         }
 

@@ -6,8 +6,7 @@ use Framework\Framework\WP\PostType\PostType;
 use Framework\Framework\WP\PostType\MetaBox;
 use Framework\Framework\WP\Path;
 use Framework\Framework\WP\Action;
-use Framework\Framework\WP\Admin\Admin;
-use Framework\Framework\WP\Admin\AdminPage;
+use Framework\Framework\WP\AdminPage;
 use Framework\Framework\WP\Ajax;
 use Framework\Framework\WP\Nav\Nav;
 use Framework\Framework\WP\Post;
@@ -22,7 +21,6 @@ class WPTest extends \PHPUnit_Framework_TestCase
 {
     protected $enq;
     protected $cpt;
-    protected $admin;
     protected $action;
     protected $ajax;
     protected $nav;
@@ -34,7 +32,6 @@ class WPTest extends \PHPUnit_Framework_TestCase
     {
         $this->enq = new Enqueuer();
         $this->cpt = new PostType('Book');
-        $this->admin = new Admin();
         $this->action = Action::getInstance();
         $this->ajax = new Ajax('general');
         $this->nav = new Nav();
@@ -89,27 +86,27 @@ class WPTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateAndRetrieveOptions()
     {
-        $this->admin->setOption('sample', 1234567890);
-        $this->admin->setOption('another_sample', 'this is a simple string');
+        $this->theme->setOption('sample', 1234567890);
+        $this->theme->setOption('another_sample', 'this is a simple string');
 
-        $this->assertGreaterThan(0, $this->admin->getCountOptions());
-        $this->assertEquals($this->admin->getOption('sample'), 1234567890);
-        $this->assertEquals($this->admin->getOption('another_sample'), 'this is a simple string');
+        $this->assertGreaterThan(0, $this->theme->getCountOptions());
+        $this->assertEquals($this->theme->getOption('sample'), 1234567890);
+        $this->assertEquals($this->theme->getOption('another_sample'), 'this is a simple string');
     }
 
     public function testCreateSomeAdminPage()
     {
-        $this->admin->addPage(new AdminPage('eframework', 'E-Framework', 'edit_themes', 'layout.php'));
-        $this->assertEquals($this->admin->getCountPages(), 1);
+        $this->theme->addPage(new AdminPage('eframework', 'E-Framework', 'edit_themes', 'layout.php'));
+        $this->assertEquals($this->theme->getCountPages(), 1);
     }
 
     public function testCreateSomeSidebar()
     {
-        $this->admin->addSidebar('Sidebar1', 'sidebar-1');
-        $this->admin->addSidebar('Sidebar2', 'sidebar-2');
+        $this->theme->addSidebar('Sidebar1', 'sidebar-1');
+        $this->theme->addSidebar('Sidebar2', 'sidebar-2');
 
-        $this->assertEquals($this->admin->getSidebar('sidebar-1'), 'sidebar-1');
-        $this->assertEquals($this->admin->getCountSidebars(), 2);
+        $this->assertEquals($this->theme->getSidebar('sidebar-1'), 'sidebar-1');
+        $this->assertEquals($this->theme->getSidebar('sidebar-2'), 'sidebar-2');
     }
 
     public function testCreateSomeActions()
@@ -149,18 +146,20 @@ class WPTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($handle);
     }
 
-    public function testCreationAndRegistrationOfANavbar()
+    public function testCreationAndRegistrationAndDestroyOfANavbar()
     {
-        $this->admin->registerNavbarArea('test-nav-area', 'Test Navigation', 'website test navigation menu.');
+        $this->theme->registerNavbar('test-nav-area', 'Test Navigation', 'website test navigation menu.');
         $this->nav->create('test-menu');
         $this->nav->addItem(array(
-            'menu-item-title' =>  __('Topics'),
+            'menu-item-title' => __('Topics'),
             'menu-item-url' => '#',
             'menu-item-type' => 'custom',
-            'menu-item-status' => 'publish'));
+            'menu-item-status' => 'publish', ));
         $this->nav->assignTo('test-nav-area');
-        
-        $this->assertTrue($this->admin->hasNavbar('test-menu'));
+
+        $this->assertTrue($this->theme->hasNavbar('test-nav-area'));
+
+        $this->theme->unregisterNavbar('test-nav-area');
     }
 
     public function testGetDataFromAPost()
@@ -217,7 +216,7 @@ class WPTest extends \PHPUnit_Framework_TestCase
             'post_title' => 'New Post',
             'post_content' => 'Lorem ipsum dolor facium.',
             'post_status' => 'publish',
-            'ping_status' => 'open'
+            'ping_status' => 'open',
         );
         $idNew = $p->persist($data);
         $new = new Post($idNew);
@@ -229,7 +228,7 @@ class WPTest extends \PHPUnit_Framework_TestCase
             'post_title' => 'New Post 2',
             'post_content' => 'Lorem ipsum dolor facium.',
             'post_status' => 'publish',
-            'ping_status' => 'open'
+            'ping_status' => 'open',
         );
         $idNew2 = $p2->persist($data2);
         $new2 = new Post($idNew2);

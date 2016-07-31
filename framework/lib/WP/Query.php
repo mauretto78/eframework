@@ -5,7 +5,6 @@
  *
  * @author Mauro Cassani <assistenza@easy-grafica.com>
  */
-
 namespace Framework\Framework\WP;
 
 class Query

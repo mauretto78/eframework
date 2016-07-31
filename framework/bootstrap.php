@@ -12,9 +12,6 @@ $app = new App('dev');
 // Return Action instance
 $action = Action::getInstance();
 
-// Return Admin instance
-$admin = $app->container->get('Admin');
-
 // Return Path instance
 $path = $app->container->get('Path');
 

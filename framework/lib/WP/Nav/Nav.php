@@ -2,7 +2,7 @@
 
 namespace Framework\Framework\WP\Nav;
 
-use Framework\Framework\WP\Admin\Admin;
+use Framework\Framework\WP\Theme;
 
 /**
  * This class renders WP navbars.
@@ -36,6 +36,7 @@ class Nav
      * Creates a navbar.
      *
      * @param $name
+     *
      * @return mixed
      */
     public function create($name)
@@ -59,18 +60,20 @@ class Nav
      * Assign the nav to a position.
      *
      * @param $position
+     *
      * @return mixed
      */
     public function assignTo($position)
     {
-        $a = new Admin();
-        $a->setOption('theme_mods_'.$a->getOption('stylesheet'), array( 'nav_menu_locations' => array($position => $this->object()->term_id)));
+        $t = new Theme();
+        $t->setOption('theme_mods_'.$t->getOption('stylesheet'), array('nav_menu_locations' => array($position => $this->object()->term_id)));
     }
 
     /**
      * Add an item to navbar.
      *
      * @param array $menu_item_data
+     *
      * @return mixed
      */
     public function addItem($menu_item_data = array())

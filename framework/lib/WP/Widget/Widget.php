@@ -20,7 +20,7 @@ class Widget
     {
         return register_sidebar($args);
     }
-    
+
     /**
      * Check if a widget sidebar area is active.
      *

@@ -1,0 +1,9 @@
+.container {
+  background: #ddd;
+}
+.container p {
+  color: #999;
+}
+.container p.first {
+  color: #666;
+}

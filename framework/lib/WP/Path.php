@@ -13,6 +13,7 @@ class Path
      * @param null $blog_id
      * @param null $path
      * @param null $scheme
+     *
      * @return mixed
      */
     public static function home($blog_id = null, $path = null, $scheme = null)
@@ -25,8 +26,8 @@ class Path
      */
     public static function homeDir()
     {
-        if (!function_exists( 'get_home_path' ) ) {
-            require_once(ABSPATH . '/wp-admin/includes/file.php');
+        if (!function_exists('get_home_path')) {
+            require_once ABSPATH.'/wp-admin/includes/file.php';
         }
 
         return get_home_path();
@@ -50,6 +51,7 @@ class Path
 
     /**
      * @param null $file
+     *
      * @return string
      */
     public static function contentDir($file = null)
@@ -59,6 +61,7 @@ class Path
 
     /**
      * @param null $file
+     *
      * @return string
      */
     public static function admin($file = null)
@@ -68,7 +71,8 @@ class Path
 
     /**
      * @param string $redirect
-     * @param bool $force_reauth
+     * @param bool   $force_reauth
+     *
      * @return mixed
      */
     public static function logIn($redirect = '', $force_reauth = false)
@@ -78,6 +82,7 @@ class Path
 
     /**
      * @param $redirect
+     *
      * @return mixed
      */
     public static function logOut($redirect)
@@ -87,6 +92,7 @@ class Path
 
     /**
      * @param null $file
+     *
      * @return string
      */
     public static function template($file = null)
@@ -96,6 +102,7 @@ class Path
 
     /**
      * @param null $file
+     *
      * @return string
      */
     public static function templateDir($file = null)
@@ -105,6 +112,7 @@ class Path
 
     /**
      * @param null $file
+     *
      * @return string
      */
     public static function child($file = null)
@@ -114,6 +122,7 @@ class Path
 
     /**
      * @param null $file
+     *
      * @return string
      */
     public static function childDir($file = null)
@@ -123,6 +132,7 @@ class Path
 
     /**
      * @param null $file
+     *
      * @return string
      */
     public static function upload($file = null)
@@ -134,6 +144,7 @@ class Path
      * Clean up a file path before appending it.
      *
      * @param $file
+     *
      * @return mixed
      */
     private static function _clean($file)
@@ -150,4 +161,3 @@ class Path
             $file);
     }
 }
-
