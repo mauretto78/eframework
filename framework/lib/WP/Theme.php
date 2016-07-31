@@ -274,27 +274,16 @@ class Theme
     /**
      * Register a sidebar.
      *
-     * @param $name
-     * @param $id
-     * @param null $description
-     * @param null $before_title
-     * @param null $after_title
-     * @param null $before_widget
-     * @param null $after_widget
+     * @param array $args
+     * @return bool
      */
-    public function addSidebar($name, $id, $description = null, $before_title = null, $after_title = null, $before_widget = null, $after_widget = null)
+    public function addSidebar($args = array())
     {
-        $sidebar = register_sidebar(array(
-            'name' => __($name),
-            'id' => $id,
-            'description' => __($description),
-            'before_title' => $before_title,
-            'after_title' => $after_title,
-            'before_widget' => $before_widget,
-            'after_widget' => $after_widget,
-        ));
-
-        $this->sidebars[$id] = $sidebar;
+        if(!$args['id']){
+            return false;
+        }
+        $sidebar = register_sidebar($args);
+        $this->sidebars[$args['id']] = $sidebar;
     }
 
     /**

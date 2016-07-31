@@ -92,9 +92,9 @@ class Nav
     public function render($label = null, $args = array())
     {
         $l = ($label) ? $label : $this->label;
-        $a = new Admin();
+        $t = new Theme();
 
-        if ($a->hasNavbar($l)) {
+        if ($t->hasNavbar($l)) {
             wp_nav_menu($args);
         }
     }

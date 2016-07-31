@@ -102,8 +102,14 @@ class WPTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateSomeSidebar()
     {
-        $this->theme->addSidebar('Sidebar1', 'sidebar-1');
-        $this->theme->addSidebar('Sidebar2', 'sidebar-2');
+        $this->theme->addSidebar(array(
+            'name' => 'Sidebar1',
+            'id' => 'sidebar-1',
+        ));
+        $this->theme->addSidebar(array(
+            'name' => 'Sidebar2',
+            'id' => 'sidebar-2',
+        ));
 
         $this->assertEquals($this->theme->getSidebar('sidebar-1'), 'sidebar-1');
         $this->assertEquals($this->theme->getSidebar('sidebar-2'), 'sidebar-2');

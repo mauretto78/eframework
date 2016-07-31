@@ -35,7 +35,7 @@ abstract class AbstractWidget extends \WP_Widget
         $this->setWidgetDescription($widgetDesc);
         $this->enqueueStyle();
 
-        parent::WP_Widget(false, __($this->getWidgetName(), $this->getWidgetLabel()), array('description' => __($this->getWidgetDescription(), $this->getWidgetLabel())));
+        parent::__construct(false, __($this->getWidgetName(), $this->getWidgetLabel()), array('description' => __($this->getWidgetDescription(), $this->getWidgetLabel())));
     }
 
     /**

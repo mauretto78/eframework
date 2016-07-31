@@ -27,13 +27,13 @@ class ShortcodeTest extends PHPUnit_Framework_TestCase
 
     public function testRenderTheShortcodeWithBlankValues()
     {
-        $s = new Shortcode('img');
-        $s->setArgument('src');
-        $s->setArgument('w');
-        $s->setArgument('h');
-        $s->setArgument('title');
-        $s->setOutput('<img src="{src}" width="{w}" height="{h}" alt="{title}" title="{title}">');
-        $s->create();
+        $this->s = new Shortcode('img');
+        $this->s->setArgument('src');
+        $this->s->setArgument('w');
+        $this->s->setArgument('h');
+        $this->s->setArgument('title');
+        $this->s->setOutput('<img src="{src}" width="{w}" height="{h}" alt="{title}" title="{title}">');
+        $this->s->create();
 
         $this->assertEquals(do_shortcode('[img src="http://www.wpclipart.com/American_History/African_A_Rights/Andrew_Young.png"]'), '<img src="http://www.wpclipart.com/American_History/African_A_Rights/Andrew_Young.png" width="" height="" alt="" title="">');
     }
@@ -51,6 +51,37 @@ class ShortcodeTest extends PHPUnit_Framework_TestCase
     public function simpleCallback($atts)
     {
         return "<div id='".$atts['id']."'>".$atts['content'].'</div>';
+    }
+
+    public function testRenderTheShortcodeWithACallbackAndMissingArgumentsOutput()
+    {
+        $this->s = new Shortcode('claim');
+        $this->s->setArgument('title');
+        $this->s->setArgument('text');
+        $this->s->setArgument('link');
+        $this->s->setOutput(array($this, 'claimCallback'));
+        $this->s->create();
+
+        $this->assertEquals(do_shortcode('[claim title="title" text="Test Callback"]'), '<section class="claim"><div class="container"><h3>title</h3><span>Test Callback</span></div></section>');
+    }
+
+    public function claimCallback($atts)
+    {
+        $claim = '<section class="claim">';
+        $claim .= '<div class="container">';
+        if(isset($atts['title'])){
+            $claim .= '<h3>'.$atts['title'].'</h3>';
+        }
+        if(isset($atts['text'])){
+            $claim .= '<span>'.$atts['text'].'</span>';
+        }
+        if(isset($atts['link'])){
+            $claim .= '<a href="'.$atts['link'].'" class="btn btn-corporate-o btn-lg rounded">Read more</a>';
+        }
+        $claim .= '</div>';
+        $claim .= '</section>';
+
+        return $claim;
     }
 
     public function testRenderTheShortcodeWithADynamicContentOutput()

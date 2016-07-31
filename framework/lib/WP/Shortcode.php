@@ -45,14 +45,13 @@ class Shortcode
     }
 
     /**
-     * Gets all the arguments.
-     *
      * @return array
      */
     public function getArguments()
     {
         return $this->arguments;
     }
+
 
     /**
      * @return mixed
@@ -116,6 +115,7 @@ class Shortcode
             $render .= ob_get_clean();
         } else {
             $render = $output;
+
             if (!empty($atts)) {
                 foreach ($atts as $key => $value) {
                     $render = str_replace('{'.$key.'}', $value, $render);

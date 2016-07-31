@@ -188,7 +188,7 @@ class PostType
             'capability_type' => 'post',
             'hierarchical' => false,
             'menu_position' => null,
-            'supports' => array('title', 'editor', 'thumbnail'),
+            'supports' => array('title', 'excerpt', 'editor', 'thumbnail'),
             'has_archive' => true,
         );
 

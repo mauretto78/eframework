@@ -41,7 +41,7 @@ class Ajax
     {
         $this->_parse(new SessionBridge());
 
-        $checkNonce = $this->_checkNonce($this->data[$this->name.'_nonce_field'], $this->name.'_nonce_action');
+        $checkNonce = $this->_checkNonce(@$this->data[$this->name.'_nonce_field'], $this->name.'_nonce_action');
 
         switch ($checkNonce) {
             case 1:
