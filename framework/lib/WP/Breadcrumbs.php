@@ -2,6 +2,7 @@
 
 namespace Framework\Framework\WP;
 
+use Framework\Framework\WP\Post;
 use Framework\Framework\Exceptions\WPException;
 
 /**
@@ -259,7 +260,7 @@ class Breadcrumbs
             return '';
         }
     }
-
+    
     /**
      * This does the main work to put the breadcrumbs together.
      *
@@ -267,24 +268,31 @@ class Breadcrumbs
      */
     public function render()
     {
-        global $post;
+        $p = new Post();
+
         $output = '<div class="'.$this->wrapperClass.'"><a href="'.Path::home().'">'.$this->rootText.'</a>';
         if (is_single()) {
             $output .= $this->_addCrumb(' ');
-            foreach (get_the_category() as $category) {
-                $output .= '<a href="'.get_category_link($category->cat_ID).'">'.$category->cat_name.'</a>, ';
+
+            if($p->isCustom()){
+                $output .= '<a href="'.get_post_type_archive_link($p->getType()).'">'.ucfirst($p->getType()).'</a>, ';
+            } else {
+                foreach (get_the_category() as $category) {
+                    $output .= '<a href="'.get_category_link($category->cat_ID).'">'.$category->cat_name.'</a>, ';
+                }
             }
+
             $output = substr($output, 0, strlen($output) - 2); /* Strips comma and space from last category */
-            $output .= $this->_addCrumb(get_the_title());
+            $output .= $this->_addCrumb($p->getTitle());
         } elseif (is_page()) {
-            $ancestors = $this->_getAncestorIds($post->ID, false);
+            $ancestors = $this->_getAncestorIds($p->getId(), false);
             foreach ($ancestors as $ancestor) {
                 if (0 != $ancestor) {
                     $page = new Post($ancestor);
                     $output .= $this->_addCrumb(''.$page->getTitle().'');
                 }
             }
-            $output .= $this->_addCrumb(get_the_title());
+            $output .= $this->_addCrumb($p->getTitle());
         } elseif (is_tag()) {
             $output .= $this->_addCrumb($this->tagText).$this->_addCrumb(single_tag_title('', false));
         } elseif (is_category()) {
@@ -297,6 +305,8 @@ class Breadcrumbs
             $output .= $this->_addCrumb(get_the_author_meta('display_name', get_query_var('author')));
         } elseif (is_search()) {
             $output .= $this->_addCrumb(get_search_query());
+        } elseif (is_archive()) {
+            $output .= $this->_addCrumb(post_type_archive_title('', false));
         } elseif (is_404()) {
             $output .= $this->_addCrumb($this->errorText);
         }

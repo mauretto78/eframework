@@ -3,7 +3,6 @@
 namespace Framework\Framework\WP;
 
 use Framework\Framework\Session\SessionBridge;
-use Framework\Framework\WP\Theme;
 
 /**
  * This class handles data from ajax WP requests.

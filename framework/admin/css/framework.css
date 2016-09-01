@@ -278,6 +278,9 @@ body {
   padding: 15px;
   border-bottom: 1px solid #f1f1f1;
 }
+.framework .right .panel-content .ef-group.odd {
+  background: #f1f1f1;
+}
 @media (min-width: 1200px) {
   .framework .right .panel-content .ef-group .ef-label {
     text-align: right;
@@ -576,6 +579,50 @@ body {
 }
 .framework .right .panel-content .ef-group .ef-control .ef-slide:last-child {
   margin-bottom: 0;
+}
+.framework .right .panel-content .ef-group .ef-control .font-preview {
+  position: relative;
+  top: -8px;
+  display: inline-block;
+  margin-left: 10px;
+}
+.framework .right .panel-content .ef-group .ef-control .icon-choices .icon-choice {
+  float: left;
+  width: 33.333333%;
+  text-align: center;
+  margin-bottom: 15px;
+}
+.framework .right .panel-content .ef-group .ef-control .icon-choices .icon-choice label {
+  display: block;
+}
+.framework .right .panel-content .ef-group .ef-control .icon-choices .icon-choice input[type=radio] {
+  display: none;
+}
+.framework .right .panel-content .ef-group .ef-control .icon-choices .icon-choice .icon-choice-label {
+  display: block;
+  padding: 5px 10px;
+}
+.framework .right .panel-content .ef-group .ef-control .icon-choices .icon-choice .icon-choice-img {
+  padding: 5px;
+  border: 3px solid #ddd;
+}
+.framework .right .panel-content .ef-group .ef-control .icon-choices .icon-choice:hover,
+.framework .right .panel-content .ef-group .ef-control .icon-choices .icon-choice.active {
+  color: #00ac71;
+}
+.framework .right .panel-content .ef-group .ef-control .icon-choices .icon-choice:hover .icon-choice-img,
+.framework .right .panel-content .ef-group .ef-control .icon-choices .icon-choice.active .icon-choice-img {
+  border-color: #00ac71;
+}
+@media (max-width: 991px) {
+  .framework .right .panel-content .ef-group .ef-control .icon-choices .icon-choice {
+    width: 50%;
+  }
+}
+@media (max-width: 767px) {
+  .framework .right .panel-content .ef-group .ef-control .icon-choices .icon-choice {
+    width: 100%;
+  }
 }
 .framework .right .panel-content .ef-buttons {
   padding: 15px;

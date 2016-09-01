@@ -73,7 +73,7 @@ class GoogleFont
 
         foreach ($this->getFonts('all') as $font) {
             foreach ($font->variants as $variant) {
-                $list[$font->family.' '.$variant] = $font->family.' '.$variant;
+                $list[$font->family.':'.$variant] = $font->family.' ('.$variant.')';
             }
         }
 

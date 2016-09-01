@@ -8,8 +8,7 @@
 return [
     'app.name' => 'E-Framework',
     'google.apikey' => 'AIzaSyDGRQ6uGNriUo5UD-qYDdI1m5mVhYF5S5s',
-    'lessc.format' => 'compressed',
-    'lessc.comments' => true,
+    'lessc.compressed' => true,
     'sluggify.delimiter' => '-',
     'sluggify.limit' => '',
     'sluggify.lowercase' => true,

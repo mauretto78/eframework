@@ -266,7 +266,7 @@ class Theme
         global $wp_registered_sidebars;
 
         $sidebars = $wp_registered_sidebars;
-        foreach($sidebars as $id => $sidebar) {
+        foreach ($sidebars as $id => $sidebar) {
             $this->sidebars[$id] = $sidebar;
         }
     }
@@ -275,11 +275,12 @@ class Theme
      * Register a sidebar.
      *
      * @param array $args
+     *
      * @return bool
      */
     public function addSidebar($args = array())
     {
-        if(!$args['id']){
+        if (!$args['id']) {
             return false;
         }
         $sidebar = register_sidebar($args);
@@ -334,7 +335,7 @@ class Theme
     public function setNavbars()
     {
         $registered_nav_menus = get_registered_nav_menus();
-        foreach($registered_nav_menus as $location => $name) {
+        foreach ($registered_nav_menus as $location => $name) {
             $this->navbars[$location] = array(
                 'name' => $name,
                 'description' => '',

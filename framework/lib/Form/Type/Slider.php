@@ -3,7 +3,7 @@
 namespace Framework\Framework\Form\Type;
 
 use Framework\Framework\Serializer;
-use Framework\Framework\WP\Admin\Admin;
+use Framework\Framework\WP\Theme;
 use Framework\Framework\Form\FormElementAbstract;
 
 /**
@@ -22,6 +22,7 @@ class Slider extends FormElementAbstract
      */
     public function __construct($name, $label = null, $description = null)
     {
+        parent::__construct(new Theme);
         $this->setLabel($label);
         $this->setDescription($description);
     }
@@ -34,7 +35,7 @@ class Slider extends FormElementAbstract
         $output = '<div class="slide-controls">';
         $output .= '<a href="#" class="add-slide"><i class="fa fa-plus"></i> Add a slide</a>';
         $output .= '</div>';
-        $output .= '<div id="ef-slider-sortable">'.$this->_convertData(new Admin()).'</div>';
+        $output .= '<div id="ef-slider-sortable">'.$this->_renderConvertedArray().'</div>';
 
         return $output;
     }
@@ -42,25 +43,29 @@ class Slider extends FormElementAbstract
     /**
      * Unserialize data and transform it to an array.
      *
-     * @param Admin $admin
+     * @param Theme $theme
      *
-     * @return mixed
+     * @return array
      */
-    private function _convertData(Admin $admin)
+    public function convertToArray()
     {
-        $output = '';
-
         $data = array(
-            $admin->getOption('ef-slide-img'),
-            $admin->getOption('ef-slide-title'),
-            $admin->getOption('ef-slide-caption'),
-            $admin->getOption('ef-slide-link'),
-            $admin->getOption('ef-slide-position'),
+            $this->theme->getOption('ef-slide-img'),
+            $this->theme->getOption('ef-slide-title'),
+            $this->theme->getOption('ef-slide-caption'),
+            $this->theme->getOption('ef-slide-link'),
+            $this->theme->getOption('ef-slide-position'),
         );
 
-        $count = count(Serializer::unserialize($admin->getOption('ef-slide-img')));
+        $count = count(Serializer::unserialize($this->theme->getOption('ef-slide-img')));
 
-        $convertedData = Serializer::merge($data, $count);
+        return $convertedData = Serializer::merge($data, $count);
+    }
+
+    private function _renderConvertedArray()
+    {
+        $output = '';
+        $convertedData = $this->convertToArray();
 
         foreach ($convertedData as $items) {
             $output .= '<div class="ef-slide clearfix">';

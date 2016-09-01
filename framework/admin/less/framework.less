@@ -212,6 +212,10 @@ html,body {
         padding: 15px;
         border-bottom: 1px solid @grey5;
 
+        &.odd {
+          background: @grey5;
+        }
+
         .ef-label {
 
           .screen-lg-min({
@@ -503,6 +507,58 @@ html,body {
 
             &:last-child {
               margin-bottom: 0;
+            }
+          }
+
+          .font-preview {
+            position: relative;
+            top: -8px;
+            display: inline-block;
+            margin-left: 10px;
+          }
+
+          .icon-choices {
+
+            .icon-choice {
+              float: left;
+              width: 33.333333%;
+              text-align: center;
+              margin-bottom: 15px;
+
+              label {
+                display: block;
+              }
+
+              input[type=radio]{
+                display: none;
+              }
+
+              .icon-choice-label {
+                display: block;
+                padding: 5px 10px;
+              }
+
+              .icon-choice-img {
+                padding: 5px;
+                border: 3px solid @grey4;
+              }
+
+              &:hover,
+              &.active {
+                color: @green1;
+
+                .icon-choice-img {
+                  border-color: @green1;
+                }
+              }
+
+              .screen-sm-max({
+                width: 50%;
+              });
+
+              .screen-xs({
+                width: 100%;
+              });
             }
           }
         }

@@ -2,7 +2,7 @@
 
 namespace Framework\Framework;
 
-use Framework\App;
+use Framework\Framework\WP\Path;
 
 /**
  * This class is a simple wrapper of lessc class.
@@ -14,46 +14,27 @@ use Framework\App;
 class Lessify
 {
     /**
-     * @var \lessc
+     * @var \Less_Parser
      */
-    private $lessc;
-
-    /**
-     * @var App
-     */
-    private $app;
-
-    /**
-     * @var bool
-     */
-    private $comments;
-
-    /**
-     * @var string
-     */
-    private $format;
+    private $parser;
 
     /**
      * Lessify constructor.
      *
      * @param \lessc $lessc
      */
-    public function __construct(\lessc $lessc)
+    public function __construct(\Less_Parser $parser)
     {
-        $this->lessc = $lessc;
-        $this->setComments(Parameters::get('lessc.comments'));
-        $this->setFormat(Parameters::get('lessc.format'));
+        $this->parser = $parser;
+        $this->setOption('compress', Parameters::get('lessc.compressed'));
     }
 
     /**
-     * Sets the preserve comments flag. [boolean].
-     *
-     * @param mixed $comments
+     * @return \lessc
      */
-    public function setComments($comments)
+    public function getParser()
     {
-        $this->lessc->setPreserveComments($comments);
-        $this->comments = $comments;
+        return $this->parser;
     }
 
     /**
@@ -61,30 +42,93 @@ class Lessify
      *
      * @param string $format
      */
-    public function setFormat($format)
+    public function setOption($option,$value){
+        $this->parser->SetOption($option,$value);
+    }
+
+    /**
+     * @param array $vars
+     * @return \Less_Parser
+     */
+    public function ModifyVars(array $vars)
     {
-        $this->lessc->setFormatter($format);
-        $this->format = $format;
+        return $this->parser->ModifyVars($vars);
+    }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    public function getCss()
+    {
+        return $this->parser->getCss();
+    }
+
+    public function parse($string){
+        return $this->parser->parse($string);
+    }
+
+    public function parseFile($input){
+        return $this->parser->parseFile($input);
     }
 
     /**
      * Parse a less file into a css output. Array of input less files may be provided.
      *
-     * @param mixed  $input
-     * @param string $output
-     *
+     * @param $input
+     * @param $output
+     * @return \Less_Parser|\Less_Tree_Ruleset
      * @throws \Exception
      */
-    public function parse($input, $output)
+    public function parseIntoFile($input, $output, $vars = array())
     {
         if (is_array($input)) {
+            $fileCount = count($input);
+            $i = 0;
             $outputContent = '';
             foreach ($input as $singleFile) {
+                $i++;
                 $outputContent .= file_get_contents($singleFile);
-                file_put_contents($output, $this->lessc->compile($outputContent), FILE_APPEND);
+
+                if($i === $fileCount){
+                    $parsedString = $this->parse($outputContent);
+                    if($vars !== null){
+                        foreach ($vars as $key => $value){
+                            $this->ModifyVars(array(
+                                $key => $value
+                            ));
+                        }
+                    }
+                    file_put_contents($output, $parsedString->getCss(), FILE_APPEND);
+                }
             }
         } else {
-            $this->lessc->compileFile($input, $output);
+            $parsedFile = $this->parseFile($input);
+            if($vars !== null){
+                foreach ($vars as $key => $value){
+                    $this->ModifyVars(array(
+                        $key => $value
+                    ));
+                }
+            }
+            file_put_contents($output, $parsedFile->getCss());
         }
+    }
+
+    /**
+     * Parse a less file into a css output in caching mode. Array of input less files may be provided.
+     *
+     * @param $input
+     * @param $output
+     * @param array $vars
+     * @throws \Exception
+     */
+    public static function parseCached($input, $output, $vars = array())
+    {
+        $cacheDir = Path::childDir('cache');
+        $options = array('cache_dir' => $cacheDir);
+        $css_file_name = \Less_Cache::Get($input, $options, $vars);
+        $compiled = file_get_contents($cacheDir .'/'. $css_file_name);
+        file_put_contents($output, $compiled);
     }
 }

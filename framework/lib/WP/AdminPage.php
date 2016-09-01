@@ -77,7 +77,7 @@ class AdminPage
         $this->menuTitle = $menuTitle;
         $this->capability = $capability;
         $this->include = $include;
-        $this->iconUrl = ($iconUrl) ? $iconUrl : Path::template('/framework/admin/img/icons/ef-icon.png');
+        $this->iconUrl = ($iconUrl) ? $iconUrl : Path::template('framework/admin/img/icons/ef-icon.png');
         $this->position = $position;
         $this->parent = $parent;
 
@@ -109,6 +109,6 @@ class AdminPage
      */
     public function includeFunction()
     {
-        include __DIR__.'/../../../admin/'.$this->include;
+        include Path::childDir('admin/'.$this->include);
     }
 }

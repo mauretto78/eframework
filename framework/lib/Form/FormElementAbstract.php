@@ -2,6 +2,8 @@
 
 namespace Framework\Framework\Form;
 
+use Framework\Framework\WP\Theme;
+
 /**
  * This is the abstract class for all the form element classes.
  *
@@ -9,6 +11,11 @@ namespace Framework\Framework\Form;
  */
 abstract class FormElementAbstract implements FormElementInterface
 {
+    /**
+     * @var Theme
+     */
+    protected $theme;
+
     /**
      * @var array
      */
@@ -38,6 +45,20 @@ abstract class FormElementAbstract implements FormElementInterface
      * @var string
      */
     private $default;
+
+    /**
+     * FormElementAbstract constructor.
+     * @param Theme $theme
+     */
+    public function __construct(Theme $theme)
+    {
+        $this->theme = $theme;
+    }
+    
+    public function getTheme()
+    {
+        return $this->theme;
+    }
 
     public function addAttribute($name, $value)
     {

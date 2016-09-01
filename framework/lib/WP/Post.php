@@ -64,6 +64,16 @@ class Post
     private $thumbnail;
 
     /**
+     * @var
+     */
+    private $type;
+
+    /**
+     * @var
+     */
+    private $cssClass;
+
+    /**
      * @var array
      */
     private $attachments = array();
@@ -381,26 +391,46 @@ class Post
     }
 
     /**
-     * Returns an array with the IDs of the post attachment.
+     * Gets the status of post.
      *
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type = $this->get()->post_type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCssClass($class)
+    {
+        return $this->cssClass = implode( ' ', get_post_class($class, $this->id));
+    }
+
+    /**
+     * Returns an array with the IDs of the post attachment.
+     * @param $type
      * @return array
      */
-    public function getAttachments()
+    public function getAttachments($type)
     {
         $args = array(
             'post_type' => 'attachment',
             'post_status' => 'any',
             'posts_per_page' => -1,
-            'post_parent' => $this->id,
+            'post_mime_type' => $type,
         );
-        $attachments = new Query($args);
+
+        $query = new Query($args);
         $attachment_ids = array();
 
-        if ($attachments->getCount()) {
-            foreach ($attachments->run() as $a) {
-                $attachment_ids[] = $a->ID;
+        if($query->havePosts()){
+            while ($query->havePosts()){
+                $query->thePost();
+                $attachment_ids[] = get_the_ID();
             }
-            $attachments->clear();
+            $query->clear();
         }
 
         return $this->attachments = $attachment_ids;
@@ -475,7 +505,7 @@ class Post
      */
     public function getCategoryCount()
     {
-        return count($this->cat);
+        return count(get_the_category($this->id));
     }
 
     /**
@@ -536,7 +566,7 @@ class Post
                     break;
 
                 default:
-                    $output .= $term->name;
+                    $output .= $term->name.' ';
                     break;
             }
 
@@ -601,7 +631,7 @@ class Post
      */
     public function getRelated($number = 4)
     {
-        if ($this->getTagsCount() > 0) {
+        if (!empty($this->getTags())) {
             $tag_ids = array();
 
             foreach ($this->getTags() as $tag) {
@@ -609,6 +639,7 @@ class Post
             }
 
             $args = array(
+                'post_type' => $this->getType(),
                 'tag__in' => $tag_ids,
                 'post__not_in' => array($this->id),
                 'showposts' => $number,
@@ -643,40 +674,6 @@ class Post
         }
 
         return esc_url_raw($links[1]);
-    }
-
-    /**
-     * Gets the slides array, for gallery post format.
-     *
-     * @param array $attachments
-     *
-     * @return array
-     */
-    public function getSlides($attachments = array())
-    {
-        $output = array();
-        $count = count($attachments) - 1;
-
-        for ($i = 0; $i <= $count; ++$i):
-
-            $active = ($i == 0 ? ' active' : '');
-
-        $n = ($i == $count ? 0 : $i + 1);
-        $nextImg = wp_get_attachment_thumb_url($attachments[$n]->ID);
-        $p = ($i == 0 ? $count : $i - 1);
-        $prevImg = wp_get_attachment_thumb_url($attachments[$p]->ID);
-
-        $output[$i] = array(
-                'class' => $active,
-                'url' => wp_get_attachment_url($attachments[$i]->ID),
-                'next_img' => $nextImg,
-                'prev_img' => $prevImg,
-                'caption' => $attachments[$i]->post_excerpt,
-            );
-
-        endfor;
-
-        return $output;
     }
 
     /**
@@ -759,11 +756,35 @@ class Post
             }
 
             // delete all post attachments
-            foreach ($this->getAttachments() as $a) {
+            foreach ($this->getAttachments('all') as $a) {
                 wp_delete_attachment($a->ID, true);
             }
         }
 
         return wp_delete_post($this->id, true);
+    }
+
+    /**
+     * Checks if the post is custom.
+     *
+     * @param null $post
+     * @return bool
+     */
+    public function isCustom()
+    {
+        $all_custom_post_types = get_post_types( array ( '_builtin' => FALSE ) );
+
+        // there are no custom post types
+        if ( empty ( $all_custom_post_types ) )
+            return FALSE;
+
+        $custom_types      = array_keys( $all_custom_post_types );
+        $current_post_type = get_post_type($this->get());
+
+        // could not detect current type
+        if ( ! $current_post_type )
+            return FALSE;
+
+        return in_array($current_post_type, $custom_types);
     }
 }

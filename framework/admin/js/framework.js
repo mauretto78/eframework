@@ -5,11 +5,24 @@ jQuery(document).ready(function($){
      */
     var $window = $(window),
         toggleBtn = $('.toggle-btn'),
+        iconChoice = $('.icon-choice'),
         navigation = $('.navigation'),
         panel = $('.panel'),
         aceExists = $('.ace-textarea').length,
         addSlide = $('.add-slide'),
         sliderSortable = $('#ef-slider-sortable');
+
+    /**
+     * add Odd/even ef-group.
+     */
+    $('.ef-group:odd').addClass('odd');
+
+    /**
+     * iconChoice
+     */
+    iconChoice.find("label").on("click",function(e){
+        $(this).parent().addClass('active').siblings().removeClass('active');
+    });
 
     /**
      * Panel tabs.
@@ -50,6 +63,22 @@ jQuery(document).ready(function($){
             navigation.hide();
         }
     }
+
+    /**
+     * jQuery Fontselect.
+     */
+    $('.font-select').fontselect().change(function(){
+
+        // replace + signs with spaces for css
+        var font = $(this).val().replace(/\+/g, ' ');
+
+        // split font into family and weight
+        font = font.split(':');
+
+        // set family on paragraphs
+        var fieldId = $(this).attr('id');
+        $('#font-preview-'+fieldId).css('font-family', font[0]);
+    });
 
     /**
      * Ace editor.

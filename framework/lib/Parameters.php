@@ -30,7 +30,9 @@ class Parameters
      * Gets the param.
      *
      * @param $param
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     public static function get($param)

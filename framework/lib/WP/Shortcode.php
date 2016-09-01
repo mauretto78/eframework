@@ -52,7 +52,6 @@ class Shortcode
         return $this->arguments;
     }
 
-
     /**
      * @return mixed
      */
@@ -84,7 +83,7 @@ class Shortcode
     {
         add_shortcode($this->label, array($this, 'render'));
     }
-
+    
     /**
      * This is the function called by add_shortcode.
      *

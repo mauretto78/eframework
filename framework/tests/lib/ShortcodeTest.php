@@ -69,13 +69,13 @@ class ShortcodeTest extends PHPUnit_Framework_TestCase
     {
         $claim = '<section class="claim">';
         $claim .= '<div class="container">';
-        if(isset($atts['title'])){
+        if (isset($atts['title'])) {
             $claim .= '<h3>'.$atts['title'].'</h3>';
         }
-        if(isset($atts['text'])){
+        if (isset($atts['text'])) {
             $claim .= '<span>'.$atts['text'].'</span>';
         }
-        if(isset($atts['link'])){
+        if (isset($atts['link'])) {
             $claim .= '<a href="'.$atts['link'].'" class="btn btn-corporate-o btn-lg rounded">Read more</a>';
         }
         $claim .= '</div>';

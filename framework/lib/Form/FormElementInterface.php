@@ -2,6 +2,8 @@
 
 namespace Framework\Framework\Form;
 
+use Framework\Framework\WP\Theme;
+
 /**
  * This is the base form.
  *
@@ -11,6 +13,13 @@ namespace Framework\Framework\Form;
  */
 interface FormElementInterface
 {
+    /**
+     * Return Theme instance if needed.
+     *
+     * @return Theme
+     */
+    public function getTheme();
+
     /**
      * Adds an attribute to a form element.
      *
