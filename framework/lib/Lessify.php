@@ -42,12 +42,14 @@ class Lessify
      *
      * @param string $format
      */
-    public function setOption($option,$value){
-        $this->parser->SetOption($option,$value);
+    public function setOption($option, $value)
+    {
+        $this->parser->SetOption($option, $value);
     }
 
     /**
      * @param array $vars
+     *
      * @return \Less_Parser
      */
     public function ModifyVars(array $vars)
@@ -57,6 +59,7 @@ class Lessify
 
     /**
      * @return string
+     *
      * @throws \Exception
      */
     public function getCss()
@@ -64,11 +67,13 @@ class Lessify
         return $this->parser->getCss();
     }
 
-    public function parse($string){
+    public function parse($string)
+    {
         return $this->parser->parse($string);
     }
 
-    public function parseFile($input){
+    public function parseFile($input)
+    {
         return $this->parser->parseFile($input);
     }
 
@@ -77,7 +82,9 @@ class Lessify
      *
      * @param $input
      * @param $output
+     *
      * @return \Less_Parser|\Less_Tree_Ruleset
+     *
      * @throws \Exception
      */
     public function parseIntoFile($input, $output, $vars = array())
@@ -87,15 +94,15 @@ class Lessify
             $i = 0;
             $outputContent = '';
             foreach ($input as $singleFile) {
-                $i++;
+                ++$i;
                 $outputContent .= file_get_contents($singleFile);
 
-                if($i === $fileCount){
+                if ($i === $fileCount) {
                     $parsedString = $this->parse($outputContent);
-                    if($vars !== null){
-                        foreach ($vars as $key => $value){
+                    if ($vars !== null) {
+                        foreach ($vars as $key => $value) {
                             $this->ModifyVars(array(
-                                $key => $value
+                                $key => $value,
                             ));
                         }
                     }
@@ -104,10 +111,10 @@ class Lessify
             }
         } else {
             $parsedFile = $this->parseFile($input);
-            if($vars !== null){
-                foreach ($vars as $key => $value){
+            if ($vars !== null) {
+                foreach ($vars as $key => $value) {
                     $this->ModifyVars(array(
-                        $key => $value
+                        $key => $value,
                     ));
                 }
             }
@@ -121,6 +128,7 @@ class Lessify
      * @param $input
      * @param $output
      * @param array $vars
+     *
      * @throws \Exception
      */
     public static function parseCached($input, $output, $vars = array())
@@ -128,7 +136,7 @@ class Lessify
         $cacheDir = Path::childDir('cache');
         $options = array('cache_dir' => $cacheDir);
         $css_file_name = \Less_Cache::Get($input, $options, $vars);
-        $compiled = file_get_contents($cacheDir .'/'. $css_file_name);
+        $compiled = file_get_contents($cacheDir.'/'.$css_file_name);
         file_put_contents($output, $compiled);
     }
 }

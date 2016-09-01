@@ -13,13 +13,13 @@ class Taxonomy
 {
     /**
      * @param $taxonomy
+     *
      * @return mixed
      */
     public static function exists($taxonomy)
     {
         return taxonomy_exists($taxonomy);
     }
-
 
     public static function getTerms($taxonomy)
     {
@@ -30,6 +30,7 @@ class Taxonomy
      * @param $taxonomy
      * @param string $style
      * @param string $separator
+     *
      * @return string
      */
     public static function getTermsList($taxonomy, $style = 'span', $separator = '')

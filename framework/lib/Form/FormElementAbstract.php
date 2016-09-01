@@ -48,13 +48,14 @@ abstract class FormElementAbstract implements FormElementInterface
 
     /**
      * FormElementAbstract constructor.
+     *
      * @param Theme $theme
      */
     public function __construct(Theme $theme)
     {
         $this->theme = $theme;
     }
-    
+
     public function getTheme()
     {
         return $this->theme;

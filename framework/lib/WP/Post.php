@@ -405,12 +405,14 @@ class Post
      */
     public function getCssClass($class)
     {
-        return $this->cssClass = implode( ' ', get_post_class($class, $this->id));
+        return $this->cssClass = implode(' ', get_post_class($class, $this->id));
     }
 
     /**
      * Returns an array with the IDs of the post attachment.
+     *
      * @param $type
+     *
      * @return array
      */
     public function getAttachments($type)
@@ -425,8 +427,8 @@ class Post
         $query = new Query($args);
         $attachment_ids = array();
 
-        if($query->havePosts()){
-            while ($query->havePosts()){
+        if ($query->havePosts()) {
+            while ($query->havePosts()) {
                 $query->thePost();
                 $attachment_ids[] = get_the_ID();
             }
@@ -768,22 +770,25 @@ class Post
      * Checks if the post is custom.
      *
      * @param null $post
+     *
      * @return bool
      */
     public function isCustom()
     {
-        $all_custom_post_types = get_post_types( array ( '_builtin' => FALSE ) );
+        $all_custom_post_types = get_post_types(array('_builtin' => false));
 
         // there are no custom post types
-        if ( empty ( $all_custom_post_types ) )
-            return FALSE;
+        if (empty($all_custom_post_types)) {
+            return false;
+        }
 
-        $custom_types      = array_keys( $all_custom_post_types );
+        $custom_types = array_keys($all_custom_post_types);
         $current_post_type = get_post_type($this->get());
 
         // could not detect current type
-        if ( ! $current_post_type )
-            return FALSE;
+        if (!$current_post_type) {
+            return false;
+        }
 
         return in_array($current_post_type, $custom_types);
     }

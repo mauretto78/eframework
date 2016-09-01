@@ -2,7 +2,6 @@
 
 namespace Framework\Framework\WP;
 
-use Framework\Framework\WP\Post;
 use Framework\Framework\Exceptions\WPException;
 
 /**
@@ -260,7 +259,7 @@ class Breadcrumbs
             return '';
         }
     }
-    
+
     /**
      * This does the main work to put the breadcrumbs together.
      *
@@ -274,7 +273,7 @@ class Breadcrumbs
         if (is_single()) {
             $output .= $this->_addCrumb(' ');
 
-            if($p->isCustom()){
+            if ($p->isCustom()) {
                 $output .= '<a href="'.get_post_type_archive_link($p->getType()).'">'.ucfirst($p->getType()).'</a>, ';
             } else {
                 foreach (get_the_category() as $category) {

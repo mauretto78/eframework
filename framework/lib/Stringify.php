@@ -81,6 +81,7 @@ class Stringify
 
     /**
      * @param $string
+     *
      * @return mixed
      */
     public static function addPlus($string)
@@ -92,9 +93,11 @@ class Stringify
 
     /**
      * @param $string
+     *
      * @return mixed
      */
-    public static function removePlus($string){
+    public static function removePlus($string)
+    {
         $string = self::clean($string);
 
         return str_replace('+', ' ', $string);

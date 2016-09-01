@@ -22,7 +22,7 @@ class Slider extends FormElementAbstract
      */
     public function __construct($name, $label = null, $description = null)
     {
-        parent::__construct(new Theme);
+        parent::__construct(new Theme());
         $this->setLabel($label);
         $this->setDescription($description);
     }

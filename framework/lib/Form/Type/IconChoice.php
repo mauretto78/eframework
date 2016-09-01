@@ -41,7 +41,6 @@ class IconChoice extends FormElementAbstract
     {
         $output = '<div class="icon-choices clearfix">';
         foreach ($this->getValues() as $img => $data) {
-
             $value = $data[0];
             $label = $data[1];
             $id = $this->getAttribute('id').$value;
