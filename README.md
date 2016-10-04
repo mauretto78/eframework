@@ -1,20 +1,14 @@
-# eframework
-E-Framework is a powerful Framework for Wordpress.
+# EFramework
+EFramework is a powerful Framework for Wordpress.
 
-A Second Level Header
----------------------
+### Main features
+- build with Symfony components;
+- fully OOP;
+- fully tested;
 
-Now is the time for all good men to come to
-the aid of their country. This is just a
-regular paragraph.
+Feel free to fork this project, any contribute is welcomed!
 
-The quick brown fox jumped over the lazy
-dog's back.
+### Links
 
-### Header 3
-
-> This is a blockquote.
->
-> This is the second paragraph in the blockquote.
->
-> ## This is an H2 in a blockquote
+[Official site](http://eframework.cloud/)
+[Official documentation](http://eframework.cloud/documentation/index.html)
