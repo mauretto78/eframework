@@ -667,9 +667,25 @@ class Post
     }
 
     /**
+     * @return bool|void
+     */
+    public function getAllImages()
+    {
+        if ($this->getFormat() !== 'gallery') {
+            return;
+        }
+
+        if (!preg_match_all('/<img .*?(?=src)src=\"([^\"]+)\"/si', $this->getContent(), $images)) {
+            return false;
+        }
+
+        return $images[1];
+    }
+
+    /**
      * Gets the first link in the content, for link post format.
      *
-     * @return bool
+     * @return bool|void
      */
     public function getTheFirstLink()
     {
