@@ -411,13 +411,15 @@ class Post
     /**
      * Returns an array with the IDs of the post attachment.
      *
-     * @param $type
+     * @param string $type
+     * @param int $parentId
      *
      * @return array
      */
-    public function getAttachments($type)
+    public function getAttachments($type, $parentId)
     {
         $args = array(
+            'post_parent' => $parentId,
             'post_type' => 'attachment',
             'post_status' => 'any',
             'posts_per_page' => -1,
@@ -567,6 +569,10 @@ class Post
                     $output .= '<li class="term" id="term-'.$term->term_id.'">'.$term->name.'</li>';
                     break;
 
+                case 'slug':
+                    $output .= $term->slug.' ';
+                    break;
+
                 default:
                     $output .= $term->name.' ';
                     break;
@@ -661,9 +667,25 @@ class Post
     }
 
     /**
+     * @return bool|void
+     */
+    public function getAllImages()
+    {
+        if ($this->getFormat() !== 'gallery') {
+            return;
+        }
+
+        if (!preg_match_all('/<img .*?(?=src)src=\"([^\"]+)\"/si', $this->getContent(), $images)) {
+            return false;
+        }
+
+        return $images[1];
+    }
+
+    /**
      * Gets the first link in the content, for link post format.
      *
-     * @return bool
+     * @return bool|void
      */
     public function getTheFirstLink()
     {
@@ -758,7 +780,7 @@ class Post
             }
 
             // delete all post attachments
-            foreach ($this->getAttachments('all') as $a) {
+            foreach ($this->getAttachments('all', $this->id) as $a) {
                 wp_delete_attachment($a->ID, true);
             }
         }
