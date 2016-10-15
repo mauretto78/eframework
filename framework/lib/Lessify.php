@@ -135,6 +135,13 @@ class Lessify
     {
         $cacheDir = Path::childDir('cache');
         $options = array('cache_dir' => $cacheDir);
+
+        // clear old cache files
+        foreach(glob("{$cacheDir}/*") as $file)
+        {
+            unlink($file);
+        }
+
         $css_file_name = \Less_Cache::Get($input, $options, $vars);
         $compiled = file_get_contents($cacheDir.'/'.$css_file_name);
         file_put_contents($output, $compiled);

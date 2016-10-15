@@ -133,7 +133,7 @@ class Enqueuer
                 wp_register_script($data['handle'], $data['src'], $data['deps'], $data['ver'], $data['in_footer']);
                 wp_enqueue_script($data['handle']);
             } elseif ($data['type'] == 'style') {
-                wp_register_style($data['handle'], $data['src'], $data['deps'], $data['ver'], $data['media']);
+                wp_register_style($data['handle'], $data['src'], $data['deps'], $data['ver'], @$data['media']);
                 wp_enqueue_style($data['handle']);
             }
         }
