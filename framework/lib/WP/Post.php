@@ -569,6 +569,10 @@ class Post
                     $output .= '<li class="term" id="term-'.$term->term_id.'">'.$term->name.'</li>';
                     break;
 
+                case 'slug':
+                    $output .= $term->slug.' ';
+                    break;
+
                 default:
                     $output .= $term->name.' ';
                     break;
