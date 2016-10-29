@@ -81,6 +81,7 @@ class Shortcode
      */
     public function create()
     {
+        add_filter('the_content', array($this, 'removeTagsFromContent'));
         add_shortcode($this->label, array($this, 'render'));
     }
 
@@ -108,8 +109,6 @@ class Shortcode
      */
     private function _handle($output, $atts = array(), $content = null)
     {
-        add_filter('the_content', array($this, 'removeTagsFromContent', $content));
-
         if (is_callable($output)) {
             ob_start();
             $render = call_user_func($output, $atts, $content);
@@ -132,8 +131,10 @@ class Shortcode
     }
 
     /**
+     * Removes <p> tag that wraps the shortcode.
+     *
      * @param $content
-     * 
+     *
      * @return mixed
      */
     public function removeTagsFromContent($content) {
