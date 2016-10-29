@@ -108,6 +108,8 @@ class Shortcode
      */
     private function _handle($output, $atts = array(), $content = null)
     {
+        add_filter('the_content', array($this, 'removeTagsFromContent', $content));
+
         if (is_callable($output)) {
             ob_start();
             $render = call_user_func($output, $atts, $content);
@@ -127,5 +129,18 @@ class Shortcode
         }
 
         return $render;
+    }
+
+    /**
+     * @param $content
+     * 
+     * @return mixed
+     */
+    public function removeTagsFromContent($content) {
+        $block = implode("|",[$this->label]);
+        $rep = preg_replace("/(<p>)?\[($block)(\s[^\]]+)?\](<\/p>|<br \/>)?/","[$2$3]",$content);
+        $rep = preg_replace("/(<p>)?\[\/($block)](<\/p>|<br \/>)?/","[/$2]",$rep);
+
+        return $rep;
     }
 }
